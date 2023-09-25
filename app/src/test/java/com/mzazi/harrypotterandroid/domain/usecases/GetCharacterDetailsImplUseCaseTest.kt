@@ -25,7 +25,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import com.mzazi.harrypotterandroid.utils.Result
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
 import org.junit.Test
 
 class GetCharacterDetailsImplUseCaseTest {

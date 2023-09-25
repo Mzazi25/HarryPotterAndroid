@@ -17,7 +17,7 @@ package com.mzazi.harrypotterandroid.features.characters
 
 import CharacterListAncestry
 import CharacterListName
-import CharacterListPoster
+import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterListPoster
 import CharacterPatronus
 import InfoText
 import androidx.compose.foundation.ExperimentalFoundationApi

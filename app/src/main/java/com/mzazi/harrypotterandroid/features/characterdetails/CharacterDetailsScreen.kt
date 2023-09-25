@@ -16,7 +16,7 @@
 package com.mzazi.harrypotterandroid.features.characterdetails
 
 import CharacterContent
-import CharacterDetailsImage
+import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterDetailsImage
 import CharacterDetailsTitle
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column

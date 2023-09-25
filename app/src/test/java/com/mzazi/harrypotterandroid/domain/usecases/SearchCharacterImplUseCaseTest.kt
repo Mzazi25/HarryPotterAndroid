@@ -23,7 +23,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import com.mzazi.harrypotterandroid.utils.Result
-import org.junit.Assert.*
 import org.junit.Test
 
 class SearchCharacterImplUseCaseTest {
