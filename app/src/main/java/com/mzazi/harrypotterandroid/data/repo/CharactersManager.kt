@@ -27,7 +27,7 @@ class CharactersManager @Inject constructor(
 ) : CharactersRepo {
     override suspend fun getCharacters(fromCache: Boolean): Result<List<Characters>> =
         try {
-           val characters = remoteCharactersRepo.getCharacters(fromCache = fromCache)
+            val characters = remoteCharactersRepo.getCharacters(fromCache = fromCache)
             Result.Success(data = characters)
         } catch (throwable: Throwable) {
             val error = mapThrowableToErrorType(throwable)

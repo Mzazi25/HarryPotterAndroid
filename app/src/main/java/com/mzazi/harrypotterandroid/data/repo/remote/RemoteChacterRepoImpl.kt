@@ -33,15 +33,14 @@ class RemoteChacterRepoImpl @Inject constructor(
         }
         val response = charactersService.getCharactersData()
         val characterResponse = response.body()
-        return if (response.isSuccessful && response.body() !=null) {
-
+        return if (response.isSuccessful && response.body() != null) {
             val mappedCharacters = characterResponse!!.map { it.asCoreModel() }
             CharactersPaginationStore.addCharacters(mappedCharacters)
             CharactersPaginationStore.getCharacters()
-        }else{
+        } else {
             val throwable = mapResponseCodeToThrowable(response.code())
             Timber.e("throwable-----------${response.code()}")
-               throw throwable
+            throw throwable
         }
     }
 }

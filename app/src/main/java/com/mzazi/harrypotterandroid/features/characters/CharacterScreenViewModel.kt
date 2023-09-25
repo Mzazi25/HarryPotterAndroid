@@ -49,7 +49,7 @@ class CharacterScreenViewModel @Inject constructor(
         when (intent) {
             is CharacterScreenIntent.DisplaySearchScreen -> {
                 _state.value = CharacterScreenState(
-                    isSearching =!_state.value.isSearching
+                    isSearching = !_state.value.isSearching
                 )
             }
             is CharacterScreenIntent.LoadLatestCharacters -> {

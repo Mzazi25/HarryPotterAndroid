@@ -137,7 +137,7 @@ private fun CharacterItem(
                     modifier = Modifier.padding(top = Padding.Small, start = Padding.Medium)
                 )
                 CharacterPatronus(
-                    title =character.patronus,
+                    title = character.patronus,
                     modifier = Modifier.padding(bottom = Padding.Medium, start = Padding.Medium)
                 )
                 StatusBar(

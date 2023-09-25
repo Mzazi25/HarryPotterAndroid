@@ -44,6 +44,7 @@ fun CharacterListAncestry(title: String, modifier: Modifier = Modifier) {
         overflow = TextOverflow.Ellipsis
     )
 }
+
 @Composable
 fun CharacterPatronus(title: String, modifier: Modifier = Modifier) {
     Text(
@@ -77,20 +78,21 @@ fun CharacterDetailsTitle(title: String, modifier: Modifier = Modifier) {
         fontWeight = FontWeight.Bold
     )
 }
+
 @Composable
 fun CharactersAlternativeNames(names: List<String>, modifier: Modifier = Modifier) {
-   names.forEach {
-       Text(
-           text = it,
-           modifier = modifier,
-           style = MaterialTheme.typography.headlineMedium,
-           fontWeight = FontWeight.Bold
-       )
-   }
+    names.forEach {
+        Text(
+            text = it,
+            modifier = modifier,
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold
+        )
+    }
 }
 
 @Composable
-fun CharacterContent(title: String, contentName:String, modifier: Modifier = Modifier) {
+fun CharacterContent(title: String, contentName: String, modifier: Modifier = Modifier) {
     Text(
         text = (if (title.isNotBlank() || title.isNotEmpty()) "$contentName - $title" else "$contentName - N/A"),
         modifier = modifier,

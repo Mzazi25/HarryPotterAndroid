@@ -23,12 +23,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.mzazi.harrypotterandroid.R
 import com.mzazi.harrypotterandroid.designsystem.theme.Padding
 import com.mzazi.harrypotterandroid.designsystem.widgets.ErrorScreen
@@ -88,9 +86,9 @@ private fun CharacterDetailsContent(state: CharacterDetailsState) {
                 )
         )
     }
-    state.actor?.let {actor ->
+    state.actor?.let { actor ->
         CharacterContent(
-            title =actor,
+            title = actor,
             contentName = "Actor",
             modifier = Modifier
                 .fillMaxWidth()
@@ -100,9 +98,9 @@ private fun CharacterDetailsContent(state: CharacterDetailsState) {
                 )
         )
     }
-    state.gender?.let {gender ->
+    state.gender?.let { gender ->
         CharacterContent(
-            title =gender,
+            title = gender,
             contentName = "Gender",
             modifier = Modifier
                 .fillMaxWidth()
@@ -112,9 +110,9 @@ private fun CharacterDetailsContent(state: CharacterDetailsState) {
                 )
         )
     }
-    state.hairColour?.let {hairColour ->
+    state.hairColour?.let { hairColour ->
         CharacterContent(
-            title =hairColour,
+            title = hairColour,
             contentName = "Hair Color",
             modifier = Modifier
                 .fillMaxWidth()
@@ -124,9 +122,9 @@ private fun CharacterDetailsContent(state: CharacterDetailsState) {
                 )
         )
     }
-    state.eyeColour?.let {eyeColour ->
+    state.eyeColour?.let { eyeColour ->
         CharacterContent(
-            title =eyeColour,
+            title = eyeColour,
             contentName = "Eye Color",
             modifier = Modifier
                 .fillMaxWidth()
@@ -136,9 +134,9 @@ private fun CharacterDetailsContent(state: CharacterDetailsState) {
                 )
         )
     }
-    state.house?.let {house ->
+    state.house?.let { house ->
         CharacterContent(
-            title =house,
+            title = house,
             contentName = "House",
             modifier = Modifier
                 .fillMaxWidth()
@@ -148,9 +146,9 @@ private fun CharacterDetailsContent(state: CharacterDetailsState) {
                 )
         )
     }
-    state.dateOfBirth?.let {dateOfBirth ->
+    state.dateOfBirth?.let { dateOfBirth ->
         CharacterContent(
-            title =dateOfBirth,
+            title = dateOfBirth,
             contentName = "Date of Birth",
             modifier = Modifier
                 .fillMaxWidth()

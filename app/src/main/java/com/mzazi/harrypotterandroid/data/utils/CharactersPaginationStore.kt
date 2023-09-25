@@ -13,11 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.domain.repo
+package com.mzazi.harrypotterandroid.data.utils
 
 import com.mzazi.harrypotterandroid.domain.models.Characters
-import com.mzazi.harrypotterandroid.utils.Result
 
-interface CharactersRepo {
-    suspend fun getCharacters(fromCache: Boolean = false): Result<List<Characters>>
+object CharactersPaginationStore {
+
+    private val characters = mutableSetOf<Characters>()
+
+    fun addCharacters(characters: List<Characters>) {
+        this.characters.addAll(characters)
+    }
+
+    fun clearCharacters() {
+        characters.clear()
+    }
+
+    fun getCharacters(): List<Characters> = characters.toList()
 }
