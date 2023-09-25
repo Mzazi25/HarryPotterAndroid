@@ -24,7 +24,7 @@ class SearchCharacterImplUseCase @Inject constructor(
     private val repository: CharactersRepo
 ) : SearchCharacterUseCase {
     override suspend fun invoke(query: String): Result<List<Characters>> =
-        when (val result = repository.getCharacters()) {
+        when (val result = repository.getCharacters(fromCache = true)) {
             is Result.Success -> {
                 val characters = result.data
                 val filteredCharacters = characters.filter { character ->

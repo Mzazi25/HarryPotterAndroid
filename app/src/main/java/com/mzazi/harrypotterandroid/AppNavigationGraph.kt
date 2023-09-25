@@ -42,6 +42,7 @@ fun HarryPotterAppNavHost(
                         viewModel.processIntent(CharacterScreenIntent.LoadLatestCharacters)
                     },
                     onSearch = { query ->
+                        viewModel.processIntent(CharacterScreenIntent.DisplaySearchScreen)
                         viewModel.processIntent(CharacterScreenIntent.SearchCharacter(query))
                     },
                     onErrorActionClicked = {

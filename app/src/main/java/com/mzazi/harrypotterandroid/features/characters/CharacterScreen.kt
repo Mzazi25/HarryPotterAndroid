@@ -18,6 +18,7 @@ package com.mzazi.harrypotterandroid.features.characters
 import CharacterListAncestry
 import CharacterListName
 import CharacterListPoster
+import CharacterPatronus
 import InfoText
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
@@ -41,10 +42,10 @@ import com.mzazi.harrypotterandroid.R
 import com.mzazi.harrypotterandroid.designsystem.theme.Padding
 import com.mzazi.harrypotterandroid.designsystem.widgets.ErrorScreen
 import com.mzazi.harrypotterandroid.designsystem.widgets.LoadingScreen
+import com.mzazi.harrypotterandroid.designsystem.widgets.StatusBar
 import com.mzazi.harrypotterandroid.designsystem.widgets.TopBar
 import com.mzazi.harrypotterandroid.domain.models.Characters
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterScreen(
     state: CharacterScreenState,
@@ -125,16 +126,24 @@ private fun CharacterItem(
                 posterUrl = character.image,
                 modifier = Modifier
                     .size(120.dp)
-//                    .padding(Padding.Medium)
             )
             Column {
                 CharacterListName(
                     title = character.name,
-                    modifier = Modifier.padding(top = Padding.Medium)
+                    modifier = Modifier.padding(top = Padding.Medium, start = Padding.Medium)
                 )
                 CharacterListAncestry(
                     title = character.ancestry,
-                    modifier = Modifier.padding(bottom = Padding.Medium, top = Padding.Small)
+                    modifier = Modifier.padding(top = Padding.Small, start = Padding.Medium)
+                )
+                CharacterPatronus(
+                    title =character.patronus,
+                    modifier = Modifier.padding(bottom = Padding.Medium, start = Padding.Medium)
+                )
+                StatusBar(
+                    text = character.alive,
+                    modifier = Modifier
+                        .padding(start = Padding.Medium)
                 )
             }
         }

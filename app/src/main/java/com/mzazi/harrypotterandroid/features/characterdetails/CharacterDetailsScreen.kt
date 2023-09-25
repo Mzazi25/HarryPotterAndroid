@@ -15,16 +15,20 @@
  */
 package com.mzazi.harrypotterandroid.features.characterdetails
 
+import CharacterContent
 import CharacterDetailsImage
 import CharacterDetailsTitle
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.mzazi.harrypotterandroid.R
 import com.mzazi.harrypotterandroid.designsystem.theme.Padding
 import com.mzazi.harrypotterandroid.designsystem.widgets.ErrorScreen
@@ -70,11 +74,84 @@ private fun CharacterDetailsContent(state: CharacterDetailsState) {
             image = image,
             modifier = Modifier
                 .fillMaxWidth()
+                .fillMaxHeight(0.6f)
         )
     }
     state.name?.let { name ->
         CharacterDetailsTitle(
             title = name,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = Padding.Medium,
+                    vertical = Padding.Small
+                )
+        )
+    }
+    state.actor?.let {actor ->
+        CharacterContent(
+            title =actor,
+            contentName = "Actor",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = Padding.Medium,
+                    vertical = Padding.Small
+                )
+        )
+    }
+    state.gender?.let {gender ->
+        CharacterContent(
+            title =gender,
+            contentName = "Gender",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = Padding.Medium,
+                    vertical = Padding.Small
+                )
+        )
+    }
+    state.hairColour?.let {hairColour ->
+        CharacterContent(
+            title =hairColour,
+            contentName = "Hair Color",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = Padding.Medium,
+                    vertical = Padding.Small
+                )
+        )
+    }
+    state.eyeColour?.let {eyeColour ->
+        CharacterContent(
+            title =eyeColour,
+            contentName = "Eye Color",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = Padding.Medium,
+                    vertical = Padding.Small
+                )
+        )
+    }
+    state.house?.let {house ->
+        CharacterContent(
+            title =house,
+            contentName = "House",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = Padding.Medium,
+                    vertical = Padding.Small
+                )
+        )
+    }
+    state.dateOfBirth?.let {dateOfBirth ->
+        CharacterContent(
+            title =dateOfBirth,
+            contentName = "Date of Birth",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(

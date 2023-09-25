@@ -36,7 +36,18 @@ fun CharacterListName(title: String, modifier: Modifier = Modifier) {
 @Composable
 fun CharacterListAncestry(title: String, modifier: Modifier = Modifier) {
     Text(
-        text = title,
+        text = (if (title.isNotBlank() || title.isNotEmpty())"Ancestry - $title" else "Ancestry -N/A"),
+        modifier = modifier,
+        style = MaterialTheme.typography.bodyMedium,
+        fontWeight = FontWeight.Normal,
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+@Composable
+fun CharacterPatronus(title: String, modifier: Modifier = Modifier) {
+    Text(
+        text = (if (title.isNotBlank() || title.isNotEmpty())"Patronus - $title" else "Patronus -N/A"),
         modifier = modifier,
         style = MaterialTheme.typography.bodyMedium,
         fontWeight = FontWeight.Normal,
@@ -53,7 +64,7 @@ fun InfoText(text: String, modifier: Modifier = Modifier) {
             .padding(Padding.Medium),
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.Medium,
-        style = MaterialTheme.typography.headlineLarge
+        style = MaterialTheme.typography.bodyMedium
     )
 }
 
@@ -64,5 +75,26 @@ fun CharacterDetailsTitle(title: String, modifier: Modifier = Modifier) {
         modifier = modifier,
         style = MaterialTheme.typography.headlineMedium,
         fontWeight = FontWeight.Bold
+    )
+}
+@Composable
+fun CharactersAlternativeNames(names: List<String>, modifier: Modifier = Modifier) {
+   names.forEach {
+       Text(
+           text = it,
+           modifier = modifier,
+           style = MaterialTheme.typography.headlineMedium,
+           fontWeight = FontWeight.Bold
+       )
+   }
+}
+
+@Composable
+fun CharacterContent(title: String, contentName:String, modifier: Modifier = Modifier) {
+    Text(
+        text = (if (title.isNotBlank() || title.isNotEmpty()) "$contentName - $title" else "$contentName - N/A"),
+        modifier = modifier,
+        style = MaterialTheme.typography.bodyMedium,
+        fontWeight = FontWeight.Medium
     )
 }

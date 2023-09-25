@@ -23,10 +23,10 @@ fun CharacterListPoster(
     posterUrl: String,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
-    contentScale: ContentScale = ContentScale.Fit
+    contentScale: ContentScale = ContentScale.FillWidth
 ) {
     AsyncImage(
-        model = posterUrl,
+        model = (if (posterUrl.isNotBlank() || posterUrl.isNotEmpty()) posterUrl else "https://nolashaolin.com/wp-content/uploads/2018/07/placeholder-face-big.png"),
         contentDescription = contentDescription,
         modifier = modifier,
         contentScale = contentScale
@@ -41,7 +41,7 @@ fun CharacterDetailsImage(
     contentScale: ContentScale = ContentScale.FillWidth
 ) {
     AsyncImage(
-        model = image,
+        model = (if (image.isNotBlank() || image.isNotEmpty()) image else "https://nolashaolin.com/wp-content/uploads/2018/07/placeholder-face-big.png"),
         contentDescription = contentDescription,
         modifier = modifier,
         contentScale = contentScale

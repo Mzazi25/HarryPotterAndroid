@@ -49,7 +49,7 @@ class CharacterScreenViewModel @Inject constructor(
         when (intent) {
             is CharacterScreenIntent.DisplaySearchScreen -> {
                 _state.value = CharacterScreenState(
-                    isSearching = _state.value.isSearching.not()
+                    isSearching =!_state.value.isSearching
                 )
             }
             is CharacterScreenIntent.LoadLatestCharacters -> {
@@ -62,6 +62,9 @@ class CharacterScreenViewModel @Inject constructor(
                 searchJob?.cancel()
                 searchJob = viewModelScope.launch {
                     delay(REQUEST_QUEUE_DELAY)
+                    _state.value = CharacterScreenState(
+                        isSearching = true
+                    )
                     val result = searchCharacterUseCase(intent.query)
                     processResult(result)
                 }
