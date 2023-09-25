@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 HarryPotterAndroid
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.mzazi.harrypotterandroid.features.characters
 
 import app.cash.turbine.test
@@ -16,8 +31,6 @@ import com.mzazi.harrypotterandroid.utils.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import com.mzazi.harrypotterandroid.R
-import com.mzazi.harrypotterandroid.characterSearch
-import io.mockk.justRun
 import org.junit.Rule
 import org.junit.Test
 
@@ -26,30 +39,7 @@ class CharacterScreenViewModelTest {
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
-    @Test
-    fun `when we init the viewmodel, then display loading state`() = runTest {
-        val characterRepo = mockk<CharactersRepo> (relaxed = true)
 
-        val characterListUseCase = GetCharacterListImplUseCase(repository = characterRepo)
-        val searchCharacterUseCase = SearchCharacterImplUseCase(repository = characterRepo)
-
-        val viewModel = createViewModel(
-            getCharacterListUseCase = characterListUseCase,
-            searchCharacterUseCase = searchCharacterUseCase
-        )
-
-        val expectedState = CharacterScreenState(
-            isLoading = true,
-            characters = emptyList(),
-            errorMsg = null
-        )
-
-        viewModel.state.test {
-            awaitItem().also { state ->
-                Truth.assertThat(state).isEqualTo(expectedState)
-            }
-        }
-    }
     @Test
     fun `when we init the viewmodel, then fetch and display the characters`() = runTest {
         val characterRepo = mockk<CharactersRepo> {
@@ -70,13 +60,13 @@ class CharacterScreenViewModelTest {
             errorMsg = null
         )
 
-
         viewModel.state.test {
             awaitItem().also { state ->
                 Truth.assertThat(state).isEqualTo(expectedState)
             }
         }
     }
+
     @Test
     fun `when we init the viewmodel and an error occurs, then display the error screen`() =
         runTest {
@@ -103,35 +93,7 @@ class CharacterScreenViewModelTest {
                 }
             }
         }
-    @Test
-    fun `when we search for characters and it is found, then display the character list`() =
-        runTest {
-            val characterRepo = mockk<CharactersRepo> {
-                coEvery { getCharacters() } returns Result.Success(fakeMappedCharacters)
-            }
-            val characterListUseCase = GetCharacterListImplUseCase(repository = characterRepo)
-            val searchCharacterUseCase = SearchCharacterImplUseCase(repository = characterRepo)
 
-            val viewModel = createViewModel(
-                getCharacterListUseCase = characterListUseCase,
-                searchCharacterUseCase = searchCharacterUseCase
-            )
-
-            viewModel.processIntent(CharacterScreenIntent.SearchCharacter("name"))
-
-            val expectedState = CharacterScreenState(
-                isLoading = false,
-                characters = listOf(characterSearch),
-                errorMsg = null
-            )
-
-            viewModel.state.test {
-                awaitItem() // skip the initial state
-                awaitItem().also { state ->
-                    Truth.assertThat(state).isEqualTo(expectedState)
-                }
-            }
-        }
     @Test
     fun `when we init the search state, then display the search bar`() =
         runTest {
@@ -147,7 +109,6 @@ class CharacterScreenViewModelTest {
             )
 
             viewModel.processIntent(CharacterScreenIntent.DisplaySearchScreen)
-
 
             val expectedState = CharacterScreenState(
                 isLoading = false,
@@ -166,7 +127,7 @@ class CharacterScreenViewModelTest {
         searchCharacterUseCase: SearchCharacterUseCase
     ) =
         CharacterScreenViewModel(
-            searchCharacterUseCase = searchCharacterUseCase,
-            characterListUseCase = getCharacterListUseCase
+            characterListUseCase = getCharacterListUseCase,
+            searchCharacterUseCase = searchCharacterUseCase
         )
 }

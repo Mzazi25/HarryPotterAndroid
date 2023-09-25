@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 HarryPotterAndroid
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.mzazi.harrypotterandroid.data.repo
 
 import com.google.common.truth.Truth
@@ -18,10 +33,10 @@ import org.junit.Test
 import retrofit2.Response
 import java.io.IOException
 
-
 class CharactersManagerTest {
     @MockK
     val mockCharacterService = mockk<CharactersService>()
+
     @Test
     fun `when we fetch characters,then we get a list of characters`() = runTest {
         coEvery {
@@ -43,8 +58,8 @@ class CharactersManagerTest {
 
         Truth.assertThat(characters).isInstanceOf(Result.Success::class.java)
         Truth.assertThat((characters as Result.Success).data).isEqualTo(expectedResults)
-
     }
+
     @Test
     fun `when we fetch characters and a server error occurs,then we get the right error type`() =
         runTest {
@@ -67,6 +82,7 @@ class CharactersManagerTest {
             Truth.assertThat(characters).isInstanceOf(Result.Error::class.java)
             Truth.assertThat((characters as Result.Error).errorType).isEqualTo(ErrorType.SERVER)
         }
+
     @Test
     fun `when we fetch a list of character and a client error occurs,then we get the right error type`() =
         runTest {
@@ -89,6 +105,7 @@ class CharactersManagerTest {
             Truth.assertThat(characters).isInstanceOf(Result.Error::class.java)
             Truth.assertThat((characters as Result.Error).errorType).isEqualTo(ErrorType.CLIENT)
         }
+
     @Test
     fun `when we fetch a list of characters and a generic error occurs,then we get the right error type`() =
         runTest {
@@ -107,11 +124,11 @@ class CharactersManagerTest {
             // When
             val characters = characterRepository.getCharacters()
 
-
             // Then
             Truth.assertThat(characters).isInstanceOf(Result.Error::class.java)
             Truth.assertThat((characters as Result.Error).errorType).isEqualTo(ErrorType.GENERIC)
         }
+
     @Test
     fun `when an io exception is thrown,then we get the right error type`() =
         runTest {
@@ -130,7 +147,6 @@ class CharactersManagerTest {
             // When
             val characters = characterRepository.getCharacters()
 
-
             // Then
             Truth.assertThat(characters).isInstanceOf(Result.Error::class.java)
             Truth.assertThat((characters as Result.Error).errorType).isEqualTo(ErrorType.IO_CONNECTION)
@@ -142,8 +158,8 @@ class CharactersManagerTest {
     )
 
     private fun createRemoteCharacterRepository(
-        charactersService: CharactersService = mockCharacterService,
+        charactersService: CharactersService = mockCharacterService
     ): RemoteCharactersRepo = RemoteChacterRepoImpl(
-        charactersService = charactersService,
+        charactersService = charactersService
     )
 }
