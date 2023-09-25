@@ -25,9 +25,5 @@ object CharactersPaginationStore {
         this.characters.addAll(characters)
     }
 
-    fun clearCharacters() {
-        characters.clear()
-    }
-
     fun getCharacters(): List<Characters> = characters.toList()
 }
