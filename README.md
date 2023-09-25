@@ -5,8 +5,8 @@
 
 The final app looks like this:👀
 
-<img src="screenshots/green.jpg" width="270"/> <img src="screenshots/orange.jpg" width="270"/> <img src="screenshots/red.jpg" width="270"/>
-<img src="screenshots/settings.jpg" width="270"/> <img src="screenshots/dialog.jpg" width="270"/>
+<img src="screenshots/homeList.jpg" width="270"/> <img src="screenshots/details.jpg" width="270"/> <img src="screenshots/search.jpg" width="270"/>
+<img src="screenshots/empty.jpg" width="270"/>
 
 *Screens*
 - **Home Screen**:
