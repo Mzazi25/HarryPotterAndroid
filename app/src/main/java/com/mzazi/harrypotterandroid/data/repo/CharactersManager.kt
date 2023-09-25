@@ -25,9 +25,10 @@ import javax.inject.Inject
 class CharactersManager @Inject constructor(
     private val remoteCharactersRepo: RemoteCharactersRepo
 ) : CharactersRepo {
-    override suspend fun getCharacters(): Result<List<Characters>> =
+    override suspend fun getCharacters(fromCache: Boolean): Result<List<Characters>> =
         try {
-            remoteCharactersRepo.getCharacters()
+           val characters = remoteCharactersRepo.getCharacters(fromCache = fromCache)
+            Result.Success(data = characters)
         } catch (throwable: Throwable) {
             val error = mapThrowableToErrorType(throwable)
             Result.Error(error)

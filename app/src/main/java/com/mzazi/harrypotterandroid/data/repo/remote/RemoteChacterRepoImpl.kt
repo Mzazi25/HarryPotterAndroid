@@ -18,28 +18,30 @@ package com.mzazi.harrypotterandroid.data.repo.remote
 import com.mzazi.harrypotterandroid.data.mappers.asCoreModel
 import com.mzazi.harrypotterandroid.data.mappers.mapResponseCodeToThrowable
 import com.mzazi.harrypotterandroid.data.network.CharactersService
+import com.mzazi.harrypotterandroid.data.utils.CharactersPaginationStore
 import com.mzazi.harrypotterandroid.domain.models.Characters
 import com.mzazi.harrypotterandroid.domain.repo.remote.RemoteCharactersRepo
-import com.mzazi.harrypotterandroid.utils.Result
 import timber.log.Timber
 import javax.inject.Inject
 
 class RemoteChacterRepoImpl @Inject constructor(
     private val charactersService: CharactersService
 ) : RemoteCharactersRepo {
-    override suspend fun getCharacters(): Result<List<Characters>> =
-        try {
-            val response = charactersService.getCharactersData()
-            if (response.isSuccessful && response.body() != null) {
-                val data = response.body()!!.map { it.asCoreModel() }
-                Result.Success(data = data)
-            } else {
-                val throwable = mapResponseCodeToThrowable(response.code())
-                Timber.e("throwable-----------${response.code()}")
-                throw throwable
-            }
-        } catch (e: Exception) {
-            Timber.e("Error --------------$e")
-            throw e
+    override suspend fun getCharacters(fromCache: Boolean): List<Characters> {
+        if (fromCache) {
+            return CharactersPaginationStore.getCharacters()
         }
+        val response = charactersService.getCharactersData()
+        val characterResponse = response.body()
+        return if (response.isSuccessful && response.body() !=null) {
+
+            val mappedCharacters = characterResponse!!.map { it.asCoreModel() }
+            CharactersPaginationStore.addCharacters(mappedCharacters)
+            CharactersPaginationStore.getCharacters()
+        }else{
+            val throwable = mapResponseCodeToThrowable(response.code())
+            Timber.e("throwable-----------${response.code()}")
+               throw throwable
+        }
+    }
 }

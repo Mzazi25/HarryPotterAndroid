@@ -19,5 +19,5 @@ import com.mzazi.harrypotterandroid.domain.models.Characters
 import com.mzazi.harrypotterandroid.utils.Result
 
 interface CharactersRepo {
-    suspend fun getCharacters(): Result<List<Characters>>
+    suspend fun getCharacters(fromCache:Boolean = false): Result<List<Characters>>
 }

@@ -16,8 +16,7 @@
 package com.mzazi.harrypotterandroid.domain.repo.remote
 
 import com.mzazi.harrypotterandroid.domain.models.Characters
-import com.mzazi.harrypotterandroid.utils.Result
 
 interface RemoteCharactersRepo {
-    suspend fun getCharacters(): Result<List<Characters>>
+    suspend fun getCharacters(fromCache:Boolean): List<Characters>
 }
