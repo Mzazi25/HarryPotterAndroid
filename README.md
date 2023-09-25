@@ -1,7 +1,8 @@
-## WezaCare Interview Solution
+## HarryPotterAndroid
 
 *Summary*
 - This is a Native Android app, that reads data from Rick and Morty [API](https://hp-api.onrender.com/) and displays a list of characters. 
+- A user can also search for any character and click for more details to navigate to the details page. 
 
 The final app looks like this:👀
 
