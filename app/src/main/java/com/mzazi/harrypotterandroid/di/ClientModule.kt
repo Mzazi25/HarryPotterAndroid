@@ -19,6 +19,7 @@ import android.content.Context
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mzazi.harrypotterandroid.BuildConfig
 import com.mzazi.harrypotterandroid.data.network.CharactersService
+import com.mzazi.harrypotterandroid.utils.HARRY_POTTER_BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,7 +48,7 @@ object ClientModule {
         val json = providesJson()
         val contentType = "application/json".toMediaType()
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.HARRY_POTTER_BASE_URL)
+            .baseUrl(HARRY_POTTER_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory(contentType))
             .build()
