@@ -28,6 +28,10 @@ import javax.inject.Inject
 import com.mzazi.harrypotterandroid.utils.Result
 import com.mzazi.harrypotterandroid.utils.toStringResource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

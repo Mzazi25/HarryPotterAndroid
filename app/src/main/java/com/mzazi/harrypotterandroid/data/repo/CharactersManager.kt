@@ -20,6 +20,9 @@ import com.mzazi.harrypotterandroid.domain.models.Characters
 import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
 import com.mzazi.harrypotterandroid.domain.repo.remote.RemoteCharactersRepo
 import com.mzazi.harrypotterandroid.utils.Result
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class CharactersManager @Inject constructor(
@@ -27,8 +30,11 @@ class CharactersManager @Inject constructor(
 ) : CharactersRepo {
     override suspend fun getCharacters(fromCache: Boolean): Result<List<Characters>> =
         try {
-            val characters = remoteCharactersRepo.getCharacters(fromCache = fromCache)
-            Result.Success(data = characters)
+            withContext(Dispatchers.IO){
+                val characters = remoteCharactersRepo.getCharacters(fromCache = fromCache)
+                Timber.e("Manager Thread Check________________${Thread.currentThread()}")
+                Result.Success(data = characters)
+            }
         } catch (throwable: Throwable) {
             val error = mapThrowableToErrorType(throwable)
             Result.Error(error)

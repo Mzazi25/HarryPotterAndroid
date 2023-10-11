@@ -21,19 +21,23 @@ import com.mzazi.harrypotterandroid.data.network.CharactersService
 import com.mzazi.harrypotterandroid.data.utils.CharactersPaginationStore
 import com.mzazi.harrypotterandroid.domain.models.Characters
 import com.mzazi.harrypotterandroid.domain.repo.remote.RemoteCharactersRepo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 class RemoteChacterRepoImpl @Inject constructor(
-    private val charactersService: CharactersService
+    private val charactersService: CharactersService,
 ) : RemoteCharactersRepo {
-    override suspend fun getCharacters(fromCache: Boolean): List<Characters> {
+    override suspend fun getCharacters(fromCache: Boolean): List<Characters> =
+        withContext(Dispatchers.IO) {
         if (fromCache) {
-            return CharactersPaginationStore.getCharacters()
+            CharactersPaginationStore.getCharacters()
         }
         val response = charactersService.getCharactersData()
         val characterResponse = response.body()
-        return if (response.isSuccessful && response.body() != null) {
+        if (response.isSuccessful && response.body() != null) {
             val mappedCharacters = characterResponse!!.map { it.asCoreModel() }
             CharactersPaginationStore.addCharacters(mappedCharacters)
             CharactersPaginationStore.getCharacters()
