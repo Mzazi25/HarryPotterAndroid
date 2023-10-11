@@ -25,7 +25,7 @@ fun CharacterListPoster(
     posterUrl: String,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
-    contentScale: ContentScale = ContentScale.FillWidth
+    contentScale: ContentScale = ContentScale.Crop
 ) {
     AsyncImage(
         model = (if (posterUrl.isNotBlank() || posterUrl.isNotEmpty()) posterUrl else "https://nolashaolin.com/wp-content/uploads/2018/07/placeholder-face-big.png"),

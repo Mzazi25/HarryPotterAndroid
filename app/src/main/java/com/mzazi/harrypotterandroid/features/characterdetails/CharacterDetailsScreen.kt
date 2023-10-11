@@ -15,9 +15,9 @@
  */
 package com.mzazi.harrypotterandroid.features.characterdetails
 
-import CharacterContent
+import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterContent
 import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterDetailsImage
-import CharacterDetailsTitle
+import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterDetailsTitle
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight

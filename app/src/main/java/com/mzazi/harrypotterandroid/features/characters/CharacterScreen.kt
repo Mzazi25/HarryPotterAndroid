@@ -15,29 +15,36 @@
  */
 package com.mzazi.harrypotterandroid.features.characters
 
-import CharacterListAncestry
-import CharacterListName
+import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterListAncestry
+import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterListName
 import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterListPoster
-import CharacterPatronus
-import InfoText
+import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterPatronus
+import com.mzazi.harrypotterandroid.designsystem.widgets.InfoText
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.mzazi.harrypotterandroid.R
 import com.mzazi.harrypotterandroid.designsystem.theme.Padding
 import com.mzazi.harrypotterandroid.designsystem.widgets.ErrorScreen
@@ -95,7 +102,7 @@ private fun CharacterListItems(
 
     LazyColumn(state = listState) {
         items(state.characters) { character ->
-            CharacterItem(character = character, modifier = Modifier.animateItemPlacement()) { selectedCharacter ->
+            CharacterItem(character = character) { selectedCharacter ->
                 onCharacterSelected(selectedCharacter)
             }
         }
@@ -112,38 +119,26 @@ private fun CharacterListItems(
 @Composable
 private fun CharacterItem(
     character: Characters,
-    modifier: Modifier = Modifier,
     onCharacterSelected: (Characters) -> Unit
 ) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(Padding.Small),
-        onClick = { onCharacterSelected(character) }
-    ) {
-        Row {
+    Surface(
+        onClick = { onCharacterSelected(character) },
+        shape = MaterialTheme.shapes.large) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.fillMaxWidth().padding(16.dp)
+        ) {
             CharacterListPoster(
                 posterUrl = character.image,
-                modifier = Modifier
-                    .size(120.dp)
-            )
+                modifier = Modifier.size(58.dp).clip(CircleShape))
             Column {
                 CharacterListName(
-                    title = character.name,
-                    modifier = Modifier.padding(top = Padding.Medium, start = Padding.Medium)
+                    title = character.name
                 )
+                Spacer(Modifier.height(4.dp))
                 CharacterListAncestry(
-                    title = character.ancestry,
-                    modifier = Modifier.padding(top = Padding.Small, start = Padding.Medium)
-                )
-                CharacterPatronus(
-                    title = character.patronus,
-                    modifier = Modifier.padding(bottom = Padding.Medium, start = Padding.Medium)
-                )
-                StatusBar(
-                    text = character.alive,
-                    modifier = Modifier
-                        .padding(start = Padding.Medium)
+                    title = character.ancestry
                 )
             }
         }

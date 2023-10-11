@@ -1,4 +1,4 @@
-/*
+package com.mzazi.harrypotterandroid.designsystem.widgets/*
  * Copyright 2023 HarryPotterAndroid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,8 +28,8 @@ fun CharacterListName(title: String, modifier: Modifier = Modifier) {
     Text(
         text = title,
         modifier = modifier,
-        style = MaterialTheme.typography.bodySmall,
-        fontWeight = FontWeight.Bold
+        overflow = TextOverflow.Ellipsis,
+        maxLines = 1
     )
 }
 
@@ -40,7 +40,7 @@ fun CharacterListAncestry(title: String, modifier: Modifier = Modifier) {
         modifier = modifier,
         style = MaterialTheme.typography.bodyMedium,
         fontWeight = FontWeight.Normal,
-        maxLines = 2,
+        maxLines = 1,
         overflow = TextOverflow.Ellipsis
     )
 }
