@@ -25,26 +25,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 class RemoteChacterRepoImpl @Inject constructor(
-    private val charactersService: CharactersService,
+    private val charactersService: CharactersService
 ) : RemoteCharactersRepo {
     override suspend fun getCharacters(fromCache: Boolean): List<Characters> =
         withContext(Dispatchers.IO) {
-        if (fromCache) {
-            CharactersPaginationStore.getCharacters()
+            if (fromCache) {
+                CharactersPaginationStore.getCharacters()
+            }
+            val response = charactersService.getCharactersData()
+            val characterResponse = response.body()
+            if (response.isSuccessful && response.body() != null) {
+                val mappedCharacters = characterResponse!!.map { it.asCoreModel() }
+                CharactersPaginationStore.addCharacters(mappedCharacters)
+                CharactersPaginationStore.getCharacters()
+            } else {
+                val throwable = mapResponseCodeToThrowable(response.code())
+                Timber.e("throwable-----------${response.code()}")
+                throw throwable
+            }
         }
-        val response = charactersService.getCharactersData()
-        val characterResponse = response.body()
-        if (response.isSuccessful && response.body() != null) {
-            val mappedCharacters = characterResponse!!.map { it.asCoreModel() }
-            CharactersPaginationStore.addCharacters(mappedCharacters)
-            CharactersPaginationStore.getCharacters()
-        } else {
-            val throwable = mapResponseCodeToThrowable(response.code())
-            Timber.e("throwable-----------${response.code()}")
-            throw throwable
-        }
-    }
 }

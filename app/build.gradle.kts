@@ -113,12 +113,12 @@ dependencies {
     testImplementation(libs.compose.ui.test.junit)
     androidTestImplementation(libs.compose.ui.test.junit)
 
-    //Room
+    // Room
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)
 
-    //WorkManager
+    // WorkManager
     implementation(libs.androidx.work.ktx)
     implementation(libs.hilt.ext.work)
     kapt(libs.hilt.compiler)

@@ -30,7 +30,7 @@ class CharactersManager @Inject constructor(
 ) : CharactersRepo {
     override suspend fun getCharacters(fromCache: Boolean): Result<List<Characters>> =
         try {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 val characters = remoteCharactersRepo.getCharacters(fromCache = fromCache)
                 Timber.e("Manager Thread Check________________${Thread.currentThread()}")
                 Result.Success(data = characters)
