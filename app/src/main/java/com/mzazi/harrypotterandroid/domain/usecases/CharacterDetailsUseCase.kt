@@ -13,31 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.usecases
+package com.mzazi.harrypotterandroid.domain.usecases
 
-import com.mzazi.harrypotterandroid.repo.CharactersRepo
-import com.mzazi.harrypotterandroid.ui.model.Characters
+import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
+import com.mzazi.harrypotterandroid.domain.model.Characters
 import com.mzazi.harrypotterandroid.utils.ErrorType
 import com.mzazi.harrypotterandroid.utils.Result
 import javax.inject.Inject
 
 class CharacterDetailsUseCase @Inject constructor(
     private val repository: CharactersRepo
-){
-  suspend operator fun invoke(characterId:String): Result<Characters> =
-      when(val result = repository.getCharacters()){
-          is  Result.Success -> {
-              val foundCharacter = result.data.find {character ->
-                  character.id ==  characterId
-              }
-              if (foundCharacter == null){
-                  Result.Error(ErrorType.CHARACTER_NOT_FOUND)
-              }else {
-                  Result.Success(data = foundCharacter)
-              }
-          }
-          is Result.Error -> {
-              Result.Error(result.errorType)
-          }
-      }
+) {
+    suspend operator fun invoke(characterId: String): Result<Characters> =
+        when (val result = repository.getCharacters()) {
+            is Result.Success -> {
+                val foundCharacter = result.data.find { character ->
+                    character.id == characterId
+                }
+                if (foundCharacter == null) {
+                    Result.Error(ErrorType.CHARACTER_NOT_FOUND)
+                } else {
+                    Result.Success(data = foundCharacter)
+                }
+            }
+            is Result.Error -> {
+                Result.Error(result.errorType)
+            }
+        }
 }

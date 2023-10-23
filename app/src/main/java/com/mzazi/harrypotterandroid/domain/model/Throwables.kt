@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.domain.usecases
+package com.mzazi.harrypotterandroid.domain.model
 
-import com.mzazi.harrypotterandroid.domain.models.Characters
-import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
-import com.mzazi.harrypotterandroid.utils.Result
-import javax.inject.Inject
+data class ClientException(override val message: String) : Throwable(message = message)
 
-class GetCharacterListImplUseCase @Inject constructor(
-    private val repository: CharactersRepo
-) : GetCharacterListUseCase {
-    override suspend fun invoke(): Result<List<Characters>> =
-        repository.getCharacters()
-}
+data class ServerException(override val message: String) : Throwable(message = message)
+
+data class UnauthorizedException(override val message: String) : Throwable(message = message)
+
+data class GenericException(override val message: String) : Throwable(message = message)

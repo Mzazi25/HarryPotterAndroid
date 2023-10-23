@@ -15,11 +15,10 @@
  */
 package com.mzazi.harrypotterandroid.features.characters
 
-import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterListAncestry
-import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterListName
-import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterListPoster
-import com.mzazi.harrypotterandroid.designsystem.widgets.InfoText
-import androidx.compose.foundation.ExperimentalFoundationApi
+import com.mzazi.harrypotterandroid.ui.widgets.CharacterListAncestry
+import com.mzazi.harrypotterandroid.ui.widgets.CharacterListName
+import com.mzazi.harrypotterandroid.ui.widgets.CharacterListPoster
+import com.mzazi.harrypotterandroid.ui.widgets.InfoText
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -43,10 +42,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mzazi.harrypotterandroid.R
-import com.mzazi.harrypotterandroid.designsystem.widgets.ErrorScreen
-import com.mzazi.harrypotterandroid.designsystem.widgets.LoadingScreen
-import com.mzazi.harrypotterandroid.designsystem.widgets.TopBar
-import com.mzazi.harrypotterandroid.domain.models.Characters
+import com.mzazi.harrypotterandroid.ui.widgets.ErrorScreen
+import com.mzazi.harrypotterandroid.ui.widgets.LoadingScreen
+import com.mzazi.harrypotterandroid.ui.widgets.TopBar
+import com.mzazi.harrypotterandroid.domain.model.Characters
 
 @Composable
 fun CharacterScreen(
@@ -86,7 +85,6 @@ fun CharacterScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CharacterListItems(
     state: CharacterScreenState,

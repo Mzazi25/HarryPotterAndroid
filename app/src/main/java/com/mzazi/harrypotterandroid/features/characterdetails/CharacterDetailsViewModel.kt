@@ -17,8 +17,8 @@ package com.mzazi.harrypotterandroid.features.characterdetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mzazi.harrypotterandroid.domain.models.Characters
-import com.mzazi.harrypotterandroid.domain.usecases.GetCharacterDetailsImplUseCase
+import com.mzazi.harrypotterandroid.domain.model.Characters
+import com.mzazi.harrypotterandroid.domain.usecases.CharacterDetailsUseCase
 import com.mzazi.harrypotterandroid.utils.Result
 import com.mzazi.harrypotterandroid.utils.toStringResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,11 +30,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharacterDetailsViewModel @Inject constructor(
-    private val getCharacterDetailsImplUseCase: GetCharacterDetailsImplUseCase
+    private val getCharacterDetailsImplUseCase: CharacterDetailsUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CharacterDetailsState(isLoading = true))
     val state: StateFlow<CharacterDetailsState> = _state.asStateFlow()
+
     fun processIntent(characterDetailsIntent: CharacterDetailsIntent) {
         when (characterDetailsIntent) {
             is CharacterDetailsIntent.LoadCharacterDetail -> {
@@ -45,35 +46,45 @@ class CharacterDetailsViewModel @Inject constructor(
             }
         }
     }
+
     private fun processResult(result: Result<Characters>) {
         when (result) {
             is Result.Success -> {
                 val character = result.data
-                _state.value = CharacterDetailsState(
-                    actor = character.actor,
-                    alive = character.alive,
-                    alternateNames = character.alternateNames,
-                    ancestry = character.ancestry,
-                    dateOfBirth = character.dateOfBirth,
-                    eyeColour = character.eyeColour,
-                    gender = character.gender,
-                    hairColour = character.hairColour,
-                    house = character.house,
-                    id = character.id,
-                    image = character.image,
-                    name = character.name,
-                    patronus = character.patronus,
-                    species = character.species,
-                    yearOfBirth = character.yearOfBirth,
-                    isLoading = false
-                )
+                setState {
+                    copy(
+                        actor = character.actor,
+                        alive = character.alive,
+                        alternateNames = character.alternateNames,
+                        ancestry = character.ancestry,
+                        dateOfBirth = character.dateOfBirth,
+                        eyeColour = character.eyeColour,
+                        gender = character.gender,
+                        hairColour = character.hairColour,
+                        house = character.house,
+                        id = character.id,
+                        image = character.image,
+                        name = character.name,
+                        patronus = character.patronus,
+                        species = character.species,
+                        yearOfBirth = character.yearOfBirth,
+                        isLoading = false
+                    )
+                }
             }
 
             is Result.Error -> {
-                _state.value = CharacterDetailsState(
-                    errorMsg = result.errorType.toStringResource()
-                )
+                setState {
+                    copy(
+                        errorMsg = result.errorType.toStringResource()
+                    )
+                }
             }
+        }
+    }
+    private fun setState(stateReducer: CharacterDetailsState.() -> CharacterDetailsState) {
+        viewModelScope.launch {
+            _state.emit(stateReducer(state.value))
         }
     }
 }

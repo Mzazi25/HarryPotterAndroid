@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.designsystem.widgets/*
+package com.mzazi.harrypotterandroid.ui.widgets/*
  * Copyright 2023 HarryPotterAndroid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,7 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import com.mzazi.harrypotterandroid.designsystem.theme.Padding
+import com.mzazi.harrypotterandroid.ui.theme.Padding
 
 @Composable
 fun CharacterListName(title: String, modifier: Modifier = Modifier) {

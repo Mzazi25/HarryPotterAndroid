@@ -15,10 +15,8 @@
  */
 package com.mzazi.harrypotterandroid.di
 
-import com.mzazi.harrypotterandroid.data.repo.CharactersManager
-import com.mzazi.harrypotterandroid.data.repo.remote.RemoteChacterRepoImpl
+import com.mzazi.harrypotterandroid.data.repo.CharacterRepoImpl
 import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
-import com.mzazi.harrypotterandroid.domain.repo.remote.RemoteCharactersRepo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -28,8 +26,5 @@ import dagger.hilt.android.components.ViewModelComponent
 @InstallIn(ViewModelComponent::class)
 interface RepositoryModule {
     @Binds
-    fun bindCharacterRepository(characterManager: CharactersManager): CharactersRepo
-
-    @Binds
-    fun bindRemoteCharacterRepository(remoteCharactersRepo: RemoteChacterRepoImpl): RemoteCharactersRepo
+    fun bindCharacterRepository(characterManager: CharacterRepoImpl): CharactersRepo
 }

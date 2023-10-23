@@ -16,7 +16,7 @@
 package com.mzazi.harrypotterandroid.features.characters
 
 import androidx.annotation.StringRes
-import com.mzazi.harrypotterandroid.domain.models.Characters
+import com.mzazi.harrypotterandroid.domain.model.Characters
 
 data class CharacterScreenState(
     val characters: List<Characters> = emptyList(),

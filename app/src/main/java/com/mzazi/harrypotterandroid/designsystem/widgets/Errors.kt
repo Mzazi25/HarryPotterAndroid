@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.designsystem.widgets
+package com.mzazi.harrypotterandroid.ui.widgets
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
@@ -26,7 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.mzazi.harrypotterandroid.designsystem.theme.Padding
+import com.mzazi.harrypotterandroid.ui.theme.Padding
 
 @Composable
 fun ErrorScreen(

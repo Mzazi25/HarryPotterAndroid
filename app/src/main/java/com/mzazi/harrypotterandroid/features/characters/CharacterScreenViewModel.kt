@@ -17,25 +17,24 @@ package com.mzazi.harrypotterandroid.features.characters
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mzazi.harrypotterandroid.domain.models.Characters
-import com.mzazi.harrypotterandroid.domain.usecases.GetCharacterListUseCase
+import com.mzazi.harrypotterandroid.domain.model.Characters
+import com.mzazi.harrypotterandroid.domain.usecases.CharacterListUseCase
 import com.mzazi.harrypotterandroid.domain.usecases.SearchCharacterUseCase
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import javax.inject.Inject
 import com.mzazi.harrypotterandroid.utils.Result
 import com.mzazi.harrypotterandroid.utils.toStringResource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class CharacterScreenViewModel @Inject constructor(
     private val searchCharacterUseCase: SearchCharacterUseCase,
-    private val characterListUseCase: GetCharacterListUseCase
+    private val characterListUseCase: CharacterListUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CharacterScreenState(isLoading = true))
@@ -46,28 +45,33 @@ class CharacterScreenViewModel @Inject constructor(
     init {
         processIntent(CharacterScreenIntent.LoadLatestCharacters)
     }
+
     fun processIntent(intent: CharacterScreenIntent) {
         when (intent) {
             is CharacterScreenIntent.DisplaySearchScreen -> {
-                _state.value = CharacterScreenState(
-                    isSearching = !_state.value.isSearching
-                )
+                setState {
+                    copy(
+                        isSearching = !isSearching
+                    )
+                }
             }
             is CharacterScreenIntent.LoadLatestCharacters -> {
                 viewModelScope.launch {
-                    val result = characterListUseCase()
-                    processResult(result)
+                    val resultList = characterListUseCase()
+                    processResult(resultList)
                 }
             }
             is CharacterScreenIntent.SearchCharacter -> {
                 searchJob?.cancel()
                 searchJob = viewModelScope.launch {
                     delay(REQUEST_QUEUE_DELAY)
-                    _state.value = CharacterScreenState(
-                        isSearching = true
-                    )
-                    val result = searchCharacterUseCase(intent.query)
-                    processResult(result)
+                    setState {
+                        copy(
+                            isSearching = true
+                        )
+                    }
+                    val searchedResult = searchCharacterUseCase(intent.query)
+                    processResult(searchedResult)
                 }
             }
         }
@@ -86,5 +90,10 @@ class CharacterScreenViewModel @Inject constructor(
     }
     companion object {
         private val REQUEST_QUEUE_DELAY = 300L
+    }
+    private fun setState(stateReducer: CharacterScreenState.() -> CharacterScreenState) {
+        viewModelScope.launch {
+            _state.emit(stateReducer(state.value))
+        }
     }
 }

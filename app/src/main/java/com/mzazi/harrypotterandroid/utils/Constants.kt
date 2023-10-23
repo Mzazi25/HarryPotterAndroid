@@ -16,3 +16,5 @@
 package com.mzazi.harrypotterandroid.utils
 
 const val HARRY_POTTER_BASE_URL = "https://hp-api.onrender.com/api/"
+const val API_CONNECT_TIMEOUT = 300L
+const val API_READ_TIMEOUT = 300L

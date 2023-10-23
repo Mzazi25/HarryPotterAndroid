@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.repo
+package com.mzazi.harrypotterandroid.data.repo
 
-import com.mzazi.harrypotterandroid.cache.CharacterDao
-import com.mzazi.harrypotterandroid.mappers.asCoreModel
-import com.mzazi.harrypotterandroid.mappers.mapResponseCodeToThrowable
-import com.mzazi.harrypotterandroid.mappers.mapThrowableToErrorType
-import com.mzazi.harrypotterandroid.mappers.toCoreEntity
-import com.mzazi.harrypotterandroid.network.CharactersService
-import com.mzazi.harrypotterandroid.ui.model.Characters
+import com.mzazi.harrypotterandroid.data.cache.dao.CharacterDao
+import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
+import com.mzazi.harrypotterandroid.data.mappers.asCoreModel
+import com.mzazi.harrypotterandroid.data.mappers.mapResponseCodeToThrowable
+import com.mzazi.harrypotterandroid.data.mappers.toCoreEntity
+import com.mzazi.harrypotterandroid.data.network.CharactersService
+import com.mzazi.harrypotterandroid.domain.model.Characters
 import com.mzazi.harrypotterandroid.utils.Result
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -31,16 +30,16 @@ import javax.inject.Inject
 
 class CharacterRepoImpl @Inject constructor(
     private val characterDao: CharacterDao,
-    private val api: CharactersService,
+    private val api: CharactersService
 ) : CharactersRepo {
     override suspend fun getCharacters(): Result<List<Characters>> =
         withContext(Dispatchers.IO) {
             try {
                 val apiResponse = api.getCharactersData()
-                if (apiResponse.isSuccessful && apiResponse.body() !=null){
+                if (apiResponse.isSuccessful && apiResponse.body() != null) {
                     val mappedResponse = apiResponse.body()!!.map { it.toCoreEntity() }
                     characterDao.insertCharacters(mappedResponse)
-                }else {
+                } else {
                     val throwable = mapResponseCodeToThrowable(apiResponse.code())
                     throw throwable
                 }

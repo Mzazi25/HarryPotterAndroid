@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.domain.models
+package com.mzazi.harrypotterandroid.domain.model
 
 data class Characters(
     val actor: String,

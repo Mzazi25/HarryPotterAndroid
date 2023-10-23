@@ -13,12 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.domain.models
+package com.mzazi.harrypotterandroid.data.cache.converter
 
-data class ClientException(override val message: String) : Throwable(message = message)
+import androidx.room.ProvidedTypeConverter
+import androidx.room.TypeConverter
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
-data class ServerException(override val message: String) : Throwable(message = message)
+@ProvidedTypeConverter
+class Converters {
 
-data class UnauthorizedException(override val message: String) : Throwable(message = message)
+    @TypeConverter
+    fun fromArray(value: List<String>): String = Json.encodeToString(value)
 
-data class GenericException(override val message: String) : Throwable(message = message)
+    @TypeConverter
+    fun toArray(value: String) = value.let { Json.decodeFromString<List<String>>(it) }
+}

@@ -15,12 +15,13 @@
  */
 package com.mzazi.harrypotterandroid.data.mappers
 
-import com.mzazi.harrypotterandroid.data.network.CharactersResponse
-import com.mzazi.harrypotterandroid.domain.models.Characters
-import com.mzazi.harrypotterandroid.domain.models.ClientException
-import com.mzazi.harrypotterandroid.domain.models.GenericException
-import com.mzazi.harrypotterandroid.domain.models.ServerException
-import com.mzazi.harrypotterandroid.domain.models.UnauthorizedException
+import com.mzazi.harrypotterandroid.data.cache.model.CharacterEntity
+import com.mzazi.harrypotterandroid.domain.model.Characters
+import com.mzazi.harrypotterandroid.domain.model.ClientException
+import com.mzazi.harrypotterandroid.domain.model.GenericException
+import com.mzazi.harrypotterandroid.domain.model.ServerException
+import com.mzazi.harrypotterandroid.domain.model.UnauthorizedException
+import com.mzazi.harrypotterandroid.data.network.models.CharactersResponse
 import com.mzazi.harrypotterandroid.utils.ErrorType
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -43,6 +44,64 @@ fun CharactersResponse.asCoreModel(): Characters =
         species = species,
         yearOfBirth = yearOfBirth
     )
+
+fun CharactersResponse.toCoreEntity(): CharacterEntity =
+    CharacterEntity(
+        actor = actor,
+        alive = alive,
+        alternateNames = alternateNames,
+        ancestry = ancestry,
+        dateOfBirth = dateOfBirth,
+        eyeColour = eyeColour,
+        gender = gender,
+        hairColour = hairColour,
+        house = house,
+        id = id,
+        image = image,
+        name = name,
+        patronus = patronus,
+        species = species,
+        yearOfBirth = yearOfBirth
+    )
+
+fun CharacterEntity.asCoreModel(): Characters =
+    Characters(
+        actor = actor,
+        alive = alive,
+        alternateNames = alternateNames,
+        ancestry = ancestry,
+        dateOfBirth = dateOfBirth,
+        eyeColour = eyeColour,
+        gender = gender,
+        hairColour = hairColour,
+        house = house,
+        id = id,
+        image = image,
+        name = name,
+        patronus = patronus,
+        species = species,
+        yearOfBirth = yearOfBirth
+    )
+
+fun Characters.asCoreModel(): CharacterEntity =
+    CharacterEntity(
+        actor = actor,
+        alive = alive,
+        alternateNames = alternateNames,
+        ancestry = ancestry,
+        dateOfBirth = dateOfBirth,
+        eyeColour = eyeColour,
+        gender = gender,
+        hairColour = hairColour,
+        house = house,
+        id = id,
+        image = image,
+        name = name,
+        patronus = patronus,
+        species = species,
+        yearOfBirth = yearOfBirth
+    )
+
 fun mapResponseCodeToThrowable(code: Int): Throwable = when (code) {
     HttpURLConnection.HTTP_UNAUTHORIZED -> UnauthorizedException("Unauthorized access : $code")
     in 400..499 -> ClientException("Client error : $code")

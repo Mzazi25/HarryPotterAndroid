@@ -17,8 +17,8 @@ package com.mzazi.harrypotterandroid.di
 
 import android.content.Context
 import androidx.room.Room
-import com.mzazi.harrypotterandroid.data.cache.CharacterDatabase
-import com.mzazi.harrypotterandroid.data.cache.Converters
+import com.mzazi.harrypotterandroid.data.cache.db.CharacterDatabase
+import com.mzazi.harrypotterandroid.data.cache.converter.Converters
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +28,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object LocalModule {
+class DatabaseModule {
 
     @Provides
     @Singleton
