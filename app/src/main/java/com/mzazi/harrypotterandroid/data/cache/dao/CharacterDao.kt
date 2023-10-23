@@ -13,16 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.domain.usecases
+package com.mzazi.harrypotterandroid.data.cache.dao
 
-import com.mzazi.harrypotterandroid.domain.models.Characters
-import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
-import com.mzazi.harrypotterandroid.utils.Result
-import javax.inject.Inject
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.mzazi.harrypotterandroid.data.cache.model.CharacterEntity
 
-class GetCharacterListImplUseCase @Inject constructor(
-    private val repository: CharactersRepo
-) : GetCharacterListUseCase {
-    override suspend fun invoke(): Result<List<Characters>> =
-        repository.getCharacters()
+@Dao
+interface CharacterDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCharacters(list: List<CharacterEntity>): List<Long>
+
+    @Query("SELECT * from characters")
+    fun getCharacter(): List<CharacterEntity>
+
+    @Query("SELECT * from characters where id Like :id")
+    fun getCharacterById(id: String): CharacterEntity?
 }

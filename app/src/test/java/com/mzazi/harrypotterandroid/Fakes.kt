@@ -15,8 +15,8 @@
  */
 package com.mzazi.harrypotterandroid
 
-import com.mzazi.harrypotterandroid.data.network.CharactersResponse
-import com.mzazi.harrypotterandroid.domain.models.Characters
+import com.mzazi.harrypotterandroid.data.network.models.CharactersResponse
+import com.mzazi.harrypotterandroid.domain.model.Characters
 
 val fakeCharacterResponse = listOf(
     CharactersResponse(

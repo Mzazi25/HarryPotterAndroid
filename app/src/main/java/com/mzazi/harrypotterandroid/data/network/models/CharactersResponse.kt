@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.data.network
+package com.mzazi.harrypotterandroid.data.network.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

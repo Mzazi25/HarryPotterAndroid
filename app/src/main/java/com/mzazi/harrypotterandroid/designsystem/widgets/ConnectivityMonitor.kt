@@ -13,43 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.ui.widgets
+package com.mzazi.harrypotterandroid.designsystem.widgets
 
-import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.mzazi.harrypotterandroid.ui.theme.Padding
+import androidx.compose.ui.unit.dp
+import com.mzazi.harrypotterandroid.R
 
 @Composable
-fun ErrorScreen(
-    @StringRes errorMsg: Int,
-    @StringRes errorActionTitle: Int,
-    onErrorActionClicked: () -> Unit
+fun ConnectivityMonitor(
+    isNetworkAvailable: Boolean
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        Spacer(modifier = Modifier.weight(0.5f))
-        Text(
-            text = stringResource(id = errorMsg),
+    if (!isNetworkAvailable) {
+        Column(
             modifier = Modifier
-                .padding(Padding.Medium)
-                .align(Alignment.CenterHorizontally)
-        )
-        Button(
-            onClick = { onErrorActionClicked() },
-            modifier = Modifier
-                .padding(Padding.Medium)
-                .align(Alignment.CenterHorizontally)
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.errorContainer)
         ) {
-            Text(text = stringResource(id = errorActionTitle))
+            Text(
+                stringResource(R.string.no_network_connection),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(8.dp),
+                style = MaterialTheme.typography.bodySmall
+            )
         }
-        Spacer(modifier = Modifier.weight(0.5f))
     }
 }

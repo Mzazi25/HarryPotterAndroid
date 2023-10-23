@@ -13,11 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.domain.usecases
+package com.mzazi.harrypotterandroid.domain.model
 
-import com.mzazi.harrypotterandroid.domain.models.Characters
-import com.mzazi.harrypotterandroid.utils.Result
-
-interface GetCharacterListUseCase {
-    suspend operator fun invoke(): Result<List<Characters>>
-}
+data class Characters(
+    val actor: String,
+    val alive: Boolean,
+    val alternateNames: List<String>,
+    val ancestry: String,
+    val dateOfBirth: String?,
+    val eyeColour: String,
+    val gender: String,
+    val hairColour: String,
+    val house: String,
+    val id: String,
+    val image: String,
+    val name: String,
+    val patronus: String,
+    val species: String,
+    val yearOfBirth: Int?
+)

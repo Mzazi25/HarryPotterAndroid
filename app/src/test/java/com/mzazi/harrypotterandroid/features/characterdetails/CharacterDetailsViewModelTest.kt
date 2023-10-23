@@ -19,7 +19,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.mzazi.harrypotterandroid.MainCoroutineRule
 import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
-import com.mzazi.harrypotterandroid.domain.usecases.GetCharacterDetailsImplUseCase
+import com.mzazi.harrypotterandroid.domain.usecases.CharacterDetailsUseCase
 import com.mzazi.harrypotterandroid.fakeMappedCharacters
 import com.mzazi.harrypotterandroid.R
 import io.mockk.coEvery
@@ -41,7 +41,7 @@ class CharacterDetailsViewModelTest {
         val repository = mockk<CharactersRepo>() {
             coEvery { getCharacters() } returns Result.Success(fakeMappedCharacters)
         }
-        val useCase = GetCharacterDetailsImplUseCase(repository = repository)
+        val useCase = CharacterDetailsUseCase(repository = repository)
 
         // When
         val viewModel = createViewModel(
@@ -66,7 +66,7 @@ class CharacterDetailsViewModelTest {
         val repository = mockk<CharactersRepo>() {
             coEvery { getCharacters() } returns Result.Success(fakeMappedCharacters)
         }
-        val useCase = GetCharacterDetailsImplUseCase(repository = repository)
+        val useCase = CharacterDetailsUseCase(repository = repository)
 
         // When
         val viewModel = createViewModel(
@@ -112,7 +112,7 @@ class CharacterDetailsViewModelTest {
         val repository = mockk<CharactersRepo>() {
             coEvery { getCharacters() } returns Result.Success(fakeMappedCharacters)
         }
-        val useCase = GetCharacterDetailsImplUseCase(repository = repository)
+        val useCase = CharacterDetailsUseCase(repository = repository)
 
         // When
         val viewModel = createViewModel(
@@ -134,7 +134,7 @@ class CharacterDetailsViewModelTest {
     }
 
     private fun createViewModel(
-        getCharacterDetails: GetCharacterDetailsImplUseCase
+        getCharacterDetails: CharacterDetailsUseCase
     ) = CharacterDetailsViewModel(
         getCharacterDetailsImplUseCase = getCharacterDetails
     )

@@ -15,26 +15,41 @@
  */
 package com.mzazi.harrypotterandroid.di
 
-import com.mzazi.harrypotterandroid.domain.usecases.GetCharacterDetailsImplUseCase
-import com.mzazi.harrypotterandroid.domain.usecases.GetCharacterDetailsUseCase
-import com.mzazi.harrypotterandroid.domain.usecases.GetCharacterListImplUseCase
-import com.mzazi.harrypotterandroid.domain.usecases.GetCharacterListUseCase
-import com.mzazi.harrypotterandroid.domain.usecases.SearchCharacterImplUseCase
+import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
+import com.mzazi.harrypotterandroid.domain.usecases.CharacterDetailsUseCase
+import com.mzazi.harrypotterandroid.domain.usecases.CharacterListUseCase
 import com.mzazi.harrypotterandroid.domain.usecases.SearchCharacterUseCase
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
-interface UseCaseModule {
-    @Binds
-    fun bindGetCharacterListUseCase(getCharacterListImplUseCase: GetCharacterListImplUseCase): GetCharacterListUseCase
+class UseCaseModule {
 
-    @Binds
-    fun bindGetCharacterDetailsUseCase(getCharacterDetailsImplUseCase: GetCharacterDetailsImplUseCase): GetCharacterDetailsUseCase
+    @ViewModelScoped
+    @Provides
+    fun providesCharacterListUseCase(
+        repository: CharactersRepo
+    ): CharacterListUseCase {
+        return CharacterListUseCase(repository)
+    }
 
-    @Binds
-    fun bindSearchCharactersUseCase(searchCharacterImplUseCase: SearchCharacterImplUseCase): SearchCharacterUseCase
+    @ViewModelScoped
+    @Provides
+    fun providesCharacterDetailsUseCase(
+        repository: CharactersRepo
+    ): CharacterDetailsUseCase {
+        return CharacterDetailsUseCase(repository)
+    }
+
+    @ViewModelScoped
+    @Provides
+    fun providesCharacterSearchUseCase(
+        repository: CharactersRepo
+    ): SearchCharacterUseCase {
+        return SearchCharacterUseCase(repository)
+    }
 }

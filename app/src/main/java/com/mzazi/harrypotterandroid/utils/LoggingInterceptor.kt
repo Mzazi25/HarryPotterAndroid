@@ -15,6 +15,18 @@
  */
 package com.mzazi.harrypotterandroid.utils
 
-const val HARRY_POTTER_BASE_URL = "https://hp-api.onrender.com/api/"
-const val API_CONNECT_TIMEOUT = 300L
-const val API_READ_TIMEOUT = 300L
+import com.mzazi.harrypotterandroid.BuildConfig
+import okhttp3.logging.HttpLoggingInterceptor
+
+/**
+ * Utility object for creating an instance of HttpLoggingInterceptor for logging HTTP requests and responses.
+ */
+object LoggingInterceptor {
+    /**
+     * Creates and configures an HttpLoggingInterceptor instance based on the build configuration.
+     * @return An instance of HttpLoggingInterceptor.
+     */
+    fun create(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
+        level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
+    }
+}

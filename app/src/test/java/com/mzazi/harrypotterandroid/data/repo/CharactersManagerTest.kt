@@ -153,7 +153,7 @@ class CharactersManagerTest {
         }
     private fun createCharactersRepository(
         remoteCharactersRepo: RemoteCharactersRepo
-    ): CharactersRepo = CharactersManager(
+    ): CharactersRepo = CharacterRepoImpl(
         remoteCharactersRepo = remoteCharactersRepo
     )
 

@@ -15,9 +15,24 @@
  */
 package com.mzazi.harrypotterandroid.domain.usecases
 
-import com.mzazi.harrypotterandroid.domain.models.Characters
+import com.mzazi.harrypotterandroid.domain.model.Characters
+import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
 import com.mzazi.harrypotterandroid.utils.Result
+import javax.inject.Inject
 
-interface SearchCharacterUseCase {
-    suspend operator fun invoke(query: String): Result<List<Characters>>
+class SearchCharacterUseCase @Inject constructor(
+    private val repository: CharactersRepo
+) {
+    suspend operator fun invoke(query: String): Result<List<Characters>> =
+        when (val result = repository.getCharacters()) {
+            is Result.Success -> {
+                val searchedCharacter = result.data.filter { character ->
+                    character.name.contains(query, ignoreCase = true)
+                }
+                Result.Success(searchedCharacter)
+            }
+            is Result.Error -> {
+                Result.Error(result.errorType)
+            }
+        }
 }

@@ -19,9 +19,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.mzazi.harrypotterandroid.MainCoroutineRule
 import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
-import com.mzazi.harrypotterandroid.domain.usecases.GetCharacterListImplUseCase
-import com.mzazi.harrypotterandroid.domain.usecases.GetCharacterListUseCase
-import com.mzazi.harrypotterandroid.domain.usecases.SearchCharacterImplUseCase
+import com.mzazi.harrypotterandroid.domain.usecases.CharacterListUseCase
 import com.mzazi.harrypotterandroid.domain.usecases.SearchCharacterUseCase
 import com.mzazi.harrypotterandroid.fakeMappedCharacters
 import com.mzazi.harrypotterandroid.utils.ErrorType
@@ -46,7 +44,7 @@ class CharacterScreenViewModelTest {
             coEvery { getCharacters() } returns Result.Success(fakeMappedCharacters)
         }
 
-        val characterListUseCase = GetCharacterListImplUseCase(repository = characterRepo)
+        val characterListUseCase = CharacterListUseCase(repository = characterRepo)
         val searchCharacterUseCase = SearchCharacterImplUseCase(repository = characterRepo)
 
         val viewModel = createViewModel(
@@ -73,7 +71,7 @@ class CharacterScreenViewModelTest {
             val characterRepo = mockk<CharactersRepo> {
                 coEvery { getCharacters() } returns Result.Error(ErrorType.CLIENT)
             }
-            val characterListUseCase = GetCharacterListImplUseCase(repository = characterRepo)
+            val characterListUseCase = CharacterListUseCase(repository = characterRepo)
             val searchCharacterUseCase = SearchCharacterImplUseCase(repository = characterRepo)
 
             val viewModel = createViewModel(
@@ -100,7 +98,7 @@ class CharacterScreenViewModelTest {
             val characterRepo = mockk<CharactersRepo> {
                 coEvery { getCharacters() } returns Result.Success(fakeMappedCharacters)
             }
-            val characterListUseCase = GetCharacterListImplUseCase(repository = characterRepo)
+            val characterListUseCase = CharacterListUseCase(repository = characterRepo)
             val searchCharacterUseCase = SearchCharacterImplUseCase(repository = characterRepo)
 
             val viewModel = createViewModel(

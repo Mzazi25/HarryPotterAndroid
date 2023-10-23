@@ -21,17 +21,34 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.mzazi.harrypotterandroid.designsystem.theme.HarryPotterAndroidTheme
+import com.mzazi.harrypotterandroid.data.network.utils.ConnectionManager
+import com.mzazi.harrypotterandroid.ui.theme.HarryPotterAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var connectivityManager: ConnectionManager
+
+    override fun onStart() {
+        super.onStart()
+        connectivityManager.registerConnectionObserver(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        connectivityManager.unregisterConnectionObserver(this)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            HarryPotterAndroidTheme {
+            val isNetworkAvailable by connectivityManager.isNetworkAvailable
+            HarryPotterAndroidTheme(isNetworkAvailable = isNetworkAvailable) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

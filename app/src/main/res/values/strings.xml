@@ -2,6 +2,7 @@
     <string name="app_name">HarryPotterAndroid</string>
     <!--Home-->
     <string name="character_list_title"> Characters List</string>
+    <string name="no_network_connection">No network connection</string>
 
     <!--Errors-->
     <string name="error_unauthorized">You may need to log in or sign up to see this :)</string>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.designsystem.theme
+package com.mzazi.harrypotterandroid.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -72,6 +72,6 @@ class GetCharacterDetailsImplUseCaseTest {
     private fun createGetCharacterDetailsUseCase(
         repository: CharactersRepo
     ): GetCharacterDetailsUseCase {
-        return GetCharacterDetailsImplUseCase(repository = repository)
+        return CharacterDetailsUseCase(repository = repository)
     }
 }

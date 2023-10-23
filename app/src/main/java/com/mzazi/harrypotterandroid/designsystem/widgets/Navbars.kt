@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.designsystem.widgets
+package com.mzazi.harrypotterandroid.ui.widgets
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background

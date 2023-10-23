@@ -15,9 +15,9 @@
  */
 package com.mzazi.harrypotterandroid.features.characterdetails
 
-import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterContent
-import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterDetailsImage
-import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterDetailsTitle
+import com.mzazi.harrypotterandroid.ui.widgets.CharacterContent
+import com.mzazi.harrypotterandroid.ui.widgets.CharacterDetailsImage
+import com.mzazi.harrypotterandroid.ui.widgets.CharacterDetailsTitle
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -28,10 +28,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mzazi.harrypotterandroid.R
-import com.mzazi.harrypotterandroid.designsystem.theme.Padding
-import com.mzazi.harrypotterandroid.designsystem.widgets.ErrorScreen
-import com.mzazi.harrypotterandroid.designsystem.widgets.LoadingScreen
-import com.mzazi.harrypotterandroid.designsystem.widgets.TopBarWithBackArrow
+import com.mzazi.harrypotterandroid.ui.theme.Padding
+import com.mzazi.harrypotterandroid.ui.widgets.ErrorScreen
+import com.mzazi.harrypotterandroid.ui.widgets.LoadingScreen
+import com.mzazi.harrypotterandroid.ui.widgets.TopBarWithBackArrow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

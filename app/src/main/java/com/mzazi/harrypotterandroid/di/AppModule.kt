@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.domain.models
+package com.mzazi.harrypotterandroid.di
 
-data class Characters(
-    val actor: String,
-    val alive: Boolean,
-    val alternateNames: List<String>,
-    val ancestry: String,
-    val dateOfBirth: String?,
-    val eyeColour: String,
-    val gender: String,
-    val hairColour: String,
-    val house: String,
-    val id: String,
-    val image: String,
-    val name: String,
-    val patronus: String,
-    val species: String,
-    val yearOfBirth: Int?
-)
+import android.content.Context
+import com.mzazi.harrypotterandroid.HarryPorterApp
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
+
+    @Provides
+    @Singleton
+    fun providesApplication(@ApplicationContext app: Context): HarryPorterApp =
+        app as HarryPorterApp
+}

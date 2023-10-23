@@ -13,17 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.data.utils
+package com.mzazi.harrypotterandroid.data.cache.db
 
-import com.mzazi.harrypotterandroid.domain.models.Characters
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.mzazi.harrypotterandroid.data.cache.dao.CharacterDao
+import com.mzazi.harrypotterandroid.data.cache.model.CharacterEntity
+import com.mzazi.harrypotterandroid.data.cache.converter.Converters
 
-object CharactersPaginationStore {
-
-    private val characters = mutableSetOf<Characters>()
-
-    fun addCharacters(characters: List<Characters>) {
-        this.characters.addAll(characters)
-    }
-
-    fun getCharacters(): List<Characters> = characters.toList()
+@Database(
+    entities = [CharacterEntity::class],
+    version = 1,
+    exportSchema = false
+)
+@TypeConverters(Converters::class)
+abstract class CharacterDatabase : RoomDatabase() {
+    abstract fun characterDao(): CharacterDao
 }

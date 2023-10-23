@@ -15,12 +15,10 @@
  */
 package com.mzazi.harrypotterandroid.features.characters
 
-import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterListAncestry
-import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterListName
-import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterListPoster
-import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterPatronus
-import com.mzazi.harrypotterandroid.designsystem.widgets.InfoText
-import androidx.compose.foundation.ExperimentalFoundationApi
+import com.mzazi.harrypotterandroid.ui.widgets.CharacterListAncestry
+import com.mzazi.harrypotterandroid.ui.widgets.CharacterListName
+import com.mzazi.harrypotterandroid.ui.widgets.CharacterListPoster
+import com.mzazi.harrypotterandroid.ui.widgets.InfoText
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -34,7 +32,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -44,14 +41,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.mzazi.harrypotterandroid.R
-import com.mzazi.harrypotterandroid.designsystem.theme.Padding
-import com.mzazi.harrypotterandroid.designsystem.widgets.ErrorScreen
-import com.mzazi.harrypotterandroid.designsystem.widgets.LoadingScreen
-import com.mzazi.harrypotterandroid.designsystem.widgets.StatusBar
-import com.mzazi.harrypotterandroid.designsystem.widgets.TopBar
-import com.mzazi.harrypotterandroid.domain.models.Characters
+import com.mzazi.harrypotterandroid.ui.widgets.ErrorScreen
+import com.mzazi.harrypotterandroid.ui.widgets.LoadingScreen
+import com.mzazi.harrypotterandroid.ui.widgets.TopBar
+import com.mzazi.harrypotterandroid.domain.model.Characters
 
 @Composable
 fun CharacterScreen(
@@ -91,7 +85,6 @@ fun CharacterScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CharacterListItems(
     state: CharacterScreenState,
@@ -123,7 +116,8 @@ private fun CharacterItem(
 ) {
     Surface(
         onClick = { onCharacterSelected(character) },
-        shape = MaterialTheme.shapes.large) {
+        shape = MaterialTheme.shapes.large
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -131,7 +125,8 @@ private fun CharacterItem(
         ) {
             CharacterListPoster(
                 posterUrl = character.image,
-                modifier = Modifier.size(58.dp).clip(CircleShape))
+                modifier = Modifier.size(58.dp).clip(CircleShape)
+            )
             Column {
                 CharacterListName(
                     title = character.name
