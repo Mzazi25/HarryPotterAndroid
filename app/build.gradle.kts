@@ -122,4 +122,5 @@ dependencies {
     implementation(libs.androidx.work.ktx)
     implementation(libs.hilt.ext.work)
     kapt(libs.hilt.compiler)
+    debugImplementation(libs.leakcanary.android)
 }

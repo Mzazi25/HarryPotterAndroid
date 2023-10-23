@@ -4,6 +4,7 @@ android-gradle-plugin = "8.1.1"
 kotlin = "1.8.10"
 hilt-plugin = "2.45"
 #gmsPlugin = "4.3.14"
+leakcanaryAndroid = "2.12"
 mapsplatform-secrets = "2.0.1"
 kotlin-serialization = "1.6.10"
 
@@ -70,6 +71,7 @@ androidx-work-ktx = { group = "androidx.work", name = "work-runtime-ktx", versio
 androidx-work-testing = { group = "androidx.work", name = "work-testing", version.ref = "androidxWork" }
 #Timber
 timber = { group = "com.jakewharton.timber", name= "timber", version.ref = "timber"}
+leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
 
 #DI
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
