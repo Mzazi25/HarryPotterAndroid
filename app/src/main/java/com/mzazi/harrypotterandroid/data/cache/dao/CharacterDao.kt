@@ -13,18 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.data.cache
+package com.mzazi.harrypotterandroid.data.cache.dao
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.mzazi.harrypotterandroid.data.cache.model.CharacterEntity
 
-@Database(
-    entities = [CharacterEntity::class],
-    version = 1,
-    exportSchema = false
-)
-@TypeConverters(Converters::class)
-abstract class CharacterDatabase : RoomDatabase() {
-    abstract fun characterDao(): CharacterDao
+@Dao
+interface CharacterDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCharacters(list: List<CharacterEntity>): List<Long>
+
+    @Query("SELECT * from characters")
+    fun getCharacter(): List<CharacterEntity>
+
+    @Query("SELECT * from characters where id Like :id")
+    fun getCharacterById(id: String): CharacterEntity?
 }
