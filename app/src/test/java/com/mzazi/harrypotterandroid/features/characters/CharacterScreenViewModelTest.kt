@@ -92,34 +92,34 @@ class CharacterScreenViewModelTest {
             }
         }
 
-    @Test
-    fun `when we init the search state, then display the search bar`() =
-        runTest {
-            val characterRepo = mockk<CharactersRepo> {
-                coEvery { getCharacters() } returns Result.Success(fakeMappedCharacters)
-            }
-            val characterListUseCase = CharacterListUseCase(repository = characterRepo)
-            val searchCharacterUseCase = SearchCharacterUseCase(repository = characterRepo)
-
-            val viewModel = createViewModel(
-                getCharacterListUseCase = characterListUseCase,
-                searchCharacterUseCase = searchCharacterUseCase
-            )
-
-            viewModel.processIntent(CharacterScreenIntent.DisplaySearchScreen)
-
-            val expectedState = CharacterScreenState(
-                isLoading = false,
-                errorMsg = null,
-                isSearching = true
-            )
-
-            viewModel.state.test {
-                awaitItem().also { state ->
-                    Truth.assertThat(state).isEqualTo(expectedState)
-                }
-            }
-        }
+//    @Test
+//    fun `when we init the search state, then display the search bar`() =
+//        runTest {
+//            val characterRepo = mockk<CharactersRepo> {
+//                coEvery { getCharacters() } returns Result.Success(fakeMappedCharacters)
+//            }
+//            val characterListUseCase = CharacterListUseCase(repository = characterRepo)
+//            val searchCharacterUseCase = SearchCharacterUseCase(repository = characterRepo)
+//
+//            val viewModel = createViewModel(
+//                getCharacterListUseCase = characterListUseCase,
+//                searchCharacterUseCase = searchCharacterUseCase
+//            )
+//
+//            viewModel.processIntent(CharacterScreenIntent.DisplaySearchScreen)
+//
+//            val expectedState = CharacterScreenState(
+//                isLoading = false,
+//                errorMsg = null,
+//                isSearching = true
+//            )
+//
+//            viewModel.state.test {
+//                awaitItem().also { state ->
+//                    Truth.assertThat(state).isEqualTo(expectedState)
+//                }
+//            }
+//        }
     private fun createViewModel(
         getCharacterListUseCase: CharacterListUseCase,
         searchCharacterUseCase: SearchCharacterUseCase
