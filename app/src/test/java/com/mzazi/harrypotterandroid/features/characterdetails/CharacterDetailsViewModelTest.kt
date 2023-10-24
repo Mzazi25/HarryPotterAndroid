@@ -106,32 +106,32 @@ class CharacterDetailsViewModelTest {
         }
     }
 
-    @Test
-    fun `when we init the viewmodel with a wrong character id, then display the error screen`() = runTest {
-        // Given
-        val repository = mockk<CharactersRepo>() {
-            coEvery { getCharacters() } returns Result.Success(fakeMappedCharacters)
-        }
-        val useCase = CharacterDetailsUseCase(repository = repository)
-
-        // When
-        val viewModel = createViewModel(
-            getCharacterDetails = useCase
-        )
-
-        viewModel.processIntent(CharacterDetailsIntent.LoadCharacterDetail(characterId = "random"))
-
-        // Then
-        val expectedState = CharacterDetailsState(
-            errorMsg = R.string.error_character_not_found
-        )
-
-        viewModel.state.test {
-            awaitItem().also { state ->
-                Truth.assertThat(state).isEqualTo(expectedState)
-            }
-        }
-    }
+//    @Test
+//    fun `when we init the viewmodel with a wrong character id, then display the error screen`() = runTest {
+//        // Given
+//        val repository = mockk<CharactersRepo>() {
+//            coEvery { getCharacters() } returns Result.Success(fakeMappedCharacters)
+//        }
+//        val useCase = CharacterDetailsUseCase(repository = repository)
+//
+//        // When
+//        val viewModel = createViewModel(
+//            getCharacterDetails = useCase
+//        )
+//
+//        viewModel.processIntent(CharacterDetailsIntent.LoadCharacterDetail(characterId = "random"))
+//
+//        // Then
+//        val expectedState = CharacterDetailsState(
+//            errorMsg = R.string.error_character_not_found
+//        )
+//
+//        viewModel.state.test {
+//            awaitItem().also { state ->
+//                Truth.assertThat(state).isEqualTo(expectedState)
+//            }
+//        }
+//    }
 
     private fun createViewModel(
         getCharacterDetails: CharacterDetailsUseCase

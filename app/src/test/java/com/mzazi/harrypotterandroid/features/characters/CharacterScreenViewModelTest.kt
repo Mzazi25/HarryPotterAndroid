@@ -45,7 +45,7 @@ class CharacterScreenViewModelTest {
         }
 
         val characterListUseCase = CharacterListUseCase(repository = characterRepo)
-        val searchCharacterUseCase = SearchCharacterImplUseCase(repository = characterRepo)
+        val searchCharacterUseCase = SearchCharacterUseCase(repository = characterRepo)
 
         val viewModel = createViewModel(
             getCharacterListUseCase = characterListUseCase,
@@ -72,7 +72,7 @@ class CharacterScreenViewModelTest {
                 coEvery { getCharacters() } returns Result.Error(ErrorType.CLIENT)
             }
             val characterListUseCase = CharacterListUseCase(repository = characterRepo)
-            val searchCharacterUseCase = SearchCharacterImplUseCase(repository = characterRepo)
+            val searchCharacterUseCase = SearchCharacterUseCase(repository = characterRepo)
 
             val viewModel = createViewModel(
                 getCharacterListUseCase = characterListUseCase,
@@ -99,7 +99,7 @@ class CharacterScreenViewModelTest {
                 coEvery { getCharacters() } returns Result.Success(fakeMappedCharacters)
             }
             val characterListUseCase = CharacterListUseCase(repository = characterRepo)
-            val searchCharacterUseCase = SearchCharacterImplUseCase(repository = characterRepo)
+            val searchCharacterUseCase = SearchCharacterUseCase(repository = characterRepo)
 
             val viewModel = createViewModel(
                 getCharacterListUseCase = characterListUseCase,
@@ -121,7 +121,7 @@ class CharacterScreenViewModelTest {
             }
         }
     private fun createViewModel(
-        getCharacterListUseCase: GetCharacterListUseCase,
+        getCharacterListUseCase: CharacterListUseCase,
         searchCharacterUseCase: SearchCharacterUseCase
     ) =
         CharacterScreenViewModel(

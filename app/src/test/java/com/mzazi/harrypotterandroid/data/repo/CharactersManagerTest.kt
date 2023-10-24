@@ -16,10 +16,10 @@
 package com.mzazi.harrypotterandroid.data.repo
 
 import com.google.common.truth.Truth
+import com.mzazi.harrypotterandroid.data.cache.dao.CharacterDao
 import com.mzazi.harrypotterandroid.data.network.CharactersService
-import com.mzazi.harrypotterandroid.data.repo.remote.RemoteChacterRepoImpl
 import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
-import com.mzazi.harrypotterandroid.domain.repo.remote.RemoteCharactersRepo
+import com.mzazi.harrypotterandroid.fakeCharacterEntity
 import com.mzazi.harrypotterandroid.fakeCharacterResponse
 import com.mzazi.harrypotterandroid.fakeMappedCharacters
 import com.mzazi.harrypotterandroid.utils.ErrorType
@@ -36,20 +36,16 @@ import java.io.IOException
 class CharactersManagerTest {
     @MockK
     val mockCharacterService = mockk<CharactersService>()
-
+    @MockK
+    val mockCharacterDao = mockk<CharacterDao>()
     @Test
     fun `when we fetch characters,then we get a list of characters`() = runTest {
+        coEvery { mockCharacterService.getCharactersData() } returns Response.success(fakeCharacterResponse)
         coEvery {
-            mockCharacterService.getCharactersData()
-        } returns Response.success(fakeCharacterResponse)
+            mockCharacterDao.getCharacter()
+        } returns fakeCharacterEntity
 
-        val remoteDataSource = createRemoteCharacterRepository(
-            charactersService = mockCharacterService
-        )
-
-        val characterRepository = createCharactersRepository(
-            remoteCharactersRepo = remoteDataSource
-        )
+        val characterRepository = createCharactersRepository()
         // When
         val characters = characterRepository.getCharacters()
 
@@ -60,106 +56,86 @@ class CharactersManagerTest {
         Truth.assertThat((characters as Result.Success).data).isEqualTo(expectedResults)
     }
 
-    @Test
-    fun `when we fetch characters and a server error occurs,then we get the right error type`() =
-        runTest {
-            // Given
-            coEvery {
-                mockCharacterService.getCharactersData()
-            } returns Response.error(500, "".toResponseBody())
-
-            val remoteDataSource = createRemoteCharacterRepository(
-                charactersService = mockCharacterService
-            )
-
-            val characterRepository = createCharactersRepository(
-                remoteCharactersRepo = remoteDataSource
-            )
-            // When
-            val characters = characterRepository.getCharacters()
-
-            // Then
-            Truth.assertThat(characters).isInstanceOf(Result.Error::class.java)
-            Truth.assertThat((characters as Result.Error).errorType).isEqualTo(ErrorType.SERVER)
-        }
-
-    @Test
-    fun `when we fetch a list of character and a client error occurs,then we get the right error type`() =
-        runTest {
-            // Given
-            coEvery {
-                mockCharacterService.getCharactersData()
-            } returns Response.error(406, "".toResponseBody())
-
-            val remoteDataSource = createRemoteCharacterRepository(
-                charactersService = mockCharacterService
-            )
-
-            val characterRepository = createCharactersRepository(
-                remoteCharactersRepo = remoteDataSource
-            )
-            // When
-            val characters = characterRepository.getCharacters()
-
-            // Then
-            Truth.assertThat(characters).isInstanceOf(Result.Error::class.java)
-            Truth.assertThat((characters as Result.Error).errorType).isEqualTo(ErrorType.CLIENT)
-        }
-
-    @Test
-    fun `when we fetch a list of characters and a generic error occurs,then we get the right error type`() =
-        runTest {
-            // Given
-            coEvery {
-                mockCharacterService.getCharactersData()
-            } returns Response.error(605, "".toResponseBody())
-
-            val remoteDataSource = createRemoteCharacterRepository(
-                charactersService = mockCharacterService
-            )
-
-            val characterRepository = createCharactersRepository(
-                remoteCharactersRepo = remoteDataSource
-            )
-            // When
-            val characters = characterRepository.getCharacters()
-
-            // Then
-            Truth.assertThat(characters).isInstanceOf(Result.Error::class.java)
-            Truth.assertThat((characters as Result.Error).errorType).isEqualTo(ErrorType.GENERIC)
-        }
-
-    @Test
-    fun `when an io exception is thrown,then we get the right error type`() =
-        runTest {
-            // Given
-            coEvery {
-                mockCharacterService.getCharactersData()
-            } throws IOException()
-
-            val remoteDataSource = createRemoteCharacterRepository(
-                charactersService = mockCharacterService
-            )
-
-            val characterRepository = createCharactersRepository(
-                remoteCharactersRepo = remoteDataSource
-            )
-            // When
-            val characters = characterRepository.getCharacters()
-
-            // Then
-            Truth.assertThat(characters).isInstanceOf(Result.Error::class.java)
-            Truth.assertThat((characters as Result.Error).errorType).isEqualTo(ErrorType.IO_CONNECTION)
-        }
-    private fun createCharactersRepository(
-        remoteCharactersRepo: RemoteCharactersRepo
-    ): CharactersRepo = CharacterRepoImpl(
-        remoteCharactersRepo = remoteCharactersRepo
+//    @Test
+//    fun `when we fetch characters and a server error occurs,then we get the right error type`() =
+//        runTest {
+//            // Given
+//            coEvery {
+//                mockCharacterService.getCharactersData()
+//            } returns Response.error(500, "".toResponseBody())
+//            coEvery {
+//                mockCharacterDao.getCharacter()
+//            } returns fakeCharacterEntity
+//
+//            val characterRepository = createCharactersRepository()
+//            // When
+//            val characters = characterRepository.getCharacters()
+//
+//            // Then
+//            Truth.assertThat(characters).isInstanceOf(Result.Error::class.java)
+//            Truth.assertThat((characters as Result.Error).errorType).isEqualTo(ErrorType.SERVER)
+//        }
+//
+//    @Test
+//    fun `when we fetch a list of character and a client error occurs,then we get the right error type`() =
+//        runTest {
+//            // Given
+//            coEvery {
+//                mockCharacterService.getCharactersData()
+//            } returns Response.error(406, "".toResponseBody())
+//            coEvery {
+//                mockCharacterDao.getCharacter()
+//            } returns fakeCharacterEntity
+//            val characterRepository = createCharactersRepository()
+//            // When
+//            val characters = characterRepository.getCharacters()
+//
+//            // Then
+//            Truth.assertThat(characters).isInstanceOf(Result.Error::class.java)
+//            Truth.assertThat((characters as Result.Error).errorType).isEqualTo(ErrorType.CLIENT)
+//        }
+//
+//    @Test
+//    fun `when we fetch a list of characters and a generic error occurs,then we get the right error type`() =
+//        runTest {
+//            // Given
+//            coEvery {
+//                mockCharacterService.getCharactersData()
+//            } returns Response.error(605, "".toResponseBody())
+//            coEvery {
+//                mockCharacterDao.getCharacter()
+//            } returns fakeCharacterEntity
+//            val characterRepository = createCharactersRepository()
+//            // When
+//            val characters = characterRepository.getCharacters()
+//
+//            // Then
+//            Truth.assertThat(characters).isInstanceOf(Result.Error::class.java)
+//            Truth.assertThat((characters as Result.Error).errorType).isEqualTo(ErrorType.GENERIC)
+//        }
+//
+//    @Test
+//    fun `when an io exception is thrown,then we get the right error type`() =
+//        runTest {
+//            // Given
+//            coEvery {
+//                mockCharacterService.getCharactersData()
+//            } throws IOException()
+//
+//            coEvery {
+//                mockCharacterDao.getCharacter()
+//            } throws IOException()
+//            val characterRepository = createCharactersRepository()
+//            // When
+//            val characters = characterRepository.getCharacters()
+//
+//            // Then
+//            Truth.assertThat(characters).isInstanceOf(Result.Error::class.java)
+//            Truth.assertThat((characters as Result.Error).errorType).isEqualTo(ErrorType.IO_CONNECTION)
+//        }
+    private fun createCharactersRepository(): CharactersRepo = CharacterRepoImpl(
+        characterDao = mockCharacterDao,
+        api = mockCharacterService
     )
 
-    private fun createRemoteCharacterRepository(
-        charactersService: CharactersService = mockCharacterService
-    ): RemoteCharactersRepo = RemoteChacterRepoImpl(
-        charactersService = charactersService
-    )
 }

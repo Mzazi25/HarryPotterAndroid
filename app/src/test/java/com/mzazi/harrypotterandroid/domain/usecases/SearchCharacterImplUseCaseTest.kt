@@ -32,7 +32,7 @@ class SearchCharacterImplUseCaseTest {
     @Test
     fun `when we search for character by title, then return success`() = runTest {
         // given
-        coEvery { mockCharactersRepo.getCharacters(fromCache = true) } returns Result.Success(
+        coEvery { mockCharactersRepo.getCharacters() } returns Result.Success(
             fakeMappedCharacters
         )
 
@@ -50,7 +50,7 @@ class SearchCharacterImplUseCaseTest {
     fun `when we search for character by title and it's not found, then return an empty list`() =
         runTest {
             // given
-            coEvery { mockCharactersRepo.getCharacters(fromCache = true) } returns Result.Success(
+            coEvery { mockCharactersRepo.getCharacters() } returns Result.Success(
                 fakeMappedCharacters
             )
 
@@ -65,5 +65,5 @@ class SearchCharacterImplUseCaseTest {
         }
     private fun createSearchCharacterUseCase(
         repository: CharactersRepo
-    ): SearchCharacterUseCase = SearchCharacterImplUseCase(repository = repository)
+    ): SearchCharacterUseCase = SearchCharacterUseCase(repository = repository)
 }
