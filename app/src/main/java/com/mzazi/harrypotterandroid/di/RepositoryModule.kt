@@ -15,16 +15,27 @@
  */
 package com.mzazi.harrypotterandroid.di
 
+import com.mzazi.harrypotterandroid.data.cache.dao.CharacterDao
+import com.mzazi.harrypotterandroid.data.network.CharactersService
 import com.mzazi.harrypotterandroid.data.repo.CharacterRepoImpl
 import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
-interface RepositoryModule {
-    @Binds
-    fun bindCharacterRepository(characterManager: CharacterRepoImpl): CharactersRepo
+class RepositoryModule {
+
+    @ViewModelScoped
+    @Provides
+    fun providesRepository(
+        charactersService: CharactersService,
+        characterDao: CharacterDao
+    ): CharactersRepo {
+        return CharacterRepoImpl(characterDao, charactersService)
+    }
 }

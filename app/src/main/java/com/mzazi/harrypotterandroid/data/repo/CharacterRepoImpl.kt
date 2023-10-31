@@ -21,6 +21,7 @@ import com.mzazi.harrypotterandroid.data.mappers.toCoreEntity
 import com.mzazi.harrypotterandroid.data.network.CharactersService
 import com.mzazi.harrypotterandroid.domain.model.Characters
 import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -31,6 +32,7 @@ import javax.inject.Inject
 class CharacterRepoImpl @Inject constructor(
     private val characterDao: CharacterDao,
     private val api: CharactersService,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : CharactersRepo {
     override fun getCharacters(): Flow<List<CharacterEntity>> = flow {
         try {
@@ -44,5 +46,5 @@ class CharacterRepoImpl @Inject constructor(
         val sourceOfTruth = characterDao.getCharacter()
 
         emit(sourceOfTruth)
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(dispatcher)
 }

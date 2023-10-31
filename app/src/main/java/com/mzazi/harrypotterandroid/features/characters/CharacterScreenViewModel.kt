@@ -34,7 +34,7 @@ class CharacterScreenViewModel @Inject constructor(
     private val characterListUseCase: CharacterListUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(CharacterScreenState(isLoading = true))
+    private val _state = MutableStateFlow(CharacterScreenState())
     val state:StateFlow<CharacterScreenState> = _state.asStateFlow()
 
     private val originalCharacterList = mutableListOf<Characters>()

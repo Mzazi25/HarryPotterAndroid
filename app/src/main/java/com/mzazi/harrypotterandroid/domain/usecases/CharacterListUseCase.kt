@@ -19,9 +19,11 @@ import com.mzazi.harrypotterandroid.data.mappers.asCoreModel
 import com.mzazi.harrypotterandroid.domain.model.Characters
 import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
 import com.mzazi.harrypotterandroid.utils.DataState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 import javax.inject.Inject
