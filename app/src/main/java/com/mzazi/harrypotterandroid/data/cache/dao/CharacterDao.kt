@@ -28,7 +28,4 @@ interface CharacterDao {
 
     @Query("SELECT * from characters")
     fun getCharacter(): List<CharacterEntity>
-
-    @Query("SELECT * from characters where id Like :id")
-    fun getCharacterById(id: String): CharacterEntity?
 }
