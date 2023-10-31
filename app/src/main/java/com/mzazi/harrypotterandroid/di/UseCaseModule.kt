@@ -18,7 +18,6 @@ package com.mzazi.harrypotterandroid.di
 import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
 import com.mzazi.harrypotterandroid.domain.usecases.CharacterDetailsUseCase
 import com.mzazi.harrypotterandroid.domain.usecases.CharacterListUseCase
-import com.mzazi.harrypotterandroid.domain.usecases.SearchCharacterUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,13 +42,5 @@ class UseCaseModule {
         repository: CharactersRepo
     ): CharacterDetailsUseCase {
         return CharacterDetailsUseCase(repository)
-    }
-
-    @ViewModelScoped
-    @Provides
-    fun providesCharacterSearchUseCase(
-        repository: CharactersRepo
-    ): SearchCharacterUseCase {
-        return SearchCharacterUseCase(repository)
     }
 }

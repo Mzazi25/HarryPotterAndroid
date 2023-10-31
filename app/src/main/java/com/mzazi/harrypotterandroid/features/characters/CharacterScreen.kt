@@ -15,13 +15,13 @@
  */
 package com.mzazi.harrypotterandroid.features.characters
 
-import com.mzazi.harrypotterandroid.ui.widgets.CharacterListAncestry
-import com.mzazi.harrypotterandroid.ui.widgets.CharacterListName
-import com.mzazi.harrypotterandroid.ui.widgets.CharacterListPoster
-import com.mzazi.harrypotterandroid.ui.widgets.InfoText
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,81 +32,139 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mzazi.harrypotterandroid.R
-import com.mzazi.harrypotterandroid.ui.widgets.ErrorScreen
-import com.mzazi.harrypotterandroid.ui.widgets.LoadingScreen
-import com.mzazi.harrypotterandroid.ui.widgets.TopBar
+import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterListAncestry
+import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterListName
+import com.mzazi.harrypotterandroid.designsystem.widgets.CharacterListPoster
+import com.mzazi.harrypotterandroid.designsystem.widgets.ErrorDialog
+import com.mzazi.harrypotterandroid.designsystem.widgets.LoadingCharacterListShimmer
+import com.mzazi.harrypotterandroid.designsystem.widgets.NothingHere
+import com.mzazi.harrypotterandroid.designsystem.widgets.SearchAppBar
 import com.mzazi.harrypotterandroid.domain.model.Characters
+import com.mzazi.harrypotterandroid.utils.getErrorMessage
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun CharacterScreen(
-    state: CharacterScreenState,
-    onLoadMore: () -> Unit,
+    isLoading: Boolean,
+    characters: List<Characters>,
+    error: Throwable?,
     onSearch: (String) -> Unit,
     onErrorActionClicked: () -> Unit,
     onCharacterSelected: (Characters) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        val lazyColumnState = rememberLazyListState()
-        TopBar(
-            onSearchParamChange = { query ->
-                onSearch(query)
-            },
-            showSearchBar = lazyColumnState.isScrollingUp()
-        )
-        if (state.isLoading) {
-            LoadingScreen()
-        } else if (state.errorMsg != null) {
-            Spacer(modifier = Modifier.weight(0.5f))
-            ErrorScreen(errorMsg = state.errorMsg, errorActionTitle = R.string.error_retry) {
-                onErrorActionClicked()
+    var shouldShowSearchBar by rememberSaveable { mutableStateOf(false) }
+    var searchQuery by rememberSaveable { mutableStateOf("") }
+
+    Scaffold(
+        topBar = {
+            AnimatedVisibility(
+                visible = !shouldShowSearchBar,
+                enter = slideInHorizontally(
+                    initialOffsetX = { fullWidth -> fullWidth }
+                ),
+                exit = slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> fullWidth }
+                )
+            ) {
+                TopAppBar(
+                    title = {
+                        Text(text = "HarryPorter")
+                    },
+                    colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                    actions = {
+                        IconButton(
+                            onClick = { shouldShowSearchBar = true },
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .padding(end = dimensionResource(R.dimen.size_8))
+                        ){
+                            Icon(Icons.Rounded.Search, "search")
+                        }
+                    }
+                )
             }
-            Spacer(modifier = Modifier.weight(0.5f))
-        } else {
-            if (state.characters.isEmpty()) {
-                EmptyListScreen()
-            } else {
-                CharacterListItems(
-                    state = state,
-                    onCharacterSelected = onCharacterSelected,
-                    onLoadMore = onLoadMore
+            AnimatedVisibility(
+                visible = shouldShowSearchBar,
+                enter = slideInHorizontally(
+                    initialOffsetX = { fullWidth -> fullWidth }
+                ),
+                exit = slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> fullWidth }
+                )
+            ){
+                SearchAppBar(
+                    query = searchQuery,
+                    onBackClicked = {
+                        searchQuery = ""
+                        shouldShowSearchBar = false
+                    },
+                    onClearClicked = { searchQuery = "" },
+                    onQueryChanged = { query-> searchQuery = query },
+                    onSearch = onSearch,
                 )
             }
         }
+    ){ paddingValues->
+       Box(modifier = Modifier
+           .background(color = MaterialTheme.colorScheme.surface)
+           .padding(paddingValues)
+       ){
+           if(isLoading && characters.isEmpty()){
+               LoadingCharacterListShimmer(
+                   imageHeight = dimensionResource(R.dimen.size200)
+               )
+           } else if (characters.isEmpty()){
+               NothingHere()
+           } else {
+               LazyColumn(
+                   state = rememberLazyListState()
+               ) {
+                   items(
+                       items = characters,
+                   ) { character ->
+                       CharacterItem(
+                           character = character,
+                           onCharacterSelected = { selectedCharacter ->
+                               onCharacterSelected(selectedCharacter)
+                           }
+                       )
+                   }
+               }
+           }
+           error?.let {
+               ErrorDialog(
+                   text = stringResource(error.getErrorMessage()),
+                   dismissError = onErrorActionClicked
+               )
+           }
+       }
     }
 }
 
-@Composable
-private fun CharacterListItems(
-    state: CharacterScreenState,
-    onCharacterSelected: (Characters) -> Unit,
-    onLoadMore: () -> Unit
-) {
-    val listState = rememberLazyListState()
-
-    LazyColumn(state = listState) {
-        items(state.characters) { character ->
-            CharacterItem(character = character) { selectedCharacter ->
-                onCharacterSelected(selectedCharacter)
-            }
-        }
-    }
-
-    val scrollContext = rememberScrollContext(listState)
-
-    if (scrollContext.isBottom && !state.isSearching) {
-        onLoadMore()
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -121,11 +179,15 @@ private fun CharacterItem(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxWidth().padding(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
             CharacterListPoster(
                 posterUrl = character.image,
-                modifier = Modifier.size(58.dp).clip(CircleShape)
+                modifier = Modifier
+                    .size(58.dp)
+                    .clip(CircleShape)
             )
             Column {
                 CharacterListName(
@@ -138,14 +200,4 @@ private fun CharacterItem(
             }
         }
     }
-}
-
-@Composable
-private fun ColumnScope.EmptyListScreen() {
-    Spacer(modifier = Modifier.weight(0.5f))
-    InfoText(
-        text = stringResource(R.string.error_character_not_found),
-        modifier = Modifier.align(Alignment.CenterHorizontally)
-    )
-    Spacer(modifier = Modifier.weight(0.5f))
 }

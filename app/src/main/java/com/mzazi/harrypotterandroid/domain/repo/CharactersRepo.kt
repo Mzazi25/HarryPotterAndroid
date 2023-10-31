@@ -15,9 +15,10 @@
  */
 package com.mzazi.harrypotterandroid.domain.repo
 
+import com.mzazi.harrypotterandroid.data.cache.model.CharacterEntity
 import com.mzazi.harrypotterandroid.domain.model.Characters
-import com.mzazi.harrypotterandroid.utils.Result
+import kotlinx.coroutines.flow.Flow
 
 interface CharactersRepo {
-    suspend fun getCharacters(): Result<List<Characters>>
+    fun getCharacters():Flow<List<CharacterEntity>>
 }

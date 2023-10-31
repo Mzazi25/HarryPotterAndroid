@@ -17,14 +17,14 @@ package com.mzazi.harrypotterandroid.utils
 
 import androidx.annotation.StringRes
 import com.mzazi.harrypotterandroid.R
-
-@StringRes
-fun ErrorType.toStringResource(): Int =
-    when (this) {
-        ErrorType.CLIENT -> R.string.error_client
-        ErrorType.SERVER -> R.string.error_server
-        ErrorType.IO_CONNECTION -> R.string.error_connection
-        ErrorType.GENERIC -> R.string.error_generic
-        ErrorType.UNAUTHORIZED -> R.string.error_unauthorized
-        ErrorType.CHARACTER_NOT_FOUND -> R.string.error_character_not_found
-    }
+//
+//@StringRes
+//fun ErrorType.toStringResource(): Int =
+//    when (this) {
+//        ErrorType.CLIENT -> R.string.error_client
+//        ErrorType.SERVER -> R.string.error_server
+//        ErrorType.IO_CONNECTION -> R.string.error_connection
+//        ErrorType.GENERIC -> R.string.error_generic
+//        ErrorType.UNAUTHORIZED -> R.string.error_unauthorized
+//        ErrorType.CHARACTER_NOT_FOUND -> R.string.error_character_not_found
+//    }

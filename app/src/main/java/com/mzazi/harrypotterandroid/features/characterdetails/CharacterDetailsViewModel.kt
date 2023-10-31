@@ -17,74 +17,43 @@ package com.mzazi.harrypotterandroid.features.characterdetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mzazi.harrypotterandroid.domain.model.Characters
 import com.mzazi.harrypotterandroid.domain.usecases.CharacterDetailsUseCase
-import com.mzazi.harrypotterandroid.utils.Result
-import com.mzazi.harrypotterandroid.utils.toStringResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
+
 
 @HiltViewModel
 class CharacterDetailsViewModel @Inject constructor(
-    private val getCharacterDetailsImplUseCase: CharacterDetailsUseCase
+    private val getCharacterDetailsUseCase: CharacterDetailsUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(CharacterDetailsState(isLoading = true))
+    private val _state = MutableStateFlow(CharacterDetailsState())
     val state: StateFlow<CharacterDetailsState> = _state.asStateFlow()
 
-    fun processIntent(characterDetailsIntent: CharacterDetailsIntent) {
-        when (characterDetailsIntent) {
-            is CharacterDetailsIntent.LoadCharacterDetail -> {
-                viewModelScope.launch {
-                    val result = getCharacterDetailsImplUseCase(characterDetailsIntent.characterId)
-                    processResult(result)
-                }
+    fun getCharacterId(characterId: String) {
+        getCharacterDetailsUseCase(characterId).onEach { dataState ->
+            _state.value = _state.value.copy(
+                isLoading = dataState.loading,
+            )
+            dataState.data?.let { characters ->
+                _state.value = _state.value.copy(
+                    characterDetails = characters
+                )
             }
-        }
+            _state.value = _state.value.copy(
+                error = dataState.error
+            )
+        }.launchIn(viewModelScope)
     }
 
-    private fun processResult(result: Result<Characters>) {
-        when (result) {
-            is Result.Success -> {
-                val character = result.data
-                setState {
-                    copy(
-                        actor = character.actor,
-                        alive = character.alive,
-                        alternateNames = character.alternateNames,
-                        ancestry = character.ancestry,
-                        dateOfBirth = character.dateOfBirth,
-                        eyeColour = character.eyeColour,
-                        gender = character.gender,
-                        hairColour = character.hairColour,
-                        house = character.house,
-                        id = character.id,
-                        image = character.image,
-                        name = character.name,
-                        patronus = character.patronus,
-                        species = character.species,
-                        yearOfBirth = character.yearOfBirth,
-                        isLoading = false
-                    )
-                }
-            }
-
-            is Result.Error -> {
-                setState {
-                    copy(
-                        errorMsg = result.errorType.toStringResource()
-                    )
-                }
-            }
-        }
-    }
-    private fun setState(stateReducer: CharacterDetailsState.() -> CharacterDetailsState) {
-        viewModelScope.launch {
-            _state.emit(stateReducer(state.value))
-        }
+    fun dismissError() {
+        _state.value = _state.value.copy(
+            error = null
+        )
     }
 }

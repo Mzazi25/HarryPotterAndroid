@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.bundles.androidx)
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     // DI
     implementation(libs.hilt.android)

@@ -23,8 +23,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.mzazi.harrypotterandroid.data.network.utils.ConnectionManager
+import com.mzazi.harrypotterandroid.features.characterdetails.CharacterDetailsViewModel
+import com.mzazi.harrypotterandroid.features.characters.CharacterScreenViewModel
+import com.mzazi.harrypotterandroid.navigation.HarryPotterAppNavHost
 import com.mzazi.harrypotterandroid.ui.theme.HarryPotterAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

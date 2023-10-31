@@ -15,20 +15,10 @@
  */
 package com.mzazi.harrypotterandroid.features.characters
 
-import androidx.annotation.StringRes
 import com.mzazi.harrypotterandroid.domain.model.Characters
 
 data class CharacterScreenState(
     val characters: List<Characters> = emptyList(),
-    val isLoading: Boolean = false,
-    @StringRes val errorMsg: Int? = null,
-    val isSearching: Boolean = false
-) {
-    fun onCharacterLoaded(characters: List<Characters>): CharacterScreenState {
-        return copy(characters = characters, isLoading = false, errorMsg = null)
-    }
-
-    fun onError(@StringRes errorMsg: Int): CharacterScreenState {
-        return copy(isLoading = false, errorMsg = errorMsg)
-    }
-}
+    var isLoading: Boolean = false,
+    val error: Throwable? = null,
+)

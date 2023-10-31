@@ -20,12 +20,10 @@ import com.google.common.truth.Truth
 import com.mzazi.harrypotterandroid.MainCoroutineRule
 import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
 import com.mzazi.harrypotterandroid.domain.usecases.CharacterListUseCase
-import com.mzazi.harrypotterandroid.domain.usecases.SearchCharacterUseCase
 import com.mzazi.harrypotterandroid.fakeMappedCharacters
 import com.mzazi.harrypotterandroid.utils.ErrorType
 import io.mockk.coEvery
 import io.mockk.mockk
-import com.mzazi.harrypotterandroid.utils.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import com.mzazi.harrypotterandroid.R

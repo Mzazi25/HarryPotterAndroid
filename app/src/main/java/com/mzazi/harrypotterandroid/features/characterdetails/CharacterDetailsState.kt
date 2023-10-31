@@ -15,66 +15,10 @@
  */
 package com.mzazi.harrypotterandroid.features.characterdetails
 
-import androidx.annotation.StringRes
+import com.mzazi.harrypotterandroid.domain.model.Characters
 
 data class CharacterDetailsState(
-    val actor: String? = null,
-    val alive: Boolean? = null,
-    val alternateNames: List<String>? = emptyList(),
-    val ancestry: String? = null,
-    val dateOfBirth: String? = null,
-    val eyeColour: String? = null,
-    val gender: String? = null,
-    val hairColour: String? = null,
-    val house: String? = null,
-    val id: String? = null,
-    val image: String? = null,
-    val name: String? = null,
-    val patronus: String? = null,
-    val species: String? = null,
-    val yearOfBirth: Int? = null,
+    val characterDetails: Characters?= null,
     val isLoading: Boolean = false,
-    @StringRes val errorMsg: Int? = null
-) {
-    fun onError(@StringRes errorMsg: Int): CharacterDetailsState {
-        return copy(isLoading = false, errorMsg = errorMsg)
-    }
-
-    fun onCharacterDetailsLoaded(
-        actor: String,
-        alive: Boolean,
-        alternateNames: List<String>,
-        ancestry: String,
-        dateOfBirth: String,
-        eyeColour: String,
-        gender: String,
-        hairColour: String,
-        house: String,
-        id: String,
-        image: String,
-        name: String,
-        patronus: String,
-        species: String,
-        yearOfBirth: Int
-    ): CharacterDetailsState {
-        return copy(
-            actor = actor,
-            alive = alive,
-            alternateNames = alternateNames,
-            ancestry = ancestry,
-            dateOfBirth = dateOfBirth,
-            eyeColour = eyeColour,
-            gender = gender,
-            hairColour = hairColour,
-            house = house,
-            id = id,
-            image = image,
-            name = name,
-            patronus = patronus,
-            species = species,
-            yearOfBirth = yearOfBirth,
-            isLoading = false,
-            errorMsg = null
-        )
-    }
-}
+    val error: Throwable? = null
+)

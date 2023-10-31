@@ -13,19 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.ui.widgets
+package com.mzazi.harrypotterandroid.designsystem.widgets
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
+import com.mzazi.harrypotterandroid.R
 import com.mzazi.harrypotterandroid.ui.theme.Padding
 
 @Composable
@@ -51,5 +59,47 @@ fun ErrorScreen(
             Text(text = stringResource(id = errorActionTitle))
         }
         Spacer(modifier = Modifier.weight(0.5f))
+    }
+}
+
+@Composable
+fun ErrorDialog(
+    text: String,
+    dismissError: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = dismissError,
+        title = { Text(stringResource(id = R.string.error)) },
+        text = { Text(text) },
+        confirmButton = {
+            TextButton(onClick = dismissError) {
+                Text(stringResource(id = R.string.okay))
+            }
+        }
+    )
+}
+
+@Composable
+fun NothingHere() {
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Column(modifier = Modifier.align(Alignment.Center)) {
+            Text(
+                modifier = Modifier
+                    .padding(dimensionResource(id = R.dimen.size_8))
+                    .align(Alignment.CenterHorizontally),
+                text = stringResource(R.string.nothing_illustration),
+                style = TextStyle(fontSize = dimensionResource(id = R.dimen.font_size_55).value.sp)
+            )
+            Text(
+                modifier = Modifier
+                    .padding(dimensionResource(id = R.dimen.size_8))
+                    .align(Alignment.CenterHorizontally),
+                text = stringResource(R.string.there_is_no_data_to_display_at_the_moment),
+                style = MaterialTheme.typography.headlineMedium
+            )
+        }
+
     }
 }

@@ -21,5 +21,5 @@ import retrofit2.http.GET
 
 interface CharactersService {
     @GET("characters")
-    suspend fun getCharactersData(): Response<List<CharactersResponse>>
+    suspend fun getCharactersData(): List<CharactersResponse>
 }

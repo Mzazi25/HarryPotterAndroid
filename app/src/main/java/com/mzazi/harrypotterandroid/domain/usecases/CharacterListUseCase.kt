@@ -15,14 +15,30 @@
  */
 package com.mzazi.harrypotterandroid.domain.usecases
 
-import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
+import com.mzazi.harrypotterandroid.data.mappers.asCoreModel
 import com.mzazi.harrypotterandroid.domain.model.Characters
-import com.mzazi.harrypotterandroid.utils.Result
+import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
+import com.mzazi.harrypotterandroid.utils.DataState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onStart
+import timber.log.Timber
 import javax.inject.Inject
 
 class CharacterListUseCase @Inject constructor(
     private val repository: CharactersRepo
 ) {
-    suspend operator fun invoke(): Result<List<Characters>> =
+    operator fun invoke(): Flow<DataState<List<Characters>>> = flow{
         repository.getCharacters()
+            .onStart {
+                emit(DataState.loading())
+            }.catch { throwable->
+                emit(DataState.error(error = throwable))
+            }.collect { entity->
+                val characterList = entity.map { it.asCoreModel() }
+                emit(DataState.success(characterList))
+            }
+    }
+
 }

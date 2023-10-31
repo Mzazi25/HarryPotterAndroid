@@ -16,37 +16,33 @@
 package com.mzazi.harrypotterandroid.data.repo
 
 import com.mzazi.harrypotterandroid.data.cache.dao.CharacterDao
-import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
-import com.mzazi.harrypotterandroid.data.mappers.asCoreModel
-import com.mzazi.harrypotterandroid.data.mappers.mapResponseCodeToThrowable
+import com.mzazi.harrypotterandroid.data.cache.model.CharacterEntity
 import com.mzazi.harrypotterandroid.data.mappers.toCoreEntity
 import com.mzazi.harrypotterandroid.data.network.CharactersService
 import com.mzazi.harrypotterandroid.domain.model.Characters
-import com.mzazi.harrypotterandroid.utils.Result
+import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 import javax.inject.Inject
 
 class CharacterRepoImpl @Inject constructor(
     private val characterDao: CharacterDao,
-    private val api: CharactersService
+    private val api: CharactersService,
 ) : CharactersRepo {
-    override suspend fun getCharacters(): Result<List<Characters>> =
-        withContext(Dispatchers.IO) {
-            try {
-                val apiResponse = api.getCharactersData()
-                if (apiResponse.isSuccessful && apiResponse.body() != null) {
-                    val mappedResponse = apiResponse.body()!!.map { it.toCoreEntity() }
-                    characterDao.insertCharacters(mappedResponse)
-                } else {
-                    val throwable = mapResponseCodeToThrowable(apiResponse.code())
-                    throw throwable
-                }
-            } catch (throwable: Throwable) {
-                Timber.e("Throwable-----------$throwable")
-            }
-            val sourceOfTruth = characterDao.getCharacter().map { it.asCoreModel() }
-            Result.Success(sourceOfTruth)
+    override fun getCharacters(): Flow<List<CharacterEntity>> = flow {
+        try {
+            val mappedCharacters = api.getCharactersData().map { it.toCoreEntity() }
+            characterDao.insertCharacters(mappedCharacters)
+        }catch (e:Exception){
+            // Something went wrong with the query to the API
+            // Log the error and proceed
+            Timber.e("Exception caught--------------$e")
         }
+        val sourceOfTruth = characterDao.getCharacter()
+
+        emit(sourceOfTruth)
+    }.flowOn(Dispatchers.IO)
 }

@@ -15,29 +15,34 @@
  */
 package com.mzazi.harrypotterandroid.domain.usecases
 
-import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
+import com.mzazi.harrypotterandroid.data.mappers.asCoreModel
 import com.mzazi.harrypotterandroid.domain.model.Characters
-import com.mzazi.harrypotterandroid.utils.ErrorType
-import com.mzazi.harrypotterandroid.utils.Result
+import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
+import com.mzazi.harrypotterandroid.utils.DataState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onStart
+import timber.log.Timber
 import javax.inject.Inject
 
 class CharacterDetailsUseCase @Inject constructor(
     private val repository: CharactersRepo
 ) {
-    suspend operator fun invoke(characterId: String): Result<Characters> =
-        when (val result = repository.getCharacters()) {
-            is Result.Success -> {
-                val foundCharacter = result.data.find { character ->
-                    character.id == characterId
+    operator fun invoke(characterId: String): Flow<DataState<Characters?>> = flow {
+        repository.getCharacters()
+            .onStart {
+                emit(DataState.loading())
+            }.catch { throwable ->
+                Timber.e("Error-------------$throwable")
+                emit(DataState.error(error = throwable))
+            }.collect { entity ->
+                val mappedResult = entity.map { it.asCoreModel() }
+                val foundCharacter = mappedResult.find {
+                    it.id == characterId
                 }
-                if (foundCharacter == null) {
-                    Result.Error(ErrorType.CHARACTER_NOT_FOUND)
-                } else {
-                    Result.Success(data = foundCharacter)
-                }
+                Timber.e("found-------------$foundCharacter")
+                emit(DataState(foundCharacter))
             }
-            is Result.Error -> {
-                Result.Error(result.errorType)
-            }
-        }
+    }
 }

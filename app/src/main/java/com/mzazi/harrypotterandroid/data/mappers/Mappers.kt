@@ -16,15 +16,8 @@
 package com.mzazi.harrypotterandroid.data.mappers
 
 import com.mzazi.harrypotterandroid.data.cache.model.CharacterEntity
-import com.mzazi.harrypotterandroid.domain.model.Characters
-import com.mzazi.harrypotterandroid.domain.model.ClientException
-import com.mzazi.harrypotterandroid.domain.model.GenericException
-import com.mzazi.harrypotterandroid.domain.model.ServerException
-import com.mzazi.harrypotterandroid.domain.model.UnauthorizedException
 import com.mzazi.harrypotterandroid.data.network.models.CharactersResponse
-import com.mzazi.harrypotterandroid.utils.ErrorType
-import java.io.IOException
-import java.net.HttpURLConnection
+import com.mzazi.harrypotterandroid.domain.model.Characters
 
 fun CharactersResponse.asCoreModel(): Characters =
     Characters(
@@ -102,20 +95,20 @@ fun Characters.asCoreModel(): CharacterEntity =
         yearOfBirth = yearOfBirth
     )
 
-fun mapResponseCodeToThrowable(code: Int): Throwable = when (code) {
-    HttpURLConnection.HTTP_UNAUTHORIZED -> UnauthorizedException("Unauthorized access : $code")
-    in 400..499 -> ClientException("Client error : $code")
-    in 500..600 -> ServerException("Server error : $code")
-    else -> GenericException("Generic error : $code")
-}
-
-fun mapThrowableToErrorType(throwable: Throwable): ErrorType {
-    val errorType = when (throwable) {
-        is IOException -> ErrorType.IO_CONNECTION
-        is ClientException -> ErrorType.CLIENT
-        is ServerException -> ErrorType.SERVER
-        is UnauthorizedException -> ErrorType.UNAUTHORIZED
-        else -> ErrorType.GENERIC
-    }
-    return errorType
-}
+//fun mapResponseCodeToThrowable(code: Int): Throwable = when (code) {
+//    HttpURLConnection.HTTP_UNAUTHORIZED -> UnauthorizedException("Unauthorized access : $code")
+//    in 400..499 -> ClientException("Client error : $code")
+//    in 500..600 -> ServerException("Server error : $code")
+//    else -> GenericException("Generic error : $code")
+//}
+//
+//fun mapThrowableToErrorType(throwable: Throwable): ErrorType {
+//    val errorType = when (throwable) {
+//        is IOException -> ErrorType.IO_CONNECTION
+//        is ClientException -> ErrorType.CLIENT
+//        is ServerException -> ErrorType.SERVER
+//        is UnauthorizedException -> ErrorType.UNAUTHORIZED
+//        else -> ErrorType.GENERIC
+//    }
+//    return errorType
+//}
