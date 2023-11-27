@@ -25,7 +25,7 @@ import com.mzazi.database.converter.Converters
 @Database(
     entities = [CharacterEntity::class],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 @TypeConverters(Converters::class)
 internal abstract class CharacterDatabase : RoomDatabase() {
