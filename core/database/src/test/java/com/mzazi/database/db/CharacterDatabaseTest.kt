@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.data.cache.db
+package com.mzazi.database.db
 
 import android.content.Context
 import androidx.room.Room
@@ -31,18 +31,18 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class CharacterDatabaseTest {
-    private lateinit var dao: com.mzazi.database.dao.CharacterDao
-    private lateinit var db: com.mzazi.database.db.CharacterDatabase
+    private lateinit var dao: CharacterDao
+    private lateinit var db: CharacterDatabase
 
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
             context,
-            com.mzazi.database.db.CharacterDatabase::class.java
+            CharacterDatabase::class.java
         )
             .allowMainThreadQueries() // Todo("Delete me")
-            .addTypeConverter(com.mzazi.database.converter.Converters())
+            .addTypeConverter(Converters())
             .build()
         dao = db.characterDao()
     }
@@ -55,7 +55,7 @@ class CharacterDatabaseTest {
 
         dao.insertCharacters(
             listOf(
-                com.mzazi.database.model.CharacterEntity(
+                CharacterEntity(
                     actor = "actor1",
                     alive = false,
                     alternateNames = listOf(

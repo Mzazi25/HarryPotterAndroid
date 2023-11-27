@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mzazi.harrypotterandroid.domain.usecases
+package com.mzazi.domain.usecases
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
@@ -29,12 +29,12 @@ import org.junit.Test
 class CharacterListUseCaseTest {
 
     @MockK
-    val mockCharactersRepo = mockk<com.mzazi.data.repo.CharactersRepo>()
+    val mockCharactersRepo = mockk<CharactersRepo>()
 
     @Test
     fun `invoke should emit success state with combined data`() = runTest {
         val fakeCharacterEntity = listOf(
-            com.mzazi.database.model.CharacterEntity(
+            CharacterEntity(
                 actor = "actor",
                 alive = true,
                 alternateNames = listOf(
@@ -54,7 +54,7 @@ class CharacterListUseCaseTest {
                 species = "species",
                 yearOfBirth = null
             ),
-            com.mzazi.database.model.CharacterEntity(
+            CharacterEntity(
                 actor = "actor1",
                 alive = false,
                 alternateNames = listOf(
@@ -78,7 +78,7 @@ class CharacterListUseCaseTest {
 
         coEvery { mockCharactersRepo.getCharacters() } returns flowOf(fakeCharacterEntity)
 
-        val getCharacterListUseCase = com.mzazi.domain.usecases.CharacterListUseCase(mockCharactersRepo)
+        val getCharacterListUseCase = CharacterListUseCase(mockCharactersRepo)
 
         getCharacterListUseCase().test {
             assertThat(awaitItem().loading).isTrue()
@@ -90,7 +90,7 @@ class CharacterListUseCaseTest {
     @Test
     fun `invoke should emit error state on throwing exception`() = runTest {
         val fakeCharacterEntity = listOf(
-            com.mzazi.database.model.CharacterEntity(
+            CharacterEntity(
                 actor = "actor",
                 alive = true,
                 alternateNames = listOf(
@@ -110,7 +110,7 @@ class CharacterListUseCaseTest {
                 species = "species",
                 yearOfBirth = null
             ),
-            com.mzazi.database.model.CharacterEntity(
+            CharacterEntity(
                 actor = "actor1",
                 alive = false,
                 alternateNames = listOf(
@@ -134,7 +134,7 @@ class CharacterListUseCaseTest {
 
         coEvery { mockCharactersRepo.getCharacters() } throws Exception("Error!")
 
-        val getAllCharactersUseCase = com.mzazi.domain.usecases.CharacterListUseCase(mockCharactersRepo)
+        val getAllCharactersUseCase = CharacterListUseCase(mockCharactersRepo)
 
         getAllCharactersUseCase().test {
             awaitError()
