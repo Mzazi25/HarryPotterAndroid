@@ -20,9 +20,9 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
-import com.mzazi.harrypotterandroid.data.cache.converter.Converters
-import com.mzazi.harrypotterandroid.data.cache.dao.CharacterDao
-import com.mzazi.harrypotterandroid.data.cache.model.CharacterEntity
+import com.mzazi.database.converter.Converters
+import com.mzazi.database.dao.CharacterDao
+import com.mzazi.database.model.CharacterEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -31,18 +31,18 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class CharacterDatabaseTest {
-    private lateinit var dao: CharacterDao
-    private lateinit var db: CharacterDatabase
+    private lateinit var dao: com.mzazi.database.dao.CharacterDao
+    private lateinit var db: com.mzazi.database.db.CharacterDatabase
 
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
-            context, CharacterDatabase::class.java
+            context,
+            com.mzazi.database.db.CharacterDatabase::class.java
         )
-            .allowMainThreadQueries() //Todo("Delete me")
-            .addTypeConverter(Converters())
-
+            .allowMainThreadQueries() // Todo("Delete me")
+            .addTypeConverter(com.mzazi.database.converter.Converters())
             .build()
         dao = db.characterDao()
     }
@@ -55,7 +55,7 @@ class CharacterDatabaseTest {
 
         dao.insertCharacters(
             listOf(
-                CharacterEntity(
+                com.mzazi.database.model.CharacterEntity(
                     actor = "actor1",
                     alive = false,
                     alternateNames = listOf(
@@ -85,6 +85,4 @@ class CharacterDatabaseTest {
     fun tearDown() {
         db.close()
     }
-
-
 }

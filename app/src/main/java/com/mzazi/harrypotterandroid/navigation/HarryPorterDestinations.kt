@@ -19,15 +19,15 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 
 interface HarryPorterDestinations {
-    val route:String
+    val route: String
 
-    object CharacterScreen :HarryPorterDestinations{
+    object CharacterScreen : HarryPorterDestinations {
         override val route = "com.mzazi.harrypotterandroid.characterscreen"
     }
-    object CharacterDetailScreen :HarryPorterDestinations{
+    object CharacterDetailScreen : HarryPorterDestinations {
         override val route = "com.mzazi.harrypotterandroid.deatailscreen"
         const val characterIdArgs = "characterId"
-        val routeWithArgs = "${route}/{${characterIdArgs}}"
+        val routeWithArgs = "$route/{$characterIdArgs}"
         val arguments = listOf(
             navArgument(characterIdArgs) { type = NavType.StringType }
         )

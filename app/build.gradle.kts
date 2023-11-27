@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2023 HarryPotterAndroid
  *
@@ -13,33 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+import com.mzazi.buildsrc.Configuration
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.com.android.application)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.mapsplatform.secrets.gradle.plugin)
-    alias(libs.plugins.org.jlleitschuh.gradle.ktlint)
-    alias(libs.plugins.io.gitlab.arturbosch.detekt)
-    kotlin("kapt")
-    alias(libs.plugins.dagger.hilt.android)
-    alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
+    id("mzazi.android.application")
+    id("mzazi.android.application.compose")
+    id("mzazi.android.hilt")
+    id("mzazi.spotless")
 }
 
 android {
     namespace = "com.mzazi.harrypotterandroid"
-    compileSdk = 34
+    compileSdk =Configuration.compileSdk
 
     defaultConfig {
-        applicationId = "com.mzazi.harrypotterandroid"
-        minSdk = 26
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        minSdk = Configuration.minSdk
+        targetSdk = Configuration.targetSdk
+        versionName = Configuration.versionName
+        versionCode = Configuration.versionCode
     }
 
     buildTypes {
@@ -56,16 +48,16 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
+        jvmTarget = libs.versions.jvmTarget.get()
     }
     buildFeatures {
         compose = true
         buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -74,54 +66,16 @@ android {
 }
 
 dependencies {
-    // Jetpack Core
-    implementation(libs.bundles.androidx)
-    implementation(platform(libs.compose.bom))
-    implementation(libs.bundles.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-
-    // DI
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-
-    // Timber
+    implementation(project(":features:characters"))
+    implementation(project(":core:designsystem"))
+    implementation(project(":core:network"))
+    implementation(project(":core:models"))
     implementation(libs.timber)
-    // Data & Async
-    implementation(libs.retrofit)
-    implementation(platform(libs.okhttp.bom))
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.serialization.converter)
-    implementation(libs.kotlinx.serialization)
-    implementation(libs.coil)
-
-    // DI
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-    // Test
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.junit)
-    testImplementation(libs.turbine)
-    testImplementation(libs.mock.android)
-    testImplementation(libs.mock.agent)
-    testImplementation(libs.truth)
-    testImplementation(libs.coroutines.test)
-    debugImplementation(libs.compose.ui.tooling)
-    debugImplementation(libs.compose.ui.test.manifest)
-    testImplementation(libs.arch.core)
-    testImplementation(libs.test.robolectric)
-    testImplementation(libs.compose.ui.test.junit)
-    androidTestImplementation(libs.compose.ui.test.junit)
-
-    // Room
-    implementation(libs.room.ktx)
-    implementation(libs.room.runtime)
-    kapt(libs.room.compiler)
-
-    // WorkManager
-    implementation(libs.androidx.work.ktx)
-    implementation(libs.hilt.ext.work)
-    kapt(libs.hilt.compiler)
-    debugImplementation(libs.leakcanary.android)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    // Compose
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.runtime)
 }

@@ -17,11 +17,11 @@ package com.mzazi.harrypotterandroid.data.repo
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import com.mzazi.harrypotterandroid.data.cache.dao.CharacterDao
-import com.mzazi.harrypotterandroid.data.cache.model.CharacterEntity
+import com.mzazi.database.dao.CharacterDao
+import com.mzazi.database.model.CharacterEntity
 import com.mzazi.harrypotterandroid.data.network.CharactersService
 import com.mzazi.harrypotterandroid.data.network.models.CharactersResponse
-import com.mzazi.harrypotterandroid.domain.repo.CharactersRepo
+import com.mzazi.data.repo.CharactersRepo
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,10 +32,10 @@ import org.junit.Test
 class CharacterRepositoryImpl {
 
     private val mockCharacterService: CharactersService = mockk()
-    private val mockCharacterDao: CharacterDao = mockk()
+    private val mockCharacterDao: com.mzazi.database.dao.CharacterDao = mockk()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val characterRepository: CharactersRepo = CharacterRepoImpl(mockCharacterDao, mockCharacterService, UnconfinedTestDispatcher())
+    private val characterRepository: com.mzazi.data.repo.CharactersRepo = com.mzazi.data.repo.CharacterRepoImpl(mockCharacterDao, mockCharacterService, UnconfinedTestDispatcher())
 
     @Test
     fun `getAllCoins should emit non empty list`() = runTest {
@@ -83,7 +83,7 @@ class CharacterRepositoryImpl {
         )
 
         val fakeCharacterEntity = listOf(
-            CharacterEntity(
+            com.mzazi.database.model.CharacterEntity(
                 actor = "actor",
                 alive = true,
                 alternateNames = listOf(
@@ -103,7 +103,7 @@ class CharacterRepositoryImpl {
                 species = "species",
                 yearOfBirth = null
             ),
-            CharacterEntity(
+            com.mzazi.database.model.CharacterEntity(
                 actor = "actor1",
                 alive = false,
                 alternateNames = listOf(
@@ -137,7 +137,7 @@ class CharacterRepositoryImpl {
     @Test
     fun `getAllCharacters should emit non empty list even with network exception`() = runTest {
         val fakeCharacterEntity = listOf(
-            CharacterEntity(
+            com.mzazi.database.model.CharacterEntity(
                 actor = "actor",
                 alive = true,
                 alternateNames = listOf(
@@ -157,7 +157,7 @@ class CharacterRepositoryImpl {
                 species = "species",
                 yearOfBirth = null
             ),
-            CharacterEntity(
+            com.mzazi.database.model.CharacterEntity(
                 actor = "actor1",
                 alive = false,
                 alternateNames = listOf(
@@ -186,5 +186,4 @@ class CharacterRepositoryImpl {
             awaitComplete()
         }
     }
-
 }

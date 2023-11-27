@@ -23,17 +23,17 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.mzazi.harrypotterandroid.features.characterdetails.CharacterDetailsScreen
-import com.mzazi.harrypotterandroid.features.characterdetails.CharacterDetailsViewModel
-import com.mzazi.harrypotterandroid.features.characters.CharacterScreen
-import com.mzazi.harrypotterandroid.features.characters.CharacterScreenViewModel
+import com.mzazi.characters.characterdetails.CharacterDetailsScreen
+import com.mzazi.characters.characterdetails.CharacterDetailsViewModel
+import com.mzazi.characters.characters.CharacterScreen
+import com.mzazi.characters.characters.CharacterScreenViewModel
 import com.mzazi.harrypotterandroid.navigation.HarryPorterDestinations.CharacterScreen
 import com.mzazi.harrypotterandroid.navigation.HarryPorterDestinations.CharacterDetailScreen
 import timber.log.Timber
 
 @Composable
 fun HarryPotterAppNavHost(
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     NavHost(navController = navController, startDestination = CharacterScreen.route) {
         composable(route = CharacterScreen.route) {
@@ -52,7 +52,7 @@ fun HarryPotterAppNavHost(
         }
         composable(
             route = CharacterDetailScreen.routeWithArgs,
-            arguments = CharacterDetailScreen.arguments,
+            arguments = CharacterDetailScreen.arguments
         ) { navBackStackEntry ->
             val characterId =
                 navBackStackEntry.arguments?.getString(CharacterDetailScreen.characterIdArgs)!!
@@ -71,7 +71,6 @@ fun HarryPotterAppNavHost(
         }
     }
 }
-
 
 private fun NavHostController.navigateSingleTopTo(route: String) =
     this.navigate(route) {
