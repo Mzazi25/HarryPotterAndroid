@@ -26,22 +26,22 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class CharacterDetailsUseCase @Inject constructor(
-    private val repository: com.mzazi.data.repo.CharactersRepo
+  private val repository: com.mzazi.data.repo.CharactersRepo,
 ) {
-    operator fun invoke(characterId: String): Flow<DataState<Characters?>> = flow {
-        repository.getCharacters()
-            .onStart {
-                emit(DataState.loading())
-            }.catch { throwable ->
-                Timber.e("Error-------------$throwable")
-                emit(DataState.error(error = throwable))
-            }.collect { entity ->
-                val mappedResult = entity.map { it.asCoreModel() }
-                val foundCharacter = mappedResult.find {
-                    it.id == characterId
-                }
-                Timber.e("found-------------$foundCharacter")
-                emit(DataState(foundCharacter))
-            }
-    }
+  operator fun invoke(characterId: String): Flow<DataState<Characters?>> = flow {
+    repository.getCharacters()
+      .onStart {
+        emit(DataState.loading())
+      }.catch { throwable ->
+        Timber.e("Error-------------$throwable")
+        emit(DataState.error(error = throwable))
+      }.collect { entity ->
+        val mappedResult = entity.map { it.asCoreModel() }
+        val foundCharacter = mappedResult.find {
+          it.id == characterId
+        }
+        Timber.e("found-------------$foundCharacter")
+        emit(DataState(foundCharacter))
+      }
+  }
 }

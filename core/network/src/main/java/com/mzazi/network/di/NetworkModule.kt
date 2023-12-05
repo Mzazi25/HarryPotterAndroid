@@ -21,7 +21,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
@@ -31,22 +30,22 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 internal class NetworkModule {
 
-    @Provides
-    @Singleton
-    fun provideRetrofit(): Retrofit {
-        val json = providesJson()
-        val contentType = "application/json".toMediaType()
-        return Retrofit.Builder()
-            .baseUrl(com.mzazi.utils.HARRY_POTTER_BASE_URL)
-            .client(com.mzazi.utils.HttpClient.create())
-            .addConverterFactory(json.asConverterFactory(contentType))
-            .build()
-    }
+  @Provides
+  @Singleton
+  fun provideRetrofit(): Retrofit {
+    val json = providesJson()
+    val contentType = "application/json".toMediaType()
+    return Retrofit.Builder()
+      .baseUrl(com.mzazi.utils.HARRY_POTTER_BASE_URL)
+      .client(com.mzazi.utils.HttpClient.create())
+      .addConverterFactory(json.asConverterFactory(contentType))
+      .build()
+  }
 
-    @Provides
-    @Singleton
-    fun providesCharactersService(retrofit: Retrofit): CharactersService =
-        retrofit.create(CharactersService::class.java)
+  @Provides
+  @Singleton
+  fun providesCharactersService(retrofit: Retrofit): CharactersService =
+    retrofit.create(CharactersService::class.java)
 
-    private fun providesJson(): Json = Json { ignoreUnknownKeys = true }
+  private fun providesJson(): Json = Json { ignoreUnknownKeys = true }
 }

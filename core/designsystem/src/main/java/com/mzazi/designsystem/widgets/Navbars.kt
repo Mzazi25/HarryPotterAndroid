@@ -44,60 +44,60 @@ import com.mzazi.core.designsystem.R
 @ExperimentalComposeUiApi
 @Composable
 fun SearchAppBar(
-    query: String,
-    onBackClicked: () -> Unit,
-    onClearClicked: () -> Unit,
-    onQueryChanged: (String) -> Unit,
-    onSearch: (query: String) -> Unit
+  query: String,
+  onBackClicked: () -> Unit,
+  onClearClicked: () -> Unit,
+  onQueryChanged: (String) -> Unit,
+  onSearch: (query: String) -> Unit,
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Column {
-            Row(modifier = Modifier.fillMaxWidth()) {
-                TextField(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(dimensionResource(id = R.dimen.size_4)),
-                    value = query,
-                    onValueChange = {
-                        onSearch(query)
-                        onQueryChanged(it)
-                    },
-                    label = { Text(text = stringResource(id = R.string.search)) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            keyboardController?.hide()
-                        }
-                    ),
-                    leadingIcon = {
-                        IconButton(onClick = {
-                            onSearch("")
-                            onBackClicked()
-                        }) {
-                            Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(id = R.string.cd_back_button))
-                        }
-                    },
-                    trailingIcon = {
-                        if (query.isNotEmpty()) {
-                            IconButton(
-                                onClick = {
-                                    onClearClicked()
-                                    onSearch("")
-                                }
-                            ) {
-                                Icon(Icons.Rounded.Close, stringResource(id = R.string.cd_close_button))
-                            }
-                        }
-                    }
-                )
+  val keyboardController = LocalSoftwareKeyboardController.current
+  Surface(
+    modifier = Modifier
+      .fillMaxWidth(),
+  ) {
+    Column {
+      Row(modifier = Modifier.fillMaxWidth()) {
+        TextField(
+          modifier = Modifier
+            .weight(1f)
+            .padding(dimensionResource(id = R.dimen.size_4)),
+          value = query,
+          onValueChange = {
+            onSearch(query)
+            onQueryChanged(it)
+          },
+          label = { Text(text = stringResource(id = R.string.search)) },
+          keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Done,
+          ),
+          keyboardActions = KeyboardActions(
+            onDone = {
+              keyboardController?.hide()
+            },
+          ),
+          leadingIcon = {
+            IconButton(onClick = {
+              onSearch("")
+              onBackClicked()
+            }) {
+              Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(id = R.string.cd_back_button))
             }
-        }
+          },
+          trailingIcon = {
+            if (query.isNotEmpty()) {
+              IconButton(
+                onClick = {
+                  onClearClicked()
+                  onSearch("")
+                },
+              ) {
+                Icon(Icons.Rounded.Close, stringResource(id = R.string.cd_close_button))
+              }
+            }
+          },
+        )
+      }
     }
+  }
 }

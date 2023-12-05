@@ -28,31 +28,31 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharacterDetailsViewModel @Inject constructor(
-    private val getCharacterDetailsUseCase: CharacterDetailsUseCase
+  private val getCharacterDetailsUseCase: CharacterDetailsUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(CharacterDetailsState())
-    val state: StateFlow<CharacterDetailsState> = _state.asStateFlow()
+  private val _state = MutableStateFlow(CharacterDetailsState())
+  val state: StateFlow<CharacterDetailsState> = _state.asStateFlow()
 
-    fun getCharacterId(characterId: String) {
-        getCharacterDetailsUseCase(characterId).onEach { dataState ->
-            _state.value = _state.value.copy(
-                isLoading = dataState.loading
-            )
-            dataState.data?.let { characters ->
-                _state.value = _state.value.copy(
-                    characterDetails = characters
-                )
-            }
-            _state.value = _state.value.copy(
-                error = dataState.error
-            )
-        }.launchIn(viewModelScope)
-    }
-
-    fun dismissError() {
+  fun getCharacterId(characterId: String) {
+    getCharacterDetailsUseCase(characterId).onEach { dataState ->
+      _state.value = _state.value.copy(
+        isLoading = dataState.loading,
+      )
+      dataState.data?.let { characters ->
         _state.value = _state.value.copy(
-            error = null
+          characterDetails = characters,
         )
-    }
+      }
+      _state.value = _state.value.copy(
+        error = dataState.error,
+      )
+    }.launchIn(viewModelScope)
+  }
+
+  fun dismissError() {
+    _state.value = _state.value.copy(
+      error = null,
+    )
+  }
 }

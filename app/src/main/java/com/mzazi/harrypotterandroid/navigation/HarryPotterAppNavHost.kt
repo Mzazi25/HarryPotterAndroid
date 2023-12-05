@@ -27,62 +27,62 @@ import com.mzazi.characters.characterdetails.CharacterDetailsScreen
 import com.mzazi.characters.characterdetails.CharacterDetailsViewModel
 import com.mzazi.characters.characters.CharacterScreen
 import com.mzazi.characters.characters.CharacterScreenViewModel
-import com.mzazi.harrypotterandroid.navigation.HarryPorterDestinations.CharacterScreen
 import com.mzazi.harrypotterandroid.navigation.HarryPorterDestinations.CharacterDetailScreen
+import com.mzazi.harrypotterandroid.navigation.HarryPorterDestinations.CharacterScreen
 import timber.log.Timber
 
 @Composable
 fun HarryPotterAppNavHost(
-    navController: NavHostController
+  navController: NavHostController,
 ) {
-    NavHost(navController = navController, startDestination = CharacterScreen.route) {
-        composable(route = CharacterScreen.route) {
-            val viewModel: CharacterScreenViewModel = hiltViewModel()
-            val state by viewModel.state.collectAsStateWithLifecycle()
-            CharacterScreen(
-                isLoading = state.isLoading,
-                characters = state.characters,
-                error = state.error,
-                onSearch = viewModel::onSearch,
-                onErrorActionClicked = viewModel::dismissError,
-                onCharacterSelected = { character ->
-                    navController.navigateToDetailScreen(character.id)
-                }
-            )
-        }
-        composable(
-            route = CharacterDetailScreen.routeWithArgs,
-            arguments = CharacterDetailScreen.arguments
-        ) { navBackStackEntry ->
-            val characterId =
-                navBackStackEntry.arguments?.getString(CharacterDetailScreen.characterIdArgs)!!
-            val viewModel: CharacterDetailsViewModel = hiltViewModel()
-            val state by viewModel.state.collectAsStateWithLifecycle()
-            Timber.e("Details---------${state.characterDetails}")
-            CharacterDetailsScreen(
-                characterId = characterId,
-                getCharacterDetails = { assetId -> viewModel.getCharacterId(assetId) },
-                loading = state.isLoading,
-                error = state.error,
-                details = state.characterDetails,
-                onErrorAction = viewModel::dismissError,
-                onNavBack = { navController.navigateUp() }
-            )
-        }
+  NavHost(navController = navController, startDestination = CharacterScreen.route) {
+    composable(route = CharacterScreen.route) {
+      val viewModel: CharacterScreenViewModel = hiltViewModel()
+      val state by viewModel.state.collectAsStateWithLifecycle()
+      CharacterScreen(
+        isLoading = state.isLoading,
+        characters = state.characters,
+        error = state.error,
+        onSearch = viewModel::onSearch,
+        onErrorActionClicked = viewModel::dismissError,
+        onCharacterSelected = { character ->
+          navController.navigateToDetailScreen(character.id)
+        },
+      )
     }
+    composable(
+      route = CharacterDetailScreen.routeWithArgs,
+      arguments = CharacterDetailScreen.arguments,
+    ) { navBackStackEntry ->
+      val characterId =
+        navBackStackEntry.arguments?.getString(CharacterDetailScreen.characterIdArgs)!!
+      val viewModel: CharacterDetailsViewModel = hiltViewModel()
+      val state by viewModel.state.collectAsStateWithLifecycle()
+      Timber.e("Details---------${state.characterDetails}")
+      CharacterDetailsScreen(
+        characterId = characterId,
+        getCharacterDetails = { assetId -> viewModel.getCharacterId(assetId) },
+        loading = state.isLoading,
+        error = state.error,
+        details = state.characterDetails,
+        onErrorAction = viewModel::dismissError,
+        onNavBack = { navController.navigateUp() },
+      )
+    }
+  }
 }
 
 private fun NavHostController.navigateSingleTopTo(route: String) =
-    this.navigate(route) {
-        popUpTo(
-            this@navigateSingleTopTo.graph.findStartDestination().id
-        ) {
-            saveState = true
-        }
-        launchSingleTop = true
-        restoreState = true
+  this.navigate(route) {
+    popUpTo(
+      this@navigateSingleTopTo.graph.findStartDestination().id,
+    ) {
+      saveState = true
     }
+    launchSingleTop = true
+    restoreState = true
+  }
 
 fun NavHostController.navigateToDetailScreen(characterId: String) {
-    this.navigateSingleTopTo("${CharacterDetailScreen.route}/$characterId")
+  this.navigateSingleTopTo("${CharacterDetailScreen.route}/$characterId")
 }

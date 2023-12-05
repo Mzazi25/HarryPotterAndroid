@@ -26,21 +26,21 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class CharacterRepoImpl @Inject constructor(
-    private val characterDao: com.mzazi.database.dao.CharacterDao,
-    private val api: CharactersService,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+  private val characterDao: com.mzazi.database.dao.CharacterDao,
+  private val api: CharactersService,
+  private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : CharactersRepo {
-    override fun getCharacters(): Flow<List<com.mzazi.database.model.CharacterEntity>> = flow {
-        try {
-            val mappedCharacters = api.getCharactersData().map { it.toCoreEntity() }
-            characterDao.insertCharacters(mappedCharacters)
-        } catch (e: Exception) {
-            // Something went wrong with the query to the API
-            // Log the error and proceed
-            Timber.e("Exception caught--------------$e")
-        }
-        val sourceOfTruth = characterDao.getCharacter()
+  override fun getCharacters(): Flow<List<com.mzazi.database.model.CharacterEntity>> = flow {
+    try {
+      val mappedCharacters = api.getCharactersData().map { it.toCoreEntity() }
+      characterDao.insertCharacters(mappedCharacters)
+    } catch (e: Exception) {
+      // Something went wrong with the query to the API
+      // Log the error and proceed
+      Timber.e("Exception caught--------------$e")
+    }
+    val sourceOfTruth = characterDao.getCharacter()
 
-        emit(sourceOfTruth)
-    }.flowOn(dispatcher)
+    emit(sourceOfTruth)
+  }.flowOn(dispatcher)
 }

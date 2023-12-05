@@ -21,25 +21,25 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "characters")
 data class CharacterEntity(
-    @PrimaryKey
-    val id: String,
-    val actor: String,
-    val alive: Boolean,
-    @ColumnInfo(name = "alternate_names")
-    val alternateNames: List<String>,
-    val ancestry: String,
-    @ColumnInfo(name = "date_of_birth")
-    val dateOfBirth: String?,
-    @ColumnInfo(name = "eye_colour")
-    val eyeColour: String,
-    val gender: String,
-    @ColumnInfo(name = "hair_colour")
-    val hairColour: String,
-    val house: String,
-    val image: String,
-    val name: String,
-    val patronus: String,
-    val species: String,
-    @ColumnInfo(name = "year_of_birth")
-    val yearOfBirth: Int?
+  @PrimaryKey
+  val id: String,
+  val actor: String,
+  val alive: Boolean,
+  @ColumnInfo(name = "alternate_names")
+  val alternateNames: List<String>,
+  val ancestry: String,
+  @ColumnInfo(name = "date_of_birth")
+  val dateOfBirth: String?,
+  @ColumnInfo(name = "eye_colour")
+  val eyeColour: String,
+  val gender: String,
+  @ColumnInfo(name = "hair_colour")
+  val hairColour: String,
+  val house: String,
+  val image: String,
+  val name: String,
+  val patronus: String,
+  val species: String,
+  @ColumnInfo(name = "year_of_birth")
+  val yearOfBirth: Int?,
 )

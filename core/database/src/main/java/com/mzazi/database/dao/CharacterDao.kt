@@ -23,9 +23,9 @@ import com.mzazi.database.model.CharacterEntity
 
 @Dao
 interface CharacterDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCharacters(list: List<CharacterEntity>): List<Long>
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun insertCharacters(list: List<CharacterEntity>): List<Long>
 
-    @Query("SELECT * from characters")
-    fun getCharacter(): List<CharacterEntity>
+  @Query("SELECT * from characters")
+  fun getCharacter(): List<CharacterEntity>
 }

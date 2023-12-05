@@ -34,7 +34,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -69,134 +68,134 @@ import com.mzazi.utils.getErrorMessage
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CharacterScreen(
-    isLoading: Boolean,
-    characters: List<Characters>,
-    error: Throwable?,
-    onSearch: (String) -> Unit,
-    onErrorActionClicked: () -> Unit,
-    onCharacterSelected: (Characters) -> Unit
+  isLoading: Boolean,
+  characters: List<Characters>,
+  error: Throwable?,
+  onSearch: (String) -> Unit,
+  onErrorActionClicked: () -> Unit,
+  onCharacterSelected: (Characters) -> Unit,
 ) {
-    var shouldShowSearchBar by rememberSaveable { mutableStateOf(false) }
-    var searchQuery by rememberSaveable { mutableStateOf("") }
+  var shouldShowSearchBar by rememberSaveable { mutableStateOf(false) }
+  var searchQuery by rememberSaveable { mutableStateOf("") }
 
-    Scaffold(
-        topBar = {
-            AnimatedVisibility(
-                visible = !shouldShowSearchBar,
-                enter = slideInHorizontally(
-                    initialOffsetX = { fullWidth -> fullWidth }
-                ),
-                exit = slideOutHorizontally(
-                    targetOffsetX = { fullWidth -> fullWidth }
-                )
+  Scaffold(
+    topBar = {
+      AnimatedVisibility(
+        visible = !shouldShowSearchBar,
+        enter = slideInHorizontally(
+          initialOffsetX = { fullWidth -> fullWidth },
+        ),
+        exit = slideOutHorizontally(
+          targetOffsetX = { fullWidth -> fullWidth },
+        ),
+      ) {
+        TopAppBar(
+          title = {
+            Text(text = "HarryPorter")
+          },
+          colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+          actions = {
+            IconButton(
+              onClick = { shouldShowSearchBar = true },
+              modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .padding(end = dimensionResource(R.dimen.size_8)),
             ) {
-                TopAppBar(
-                    title = {
-                        Text(text = "HarryPorter")
-                    },
-                    colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-                    actions = {
-                        IconButton(
-                            onClick = { shouldShowSearchBar = true },
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                                .padding(end = dimensionResource(R.dimen.size_8))
-                        ) {
-                            Icon(Icons.Rounded.Search, "search")
-                        }
-                    }
-                )
+              Icon(Icons.Rounded.Search, "search")
             }
-            AnimatedVisibility(
-                visible = shouldShowSearchBar,
-                enter = slideInHorizontally(
-                    initialOffsetX = { fullWidth -> fullWidth }
-                ),
-                exit = slideOutHorizontally(
-                    targetOffsetX = { fullWidth -> fullWidth }
-                )
-            ) {
-                SearchAppBar(
-                    query = searchQuery,
-                    onBackClicked = {
-                        searchQuery = ""
-                        shouldShowSearchBar = false
-                    },
-                    onClearClicked = { searchQuery = "" },
-                    onQueryChanged = { query -> searchQuery = query },
-                    onSearch = onSearch
-                )
-            }
-        }
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.surface)
-                .padding(paddingValues)
+          },
+        )
+      }
+      AnimatedVisibility(
+        visible = shouldShowSearchBar,
+        enter = slideInHorizontally(
+          initialOffsetX = { fullWidth -> fullWidth },
+        ),
+        exit = slideOutHorizontally(
+          targetOffsetX = { fullWidth -> fullWidth },
+        ),
+      ) {
+        SearchAppBar(
+          query = searchQuery,
+          onBackClicked = {
+            searchQuery = ""
+            shouldShowSearchBar = false
+          },
+          onClearClicked = { searchQuery = "" },
+          onQueryChanged = { query -> searchQuery = query },
+          onSearch = onSearch,
+        )
+      }
+    },
+  ) { paddingValues ->
+    Box(
+      modifier = Modifier
+        .background(color = MaterialTheme.colorScheme.surface)
+        .padding(paddingValues),
+    ) {
+      if (isLoading && characters.isEmpty()) {
+        LoadingCharacterListShimmer(
+          imageHeight = dimensionResource(R.dimen.size200),
+        )
+      } else if (characters.isEmpty()) {
+        NothingHere()
+      } else {
+        LazyColumn(
+          state = rememberLazyListState(),
         ) {
-            if (isLoading && characters.isEmpty()) {
-                LoadingCharacterListShimmer(
-                    imageHeight = dimensionResource(R.dimen.size200)
-                )
-            } else if (characters.isEmpty()) {
-                NothingHere()
-            } else {
-                LazyColumn(
-                    state = rememberLazyListState()
-                ) {
-                    items(
-                        items = characters
-                    ) { character ->
-                        CharacterItem(
-                            character = character,
-                            onCharacterSelected = { selectedCharacter ->
-                                onCharacterSelected(selectedCharacter)
-                            }
-                        )
-                    }
-                }
-            }
-            error?.let {
-                ErrorDialog(
-                    text = stringResource(error.getErrorMessage()),
-                    dismissError = onErrorActionClicked
-                )
-            }
+          items(
+            items = characters,
+          ) { character ->
+            CharacterItem(
+              character = character,
+              onCharacterSelected = { selectedCharacter ->
+                onCharacterSelected(selectedCharacter)
+              },
+            )
+          }
         }
+      }
+      error?.let {
+        ErrorDialog(
+          text = stringResource(error.getErrorMessage()),
+          dismissError = onErrorActionClicked,
+        )
+      }
     }
+  }
 }
 
 @Composable
 private fun CharacterItem(
-    character: Characters,
-    onCharacterSelected: (Characters) -> Unit
+  character: Characters,
+  onCharacterSelected: (Characters) -> Unit,
 ) {
-    Surface(
-        onClick = { onCharacterSelected(character) },
-        shape = MaterialTheme.shapes.large
+  Surface(
+    onClick = { onCharacterSelected(character) },
+    shape = MaterialTheme.shapes.large,
+  ) {
+    Row(
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.spacedBy(16.dp),
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp),
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            CharacterListPoster(
-                posterUrl = character.image,
-                modifier = Modifier
-                    .size(58.dp)
-                    .clip(CircleShape)
-            )
-            Column {
-                CharacterListName(
-                    title = character.name
-                )
-                Spacer(Modifier.height(4.dp))
-                CharacterListAncestry(
-                    title = character.ancestry
-                )
-            }
-        }
+      CharacterListPoster(
+        posterUrl = character.image,
+        modifier = Modifier
+          .size(58.dp)
+          .clip(CircleShape),
+      )
+      Column {
+        CharacterListName(
+          title = character.name,
+        )
+        Spacer(Modifier.height(4.dp))
+        CharacterListAncestry(
+          title = character.ancestry,
+        )
+      }
     }
+  }
 }

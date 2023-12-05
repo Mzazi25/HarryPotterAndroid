@@ -40,78 +40,78 @@ import com.mzazi.designsystem.theme.Padding
 
 @Composable
 fun CharacterListName(title: String, modifier: Modifier = Modifier) {
-    Text(
-        text = title,
-        modifier = modifier,
-        overflow = TextOverflow.Ellipsis,
-        maxLines = 1
-    )
+  Text(
+    text = title,
+    modifier = modifier,
+    overflow = TextOverflow.Ellipsis,
+    maxLines = 1,
+  )
 }
 
 @Composable
 fun CharacterListAncestry(title: String, modifier: Modifier = Modifier) {
-    Text(
-        text = (if (title.isNotBlank() || title.isNotEmpty())"Ancestry - $title" else "Ancestry -N/A"),
-        modifier = modifier,
-        style = MaterialTheme.typography.bodyMedium,
-        fontWeight = FontWeight.Normal,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis
-    )
+  Text(
+    text = (if (title.isNotBlank() || title.isNotEmpty())"Ancestry - $title" else "Ancestry -N/A"),
+    modifier = modifier,
+    style = MaterialTheme.typography.bodyMedium,
+    fontWeight = FontWeight.Normal,
+    maxLines = 1,
+    overflow = TextOverflow.Ellipsis,
+  )
 }
 
 @Composable
 fun CharacterPatronus(title: String, modifier: Modifier = Modifier) {
-    Text(
-        text = (if (title.isNotBlank() || title.isNotEmpty())"Patronus - $title" else "Patronus -N/A"),
-        modifier = modifier,
-        style = MaterialTheme.typography.bodyMedium,
-        fontWeight = FontWeight.Normal,
-        maxLines = 2,
-        overflow = TextOverflow.Ellipsis
-    )
+  Text(
+    text = (if (title.isNotBlank() || title.isNotEmpty())"Patronus - $title" else "Patronus -N/A"),
+    modifier = modifier,
+    style = MaterialTheme.typography.bodyMedium,
+    fontWeight = FontWeight.Normal,
+    maxLines = 2,
+    overflow = TextOverflow.Ellipsis,
+  )
 }
 
 @Composable
 fun InfoText(text: String, modifier: Modifier = Modifier) {
-    Text(
-        text = text,
-        modifier = modifier
-            .padding(Padding.Medium),
-        textAlign = TextAlign.Center,
-        fontWeight = FontWeight.Medium,
-        style = MaterialTheme.typography.bodyMedium
-    )
+  Text(
+    text = text,
+    modifier = modifier
+      .padding(Padding.Medium),
+    textAlign = TextAlign.Center,
+    fontWeight = FontWeight.Medium,
+    style = MaterialTheme.typography.bodyMedium,
+  )
 }
 
 @Composable
 fun CharacterDetailsTitle(title: String, modifier: Modifier = Modifier) {
-    Text(
-        text = title,
-        modifier = modifier,
-        style = MaterialTheme.typography.headlineMedium,
-        fontWeight = FontWeight.Bold
-    )
+  Text(
+    text = title,
+    modifier = modifier,
+    style = MaterialTheme.typography.headlineMedium,
+    fontWeight = FontWeight.Bold,
+  )
 }
 
 @Composable
 fun CharactersAlternativeNames(names: List<String>, modifier: Modifier = Modifier) {
-    names.forEach {
-        Text(
-            text = it,
-            modifier = modifier,
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
-        )
-    }
+  names.forEach {
+    Text(
+      text = it,
+      modifier = modifier,
+      style = MaterialTheme.typography.headlineMedium,
+      fontWeight = FontWeight.Bold,
+    )
+  }
 }
 
 @Composable
 fun CharacterContent(title: String, contentName: String, modifier: Modifier = Modifier) {
-    Text(
-        text = (if (title.isNotBlank() || title.isNotEmpty()) "$contentName - $title" else "$contentName - N/A"),
-        modifier = modifier,
-        style = MaterialTheme.typography.bodyMedium,
-        fontWeight = FontWeight.Medium
-    )
+  Text(
+    text = (if (title.isNotBlank() || title.isNotEmpty()) "$contentName - $title" else "$contentName - N/A"),
+    modifier = modifier,
+    style = MaterialTheme.typography.bodyMedium,
+    fontWeight = FontWeight.Medium,
+  )
 }

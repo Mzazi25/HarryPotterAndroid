@@ -33,30 +33,30 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var connectivityManager: ConnectionManager
+  @Inject
+  lateinit var connectivityManager: ConnectionManager
 
-    override fun onStart() {
-        super.onStart()
-        connectivityManager.registerConnectionObserver(this)
-    }
+  override fun onStart() {
+    super.onStart()
+    connectivityManager.registerConnectionObserver(this)
+  }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        connectivityManager.unregisterConnectionObserver(this)
-    }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            val isNetworkAvailable by connectivityManager.isNetworkAvailable
-            HarryPotterAndroidTheme(isNetworkAvailable = isNetworkAvailable) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    HarryPotterAppNavHost(navController = rememberNavController())
-                }
-            }
+  override fun onDestroy() {
+    super.onDestroy()
+    connectivityManager.unregisterConnectionObserver(this)
+  }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent {
+      val isNetworkAvailable by connectivityManager.isNetworkAvailable
+      HarryPotterAndroidTheme(isNetworkAvailable = isNetworkAvailable) {
+        Surface(
+          modifier = Modifier.fillMaxSize(),
+          color = MaterialTheme.colorScheme.background,
+        ) {
+          HarryPotterAppNavHost(navController = rememberNavController())
         }
+      }
     }
+  }
 }

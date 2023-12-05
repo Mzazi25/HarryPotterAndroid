@@ -25,20 +25,20 @@ import java.io.IOException
  */
 @StringRes
 fun Throwable.getErrorMessage() = when (this) {
-    is HttpException -> {
-        when (this.code()) {
-            404 -> R.string.resource_not_found
-            429 -> R.string.too_many_requests
-            500 -> R.string.server_error
-            else -> R.string.something_went_wrong_network
-        }
+  is HttpException -> {
+    when (this.code()) {
+      404 -> R.string.resource_not_found
+      429 -> R.string.too_many_requests
+      500 -> R.string.server_error
+      else -> R.string.something_went_wrong_network
     }
+  }
 
-    is IOException -> {
-        R.string.no_internet
-    }
+  is IOException -> {
+    R.string.no_internet
+  }
 
-    else -> {
-        R.string.something_went_wrong_please_try_again
-    }
+  else -> {
+    R.string.something_went_wrong_please_try_again
+  }
 }

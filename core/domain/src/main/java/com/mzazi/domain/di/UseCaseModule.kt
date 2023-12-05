@@ -28,19 +28,19 @@ import dagger.hilt.android.scopes.ViewModelScoped
 @InstallIn(ViewModelComponent::class)
 internal class UseCaseModule {
 
-    @ViewModelScoped
-    @Provides
-    fun providesCharacterListUseCase(
-        repository: CharactersRepo
-    ): CharacterListUseCase {
-        return CharacterListUseCase(repository)
-    }
+  @ViewModelScoped
+  @Provides
+  fun providesCharacterListUseCase(
+    repository: CharactersRepo,
+  ): CharacterListUseCase {
+    return CharacterListUseCase(repository)
+  }
 
-    @ViewModelScoped
-    @Provides
-    fun providesCharacterDetailsUseCase(
-        repository: CharactersRepo
-    ): CharacterDetailsUseCase {
-        return CharacterDetailsUseCase(repository)
-    }
+  @ViewModelScoped
+  @Provides
+  fun providesCharacterDetailsUseCase(
+    repository: CharactersRepo,
+  ): CharacterDetailsUseCase {
+    return CharacterDetailsUseCase(repository)
+  }
 }

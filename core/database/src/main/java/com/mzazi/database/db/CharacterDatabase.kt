@@ -18,16 +18,16 @@ package com.mzazi.database.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.mzazi.database.converter.Converters
 import com.mzazi.database.dao.CharacterDao
 import com.mzazi.database.model.CharacterEntity
-import com.mzazi.database.converter.Converters
 
 @Database(
-    entities = [CharacterEntity::class],
-    version = 1,
-    exportSchema = true
+  entities = [CharacterEntity::class],
+  version = 1,
+  exportSchema = true,
 )
 @TypeConverters(Converters::class)
 internal abstract class CharacterDatabase : RoomDatabase() {
-    abstract fun characterDao(): CharacterDao
+  abstract fun characterDao(): CharacterDao
 }

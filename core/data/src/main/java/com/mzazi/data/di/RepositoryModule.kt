@@ -29,12 +29,12 @@ import dagger.hilt.android.scopes.ViewModelScoped
 @InstallIn(ViewModelComponent::class)
 internal class RepositoryModule {
 
-    @ViewModelScoped
-    @Provides
-    fun providesRepository(
-        charactersService: CharactersService,
-        characterDao: CharacterDao
-    ): CharactersRepo {
-        return CharacterRepoImpl(characterDao, charactersService)
-    }
+  @ViewModelScoped
+  @Provides
+  fun providesRepository(
+    charactersService: CharactersService,
+    characterDao: CharacterDao,
+  ): CharactersRepo {
+    return CharacterRepoImpl(characterDao, charactersService)
+  }
 }

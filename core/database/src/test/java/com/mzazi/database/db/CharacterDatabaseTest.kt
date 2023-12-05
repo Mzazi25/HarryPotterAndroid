@@ -31,58 +31,58 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class CharacterDatabaseTest {
-    private lateinit var dao: CharacterDao
-    private lateinit var db: CharacterDatabase
+  private lateinit var dao: CharacterDao
+  private lateinit var db: CharacterDatabase
 
-    @Before
-    fun createDb() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        db = Room.inMemoryDatabaseBuilder(
-            context,
-            CharacterDatabase::class.java
-        )
-            .allowMainThreadQueries() // Todo("Delete me")
-            .addTypeConverter(Converters())
-            .build()
-        dao = db.characterDao()
-    }
+  @Before
+  fun createDb() {
+    val context = ApplicationProvider.getApplicationContext<Context>()
+    db = Room.inMemoryDatabaseBuilder(
+      context,
+      CharacterDatabase::class.java,
+    )
+      .allowMainThreadQueries() // Todo("Delete me")
+      .addTypeConverter(Converters())
+      .build()
+    dao = db.characterDao()
+  }
 
-    @Test
-    fun `test adding empty list followed by valid data`() = runTest {
-        dao.insertCharacters(emptyList())
+  @Test
+  fun `test adding empty list followed by valid data`() = runTest {
+    dao.insertCharacters(emptyList())
 
-        assertThat(dao.getCharacter()).isEmpty()
+    assertThat(dao.getCharacter()).isEmpty()
 
-        dao.insertCharacters(
-            listOf(
-                CharacterEntity(
-                    actor = "actor1",
-                    alive = false,
-                    alternateNames = listOf(
-                        "name1",
-                        "fake1"
-                    ),
-                    ancestry = "ancestry1",
-                    dateOfBirth = null,
-                    eyeColour = "eyeColor1",
-                    gender = "Famale",
-                    hairColour = "Red",
-                    house = "Stark1",
-                    id = "id1",
-                    image = "images",
-                    name = "names",
-                    patronus = "patronusss",
-                    species = "species1",
-                    yearOfBirth = null
-                )
-            )
-        )
+    dao.insertCharacters(
+      listOf(
+        CharacterEntity(
+          actor = "actor1",
+          alive = false,
+          alternateNames = listOf(
+            "name1",
+            "fake1",
+          ),
+          ancestry = "ancestry1",
+          dateOfBirth = null,
+          eyeColour = "eyeColor1",
+          gender = "Famale",
+          hairColour = "Red",
+          house = "Stark1",
+          id = "id1",
+          image = "images",
+          name = "names",
+          patronus = "patronusss",
+          species = "species1",
+          yearOfBirth = null,
+        ),
+      ),
+    )
 
-        assertThat(dao.getCharacter().size).isEqualTo(1)
-    }
+    assertThat(dao.getCharacter().size).isEqualTo(1)
+  }
 
-    @After
-    fun tearDown() {
-        db.close()
-    }
+  @After
+  fun tearDown() {
+    db.close()
+  }
 }

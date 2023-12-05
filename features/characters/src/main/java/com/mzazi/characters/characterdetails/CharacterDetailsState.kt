@@ -18,7 +18,7 @@ package com.mzazi.characters.characterdetails
 import com.mzazi.models.Characters
 
 data class CharacterDetailsState(
-    val characterDetails: Characters? = null,
-    val isLoading: Boolean = false,
-    val error: Throwable? = null
+  val characterDetails: Characters? = null,
+  val isLoading: Boolean = false,
+  val error: Throwable? = null,
 )

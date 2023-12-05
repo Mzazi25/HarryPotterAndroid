@@ -18,5 +18,5 @@ package com.mzazi.data.repo
 import kotlinx.coroutines.flow.Flow
 
 interface CharactersRepo {
-    fun getCharacters(): Flow<List<com.mzazi.database.model.CharacterEntity>>
+  fun getCharacters(): Flow<List<com.mzazi.database.model.CharacterEntity>>
 }

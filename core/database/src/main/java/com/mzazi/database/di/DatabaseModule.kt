@@ -17,8 +17,8 @@ package com.mzazi.database.di
 
 import android.content.Context
 import androidx.room.Room
-import com.mzazi.database.db.CharacterDatabase
 import com.mzazi.database.converter.Converters
+import com.mzazi.database.db.CharacterDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,17 +30,17 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 internal class DatabaseModule {
 
-    @Provides
-    @Singleton
-    fun providesCharacterDatabase(@ApplicationContext context: Context): com.mzazi.database.db.CharacterDatabase =
-        Room.databaseBuilder(
-            context = context,
-            klass = com.mzazi.database.db.CharacterDatabase::class.java,
-            name = "Character_database"
-        ).addTypeConverter(com.mzazi.database.converter.Converters())
-            .build()
+  @Provides
+  @Singleton
+  fun providesCharacterDatabase(@ApplicationContext context: Context): com.mzazi.database.db.CharacterDatabase =
+    Room.databaseBuilder(
+      context = context,
+      klass = com.mzazi.database.db.CharacterDatabase::class.java,
+      name = "Character_database",
+    ).addTypeConverter(com.mzazi.database.converter.Converters())
+      .build()
 
-    @Provides
-    @Singleton
-    fun providesCharacterDao(db: com.mzazi.database.db.CharacterDatabase) = db.characterDao()
+  @Provides
+  @Singleton
+  fun providesCharacterDao(db: com.mzazi.database.db.CharacterDatabase) = db.characterDao()
 }

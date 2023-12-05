@@ -17,128 +17,128 @@ package com.mzazi.domain.usecases
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import com.mzazi.database.model.CharacterEntity
 import com.mzazi.data.repo.CharactersRepo
+import com.mzazi.database.model.CharacterEntity
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class CharacterListUseCaseTest {
 
-    @MockK
-    val mockCharactersRepo = mockk<CharactersRepo>()
+  @MockK
+  val mockCharactersRepo = mockk<CharactersRepo>()
 
-    @Test
-    fun `invoke should emit success state with combined data`() = runTest {
-        val fakeCharacterEntity = listOf(
-            CharacterEntity(
-                actor = "actor",
-                alive = true,
-                alternateNames = listOf(
-                    "name",
-                    "fake"
-                ),
-                ancestry = "ancestry",
-                dateOfBirth = null,
-                eyeColour = "eyeColor",
-                gender = "Male",
-                hairColour = "Blue",
-                house = "Stark",
-                id = "id",
-                image = "image",
-                name = "name",
-                patronus = "patronus",
-                species = "species",
-                yearOfBirth = null
-            ),
-            CharacterEntity(
-                actor = "actor1",
-                alive = false,
-                alternateNames = listOf(
-                    "name1",
-                    "fake1"
-                ),
-                ancestry = "ancestry1",
-                dateOfBirth = null,
-                eyeColour = "eyeColor1",
-                gender = "Famale",
-                hairColour = "Red",
-                house = "Stark1",
-                id = "id1",
-                image = "images",
-                name = "names",
-                patronus = "patronusss",
-                species = "species1",
-                yearOfBirth = null
-            )
-        )
+  @Test
+  fun `invoke should emit success state with combined data`() = runTest {
+    val fakeCharacterEntity = listOf(
+      CharacterEntity(
+        actor = "actor",
+        alive = true,
+        alternateNames = listOf(
+          "name",
+          "fake",
+        ),
+        ancestry = "ancestry",
+        dateOfBirth = null,
+        eyeColour = "eyeColor",
+        gender = "Male",
+        hairColour = "Blue",
+        house = "Stark",
+        id = "id",
+        image = "image",
+        name = "name",
+        patronus = "patronus",
+        species = "species",
+        yearOfBirth = null,
+      ),
+      CharacterEntity(
+        actor = "actor1",
+        alive = false,
+        alternateNames = listOf(
+          "name1",
+          "fake1",
+        ),
+        ancestry = "ancestry1",
+        dateOfBirth = null,
+        eyeColour = "eyeColor1",
+        gender = "Famale",
+        hairColour = "Red",
+        house = "Stark1",
+        id = "id1",
+        image = "images",
+        name = "names",
+        patronus = "patronusss",
+        species = "species1",
+        yearOfBirth = null,
+      ),
+    )
 
-        coEvery { mockCharactersRepo.getCharacters() } returns flowOf(fakeCharacterEntity)
+    coEvery { mockCharactersRepo.getCharacters() } returns flowOf(fakeCharacterEntity)
 
-        val getCharacterListUseCase = CharacterListUseCase(mockCharactersRepo)
+    val getCharacterListUseCase = CharacterListUseCase(mockCharactersRepo)
 
-        getCharacterListUseCase().test {
-            assertThat(awaitItem().loading).isTrue()
-            assertThat(awaitItem().data?.size).isEqualTo(2)
-            awaitComplete()
-        }
+    getCharacterListUseCase().test {
+      assertThat(awaitItem().loading).isTrue()
+      assertThat(awaitItem().data?.size).isEqualTo(2)
+      awaitComplete()
     }
+  }
 
-    @Test
-    fun `invoke should emit error state on throwing exception`() = runTest {
-        val fakeCharacterEntity = listOf(
-            CharacterEntity(
-                actor = "actor",
-                alive = true,
-                alternateNames = listOf(
-                    "name",
-                    "fake"
-                ),
-                ancestry = "ancestry",
-                dateOfBirth = null,
-                eyeColour = "eyeColor",
-                gender = "Male",
-                hairColour = "Blue",
-                house = "Stark",
-                id = "id",
-                image = "image",
-                name = "name",
-                patronus = "patronus",
-                species = "species",
-                yearOfBirth = null
-            ),
-            CharacterEntity(
-                actor = "actor1",
-                alive = false,
-                alternateNames = listOf(
-                    "name1",
-                    "fake1"
-                ),
-                ancestry = "ancestry1",
-                dateOfBirth = null,
-                eyeColour = "eyeColor1",
-                gender = "Famale",
-                hairColour = "Red",
-                house = "Stark1",
-                id = "id1",
-                image = "images",
-                name = "names",
-                patronus = "patronusss",
-                species = "species1",
-                yearOfBirth = null
-            )
-        )
+  @Test
+  fun `invoke should emit error state on throwing exception`() = runTest {
+    val fakeCharacterEntity = listOf(
+      CharacterEntity(
+        actor = "actor",
+        alive = true,
+        alternateNames = listOf(
+          "name",
+          "fake",
+        ),
+        ancestry = "ancestry",
+        dateOfBirth = null,
+        eyeColour = "eyeColor",
+        gender = "Male",
+        hairColour = "Blue",
+        house = "Stark",
+        id = "id",
+        image = "image",
+        name = "name",
+        patronus = "patronus",
+        species = "species",
+        yearOfBirth = null,
+      ),
+      CharacterEntity(
+        actor = "actor1",
+        alive = false,
+        alternateNames = listOf(
+          "name1",
+          "fake1",
+        ),
+        ancestry = "ancestry1",
+        dateOfBirth = null,
+        eyeColour = "eyeColor1",
+        gender = "Famale",
+        hairColour = "Red",
+        house = "Stark1",
+        id = "id1",
+        image = "images",
+        name = "names",
+        patronus = "patronusss",
+        species = "species1",
+        yearOfBirth = null,
+      ),
+    )
 
-        coEvery { mockCharactersRepo.getCharacters() } throws Exception("Error!")
+    coEvery { mockCharactersRepo.getCharacters() } throws Exception("Error!")
 
-        val getAllCharactersUseCase = CharacterListUseCase(mockCharactersRepo)
+    val getAllCharactersUseCase = CharacterListUseCase(mockCharactersRepo)
 
-        getAllCharactersUseCase().test {
-            awaitError()
-            assertThat(awaitError().message).isEqualTo("Error!")
-        }
+    getAllCharactersUseCase().test {
+      awaitError()
+      assertThat(awaitError().message).isEqualTo("Error!")
     }
+  }
 }

@@ -16,84 +16,84 @@
 package com.mzazi.data.mappers
 
 import com.mzazi.database.model.CharacterEntity
-import com.mzazi.network.models.CharactersResponse
 import com.mzazi.models.Characters
+import com.mzazi.network.models.CharactersResponse
 
 fun CharactersResponse.asCoreModel(): Characters =
-    Characters(
-        actor = actor,
-        alive = alive,
-        alternateNames = alternateNames,
-        ancestry = ancestry,
-        dateOfBirth = dateOfBirth,
-        eyeColour = eyeColour,
-        gender = gender,
-        hairColour = hairColour,
-        house = house,
-        id = id,
-        image = image,
-        name = name,
-        patronus = patronus,
-        species = species,
-        yearOfBirth = yearOfBirth
-    )
+  Characters(
+    actor = actor,
+    alive = alive,
+    alternateNames = alternateNames,
+    ancestry = ancestry,
+    dateOfBirth = dateOfBirth,
+    eyeColour = eyeColour,
+    gender = gender,
+    hairColour = hairColour,
+    house = house,
+    id = id,
+    image = image,
+    name = name,
+    patronus = patronus,
+    species = species,
+    yearOfBirth = yearOfBirth,
+  )
 
 fun CharactersResponse.toCoreEntity(): com.mzazi.database.model.CharacterEntity =
-    CharacterEntity(
-        actor = actor,
-        alive = alive,
-        alternateNames = alternateNames,
-        ancestry = ancestry,
-        dateOfBirth = dateOfBirth,
-        eyeColour = eyeColour,
-        gender = gender,
-        hairColour = hairColour,
-        house = house,
-        id = id,
-        image = image,
-        name = name,
-        patronus = patronus,
-        species = species,
-        yearOfBirth = yearOfBirth
-    )
+  CharacterEntity(
+    actor = actor,
+    alive = alive,
+    alternateNames = alternateNames,
+    ancestry = ancestry,
+    dateOfBirth = dateOfBirth,
+    eyeColour = eyeColour,
+    gender = gender,
+    hairColour = hairColour,
+    house = house,
+    id = id,
+    image = image,
+    name = name,
+    patronus = patronus,
+    species = species,
+    yearOfBirth = yearOfBirth,
+  )
 
 fun com.mzazi.database.model.CharacterEntity.asCoreModel(): Characters =
-    Characters(
-        actor = actor,
-        alive = alive,
-        alternateNames = alternateNames,
-        ancestry = ancestry,
-        dateOfBirth = dateOfBirth,
-        eyeColour = eyeColour,
-        gender = gender,
-        hairColour = hairColour,
-        house = house,
-        id = id,
-        image = image,
-        name = name,
-        patronus = patronus,
-        species = species,
-        yearOfBirth = yearOfBirth
-    )
+  Characters(
+    actor = actor,
+    alive = alive,
+    alternateNames = alternateNames,
+    ancestry = ancestry,
+    dateOfBirth = dateOfBirth,
+    eyeColour = eyeColour,
+    gender = gender,
+    hairColour = hairColour,
+    house = house,
+    id = id,
+    image = image,
+    name = name,
+    patronus = patronus,
+    species = species,
+    yearOfBirth = yearOfBirth,
+  )
 
 fun Characters.asCoreModel(): com.mzazi.database.model.CharacterEntity =
-    com.mzazi.database.model.CharacterEntity(
-        actor = actor,
-        alive = alive,
-        alternateNames = alternateNames,
-        ancestry = ancestry,
-        dateOfBirth = dateOfBirth,
-        eyeColour = eyeColour,
-        gender = gender,
-        hairColour = hairColour,
-        house = house,
-        id = id,
-        image = image,
-        name = name,
-        patronus = patronus,
-        species = species,
-        yearOfBirth = yearOfBirth
-    )
+  com.mzazi.database.model.CharacterEntity(
+    actor = actor,
+    alive = alive,
+    alternateNames = alternateNames,
+    ancestry = ancestry,
+    dateOfBirth = dateOfBirth,
+    eyeColour = eyeColour,
+    gender = gender,
+    hairColour = hairColour,
+    house = house,
+    id = id,
+    image = image,
+    name = name,
+    patronus = patronus,
+    species = species,
+    yearOfBirth = yearOfBirth,
+  )
 
 // fun mapResponseCodeToThrowable(code: Int): Throwable = when (code) {
 //    HttpURLConnection.HTTP_UNAUTHORIZED -> UnauthorizedException("Unauthorized access : $code")

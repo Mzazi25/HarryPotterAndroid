@@ -19,6 +19,6 @@ import com.mzazi.network.models.CharactersResponse
 import retrofit2.http.GET
 
 interface CharactersService {
-    @GET("characters")
-    suspend fun getCharactersData(): List<CharactersResponse>
+  @GET("characters")
+  suspend fun getCharactersData(): List<CharactersResponse>
 }

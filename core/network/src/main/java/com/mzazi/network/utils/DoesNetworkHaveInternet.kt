@@ -25,21 +25,21 @@ import javax.net.SocketFactory
  */
 object DoesNetworkHaveInternet {
 
-    /**
-     * Checks if the network has internet connectivity by sending the ping.
-     * This method has to be executed on a background thread
-     *
-     * @param socketFactory The socket factory to create a socket.
-     * @return `true` if the network has internet connectivity, `false` otherwise.
-     */
-    fun execute(socketFactory: SocketFactory): Boolean {
-        return try {
-            val socket = socketFactory.createSocket() ?: throw IOException("Socket is null.")
-            socket.connect(InetSocketAddress("8.8.8.8", 53), 1500)
-            socket.close()
-            true
-        } catch (e: IOException) {
-            false
-        }
+  /**
+   * Checks if the network has internet connectivity by sending the ping.
+   * This method has to be executed on a background thread
+   *
+   * @param socketFactory The socket factory to create a socket.
+   * @return `true` if the network has internet connectivity, `false` otherwise.
+   */
+  fun execute(socketFactory: SocketFactory): Boolean {
+    return try {
+      val socket = socketFactory.createSocket() ?: throw IOException("Socket is null.")
+      socket.connect(InetSocketAddress("8.8.8.8", 53), 1500)
+      socket.close()
+      true
+    } catch (e: IOException) {
+      false
     }
+  }
 }

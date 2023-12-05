@@ -44,100 +44,100 @@ import com.mzazi.core.designsystem.R
 
 @Composable
 fun LoadingCharacterListShimmer(
-    imageHeight: Dp,
-    padding: Dp = dimensionResource(id = R.dimen.size_16)
+  imageHeight: Dp,
+  padding: Dp = dimensionResource(id = R.dimen.size_16),
 ) {
-    BoxWithConstraints(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        val cardWidthPx = with(LocalDensity.current) { (maxWidth - (padding * 2)).toPx() }
-        val cardHeightPx = with(LocalDensity.current) { (imageHeight - padding).toPx() }
-        val gradientWidth: Float = (0.2f * cardHeightPx)
+  BoxWithConstraints(
+    modifier = Modifier.fillMaxSize(),
+  ) {
+    val cardWidthPx = with(LocalDensity.current) { (maxWidth - (padding * 2)).toPx() }
+    val cardHeightPx = with(LocalDensity.current) { (imageHeight - padding).toPx() }
+    val gradientWidth: Float = (0.2f * cardHeightPx)
 
-        val infiniteTransition = rememberInfiniteTransition()
-        val xCardShimmer = infiniteTransition.animateFloat(
-            initialValue = 0f,
-            targetValue = (cardWidthPx + gradientWidth),
-            animationSpec = infiniteRepeatable(
-                animation = tween(
-                    durationMillis = 1300,
-                    easing = LinearEasing,
-                    delayMillis = 300
-                ),
-                repeatMode = RepeatMode.Restart
-            )
-        )
-        val yCardShimmer = infiniteTransition.animateFloat(
-            initialValue = 0f,
-            targetValue = (cardHeightPx + gradientWidth),
-            animationSpec = infiniteRepeatable(
-                animation = tween(
-                    durationMillis = 1300,
-                    easing = LinearEasing,
-                    delayMillis = 300
-                ),
-                repeatMode = RepeatMode.Restart
-            )
-        )
+    val infiniteTransition = rememberInfiniteTransition()
+    val xCardShimmer = infiniteTransition.animateFloat(
+      initialValue = 0f,
+      targetValue = (cardWidthPx + gradientWidth),
+      animationSpec = infiniteRepeatable(
+        animation = tween(
+          durationMillis = 1300,
+          easing = LinearEasing,
+          delayMillis = 300,
+        ),
+        repeatMode = RepeatMode.Restart,
+      ),
+    )
+    val yCardShimmer = infiniteTransition.animateFloat(
+      initialValue = 0f,
+      targetValue = (cardHeightPx + gradientWidth),
+      animationSpec = infiniteRepeatable(
+        animation = tween(
+          durationMillis = 1300,
+          easing = LinearEasing,
+          delayMillis = 300,
+        ),
+        repeatMode = RepeatMode.Restart,
+      ),
+    )
 
-        val colors = listOf(
-            Color.LightGray.copy(alpha = .9f),
-            Color.LightGray.copy(alpha = .3f),
-            Color.LightGray.copy(alpha = .9f)
-        )
+    val colors = listOf(
+      Color.LightGray.copy(alpha = .9f),
+      Color.LightGray.copy(alpha = .3f),
+      Color.LightGray.copy(alpha = .9f),
+    )
 
-        LazyColumn {
-            items(5) {
-                ShimmerCryptoCardItem(
-                    colors = colors,
-                    xShimmer = xCardShimmer.value,
-                    yShimmer = yCardShimmer.value,
-                    cardHeight = imageHeight,
-                    gradientWidth = gradientWidth,
-                    padding = padding
-                )
-            }
-        }
+    LazyColumn {
+      items(5) {
+        ShimmerCryptoCardItem(
+          colors = colors,
+          xShimmer = xCardShimmer.value,
+          yShimmer = yCardShimmer.value,
+          cardHeight = imageHeight,
+          gradientWidth = gradientWidth,
+          padding = padding,
+        )
+      }
     }
+  }
 }
 
 @Composable
 fun ShimmerCryptoCardItem(
-    colors: List<Color>,
-    xShimmer: Float,
-    yShimmer: Float,
-    cardHeight: Dp,
-    gradientWidth: Float,
-    padding: Dp
+  colors: List<Color>,
+  xShimmer: Float,
+  yShimmer: Float,
+  cardHeight: Dp,
+  gradientWidth: Float,
+  padding: Dp,
 ) {
-    val brush = Brush.linearGradient(
-        colors,
-        start = Offset(xShimmer - gradientWidth, yShimmer - gradientWidth),
-        end = Offset(xShimmer, yShimmer)
-    )
-    Column(modifier = Modifier.padding(padding)) {
-        Surface(
-            shape = MaterialTheme.shapes.small
-        ) {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(cardHeight)
-                    .background(brush = brush)
-            )
-        }
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_8)))
-        Surface(
-            shape = MaterialTheme.shapes.small,
-            modifier = Modifier
-                .padding(vertical = dimensionResource(id = R.dimen.size_8))
-        ) {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(cardHeight / 10)
-                    .background(brush = brush)
-            )
-        }
+  val brush = Brush.linearGradient(
+    colors,
+    start = Offset(xShimmer - gradientWidth, yShimmer - gradientWidth),
+    end = Offset(xShimmer, yShimmer),
+  )
+  Column(modifier = Modifier.padding(padding)) {
+    Surface(
+      shape = MaterialTheme.shapes.small,
+    ) {
+      Spacer(
+        modifier = Modifier
+          .fillMaxWidth()
+          .height(cardHeight)
+          .background(brush = brush),
+      )
     }
+    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_8)))
+    Surface(
+      shape = MaterialTheme.shapes.small,
+      modifier = Modifier
+        .padding(vertical = dimensionResource(id = R.dimen.size_8)),
+    ) {
+      Spacer(
+        modifier = Modifier
+          .fillMaxWidth()
+          .height(cardHeight / 10)
+          .background(brush = brush),
+      )
+    }
+  }
 }

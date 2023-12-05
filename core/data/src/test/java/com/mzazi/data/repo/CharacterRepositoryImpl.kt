@@ -30,159 +30,159 @@ import org.junit.Test
 
 class CharacterRepositoryImpl {
 
-    private val mockCharacterService: CharactersService = mockk()
-    private val mockCharacterDao: CharacterDao = mockk()
+  private val mockCharacterService: CharactersService = mockk()
+  private val mockCharacterDao: CharacterDao = mockk()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val characterRepository: CharactersRepo = CharacterRepoImpl(mockCharacterDao, mockCharacterService, UnconfinedTestDispatcher())
+  @OptIn(ExperimentalCoroutinesApi::class)
+  private val characterRepository: CharactersRepo = CharacterRepoImpl(mockCharacterDao, mockCharacterService, UnconfinedTestDispatcher())
 
-    @Test
-    fun `getAllCoins should emit non empty list`() = runTest {
-        val mockCharacters = listOf(
-            CharactersResponse(
-                actor = "actor",
-                alive = true,
-                alternateNames = listOf(
-                    "name",
-                    "fake"
-                ),
-                ancestry = "ancestry",
-                dateOfBirth = null,
-                eyeColour = "eyeColor",
-                gender = "Male",
-                hairColour = "Blue",
-                house = "Stark",
-                id = "id",
-                image = "image",
-                name = "name",
-                patronus = "patronus",
-                species = "species",
-                yearOfBirth = null
-            ),
-            CharactersResponse(
-                actor = "actor1",
-                alive = false,
-                alternateNames = listOf(
-                    "name1",
-                    "fake1"
-                ),
-                ancestry = "ancestry1",
-                dateOfBirth = null,
-                eyeColour = "eyeColor1",
-                gender = "Famale",
-                hairColour = "Red",
-                house = "Stark1",
-                id = "id1",
-                image = "images",
-                name = "names",
-                patronus = "patronusss",
-                species = "species1",
-                yearOfBirth = null
-            )
-        )
+  @Test
+  fun `getAllCoins should emit non empty list`() = runTest {
+    val mockCharacters = listOf(
+      CharactersResponse(
+        actor = "actor",
+        alive = true,
+        alternateNames = listOf(
+          "name",
+          "fake",
+        ),
+        ancestry = "ancestry",
+        dateOfBirth = null,
+        eyeColour = "eyeColor",
+        gender = "Male",
+        hairColour = "Blue",
+        house = "Stark",
+        id = "id",
+        image = "image",
+        name = "name",
+        patronus = "patronus",
+        species = "species",
+        yearOfBirth = null,
+      ),
+      CharactersResponse(
+        actor = "actor1",
+        alive = false,
+        alternateNames = listOf(
+          "name1",
+          "fake1",
+        ),
+        ancestry = "ancestry1",
+        dateOfBirth = null,
+        eyeColour = "eyeColor1",
+        gender = "Famale",
+        hairColour = "Red",
+        house = "Stark1",
+        id = "id1",
+        image = "images",
+        name = "names",
+        patronus = "patronusss",
+        species = "species1",
+        yearOfBirth = null,
+      ),
+    )
 
-        val fakeCharacterEntity = listOf(
-            CharacterEntity(
-                actor = "actor",
-                alive = true,
-                alternateNames = listOf(
-                    "name",
-                    "fake"
-                ),
-                ancestry = "ancestry",
-                dateOfBirth = null,
-                eyeColour = "eyeColor",
-                gender = "Male",
-                hairColour = "Blue",
-                house = "Stark",
-                id = "id",
-                image = "image",
-                name = "name",
-                patronus = "patronus",
-                species = "species",
-                yearOfBirth = null
-            ),
-            CharacterEntity(
-                actor = "actor1",
-                alive = false,
-                alternateNames = listOf(
-                    "name1",
-                    "fake1"
-                ),
-                ancestry = "ancestry1",
-                dateOfBirth = null,
-                eyeColour = "eyeColor1",
-                gender = "Famale",
-                hairColour = "Red",
-                house = "Stark1",
-                id = "id1",
-                image = "images",
-                name = "names",
-                patronus = "patronusss",
-                species = "species1",
-                yearOfBirth = null
-            )
-        )
+    val fakeCharacterEntity = listOf(
+      CharacterEntity(
+        actor = "actor",
+        alive = true,
+        alternateNames = listOf(
+          "name",
+          "fake",
+        ),
+        ancestry = "ancestry",
+        dateOfBirth = null,
+        eyeColour = "eyeColor",
+        gender = "Male",
+        hairColour = "Blue",
+        house = "Stark",
+        id = "id",
+        image = "image",
+        name = "name",
+        patronus = "patronus",
+        species = "species",
+        yearOfBirth = null,
+      ),
+      CharacterEntity(
+        actor = "actor1",
+        alive = false,
+        alternateNames = listOf(
+          "name1",
+          "fake1",
+        ),
+        ancestry = "ancestry1",
+        dateOfBirth = null,
+        eyeColour = "eyeColor1",
+        gender = "Famale",
+        hairColour = "Red",
+        house = "Stark1",
+        id = "id1",
+        image = "images",
+        name = "names",
+        patronus = "patronusss",
+        species = "species1",
+        yearOfBirth = null,
+      ),
+    )
 
-        coEvery { mockCharacterService.getCharactersData() } returns mockCharacters
-        coEvery { mockCharacterDao.getCharacter() } returns fakeCharacterEntity
+    coEvery { mockCharacterService.getCharactersData() } returns mockCharacters
+    coEvery { mockCharacterDao.getCharacter() } returns fakeCharacterEntity
 
-        characterRepository.getCharacters().test {
-            assertThat(awaitItem().size).isEqualTo(2)
-            awaitComplete()
-        }
+    characterRepository.getCharacters().test {
+      assertThat(awaitItem().size).isEqualTo(2)
+      awaitComplete()
     }
+  }
 
-    @Test
-    fun `getAllCharacters should emit non empty list even with network exception`() = runTest {
-        val fakeCharacterEntity = listOf(
-            CharacterEntity(
-                actor = "actor",
-                alive = true,
-                alternateNames = listOf(
-                    "name",
-                    "fake"
-                ),
-                ancestry = "ancestry",
-                dateOfBirth = null,
-                eyeColour = "eyeColor",
-                gender = "Male",
-                hairColour = "Blue",
-                house = "Stark",
-                id = "id",
-                image = "image",
-                name = "name",
-                patronus = "patronus",
-                species = "species",
-                yearOfBirth = null
-            ),
-            CharacterEntity(
-                actor = "actor1",
-                alive = false,
-                alternateNames = listOf(
-                    "name1",
-                    "fake1"
-                ),
-                ancestry = "ancestry1",
-                dateOfBirth = null,
-                eyeColour = "eyeColor1",
-                gender = "Famale",
-                hairColour = "Red",
-                house = "Stark1",
-                id = "id1",
-                image = "images",
-                name = "names",
-                patronus = "patronusss",
-                species = "species1",
-                yearOfBirth = null
-            )
-        )
-        coEvery { mockCharacterService.getCharactersData() } throws Exception()
-        coEvery { mockCharacterDao.getCharacter() } returns fakeCharacterEntity
+  @Test
+  fun `getAllCharacters should emit non empty list even with network exception`() = runTest {
+    val fakeCharacterEntity = listOf(
+      CharacterEntity(
+        actor = "actor",
+        alive = true,
+        alternateNames = listOf(
+          "name",
+          "fake",
+        ),
+        ancestry = "ancestry",
+        dateOfBirth = null,
+        eyeColour = "eyeColor",
+        gender = "Male",
+        hairColour = "Blue",
+        house = "Stark",
+        id = "id",
+        image = "image",
+        name = "name",
+        patronus = "patronus",
+        species = "species",
+        yearOfBirth = null,
+      ),
+      CharacterEntity(
+        actor = "actor1",
+        alive = false,
+        alternateNames = listOf(
+          "name1",
+          "fake1",
+        ),
+        ancestry = "ancestry1",
+        dateOfBirth = null,
+        eyeColour = "eyeColor1",
+        gender = "Famale",
+        hairColour = "Red",
+        house = "Stark1",
+        id = "id1",
+        image = "images",
+        name = "names",
+        patronus = "patronusss",
+        species = "species1",
+        yearOfBirth = null,
+      ),
+    )
+    coEvery { mockCharacterService.getCharactersData() } throws Exception()
+    coEvery { mockCharacterDao.getCharacter() } returns fakeCharacterEntity
 
-        characterRepository.getCharacters().test {
-            assertThat(awaitItem().size).isEqualTo(2)
-            awaitComplete()
-        }
+    characterRepository.getCharacters().test {
+      assertThat(awaitItem().size).isEqualTo(2)
+      awaitComplete()
     }
+  }
 }

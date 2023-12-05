@@ -29,42 +29,42 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun StatusBar(
-    text: Boolean,
-    modifier: Modifier = Modifier
+  text: Boolean,
+  modifier: Modifier = Modifier,
 ) {
-    Row(
-        modifier = modifier
+  Row(
+    modifier = modifier,
+  ) {
+    Canvas(
+      modifier = Modifier
+        .height(16.dp)
+        .width(16.dp),
     ) {
-        Canvas(
-            modifier = Modifier
-                .height(16.dp)
-                .width(16.dp)
-        ) {
-            drawCircle(
-                when (text) {
-                    true -> {
-                        Color.Green
-                    }
-                    else -> {
-                        Color.Gray
-                    }
-                }
-            )
-        }
-        Spacer(modifier = Modifier.width(4.dp))
-        Text(
-            text =
-            when (text) {
-                true -> {
-                    "Alive"
-                }
-                else -> {
-                    "Dead/Unknown"
-                }
-            },
-            style = MaterialTheme.typography.bodySmall,
-            color = Color.White
-        )
-        Spacer(modifier = Modifier.width(4.dp))
+      drawCircle(
+        when (text) {
+          true -> {
+            Color.Green
+          }
+          else -> {
+            Color.Gray
+          }
+        },
+      )
     }
+    Spacer(modifier = Modifier.width(4.dp))
+    Text(
+      text =
+      when (text) {
+        true -> {
+          "Alive"
+        }
+        else -> {
+          "Dead/Unknown"
+        }
+      },
+      style = MaterialTheme.typography.bodySmall,
+      color = Color.White,
+    )
+    Spacer(modifier = Modifier.width(4.dp))
+  }
 }

@@ -17,8 +17,8 @@ package com.mzazi.characters.characters
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mzazi.models.Characters
 import com.mzazi.domain.usecases.CharacterListUseCase
+import com.mzazi.models.Characters
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,65 +31,65 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharacterScreenViewModel @Inject constructor(
-    private val characterListUseCase: CharacterListUseCase
+  private val characterListUseCase: CharacterListUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(CharacterScreenState())
-    val state: StateFlow<CharacterScreenState> = _state.asStateFlow()
+  private val _state = MutableStateFlow(CharacterScreenState())
+  val state: StateFlow<CharacterScreenState> = _state.asStateFlow()
 
-    private val originalCharacterList = mutableListOf<Characters>()
+  private val originalCharacterList = mutableListOf<Characters>()
 
-    init {
-        getCharacters()
-    }
+  init {
+    getCharacters()
+  }
 
-    private fun getCharacters() {
-        characterListUseCase().onEach { dataState ->
-            _state.value = _state.value.copy(
-                isLoading = dataState.loading
-            )
-            dataState.data?.let { characterList ->
-                _state.value = _state.value.copy(
-                    characters = characterList
-                )
-            }
-            _state.value = _state.value.copy(
-                error = dataState.error
-            )
-        }.launchIn(viewModelScope)
-    }
-
-    fun onSearch(query: String) {
-        val filteredFlow = flow {
-            if (originalCharacterList.isEmpty()) {
-                originalCharacterList.addAll(_state.value.characters)
-            }
-            val filteredList = if (query.isNotEmpty()) {
-                originalCharacterList.filter { character ->
-                    character.name.contains(query, ignoreCase = true)
-                }
-            } else {
-                originalCharacterList
-            }
-            emit(filteredList)
-        }
-
-        viewModelScope.launch {
-            filteredFlow.collect { characterList ->
-                _state.value = CharacterScreenState(
-                    characters = characterList
-                )
-            }
-        }
-    }
-    fun dismissError() {
-        _state.value = CharacterScreenState(
-            error = null
+  private fun getCharacters() {
+    characterListUseCase().onEach { dataState ->
+      _state.value = _state.value.copy(
+        isLoading = dataState.loading,
+      )
+      dataState.data?.let { characterList ->
+        _state.value = _state.value.copy(
+          characters = characterList,
         )
+      }
+      _state.value = _state.value.copy(
+        error = dataState.error,
+      )
+    }.launchIn(viewModelScope)
+  }
+
+  fun onSearch(query: String) {
+    val filteredFlow = flow {
+      if (originalCharacterList.isEmpty()) {
+        originalCharacterList.addAll(_state.value.characters)
+      }
+      val filteredList = if (query.isNotEmpty()) {
+        originalCharacterList.filter { character ->
+          character.name.contains(query, ignoreCase = true)
+        }
+      } else {
+        originalCharacterList
+      }
+      emit(filteredList)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        originalCharacterList.clear()
+    viewModelScope.launch {
+      filteredFlow.collect { characterList ->
+        _state.value = CharacterScreenState(
+          characters = characterList,
+        )
+      }
     }
+  }
+  fun dismissError() {
+    _state.value = CharacterScreenState(
+      error = null,
+    )
+  }
+
+  override fun onCleared() {
+    super.onCleared()
+    originalCharacterList.clear()
+  }
 }

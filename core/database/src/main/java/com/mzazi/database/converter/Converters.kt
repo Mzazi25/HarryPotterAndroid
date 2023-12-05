@@ -24,9 +24,9 @@ import kotlinx.serialization.json.Json
 @ProvidedTypeConverter
 internal class Converters {
 
-    @TypeConverter
-    fun fromArray(value: List<String>): String = Json.encodeToString(value)
+  @TypeConverter
+  fun fromArray(value: List<String>): String = Json.encodeToString(value)
 
-    @TypeConverter
-    fun toArray(value: String) = value.let { Json.decodeFromString<List<String>>(it) }
+  @TypeConverter
+  fun toArray(value: String) = value.let { Json.decodeFromString<List<String>>(it) }
 }

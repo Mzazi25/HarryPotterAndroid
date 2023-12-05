@@ -26,17 +26,17 @@ import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class CharacterListUseCase @Inject constructor(
-    private val repository: CharactersRepo
+  private val repository: CharactersRepo,
 ) {
-    operator fun invoke(): Flow<DataState<List<Characters>>> = flow {
-        repository.getCharacters()
-            .onStart {
-                emit(DataState.loading())
-            }.catch { throwable ->
-                emit(DataState.error(error = throwable))
-            }.collect { entity ->
-                val characterList = entity.map { it.asCoreModel() }
-                emit(DataState.success(characterList))
-            }
-    }
+  operator fun invoke(): Flow<DataState<List<Characters>>> = flow {
+    repository.getCharacters()
+      .onStart {
+        emit(DataState.loading())
+      }.catch { throwable ->
+        emit(DataState.error(error = throwable))
+      }.collect { entity ->
+        val characterList = entity.map { it.asCoreModel() }
+        emit(DataState.success(characterList))
+      }
+  }
 }

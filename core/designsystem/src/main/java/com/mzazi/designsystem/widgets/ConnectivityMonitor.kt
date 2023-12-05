@@ -28,24 +28,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mzazi.core.designsystem.R
 
-
 @Composable
 fun ConnectivityMonitor(
-    isNetworkAvailable: Boolean
+  isNetworkAvailable: Boolean,
 ) {
-    if (!isNetworkAvailable) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.errorContainer)
-        ) {
-            Text(
-                stringResource(R.string.no_network_connection),
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(8.dp),
-                style = MaterialTheme.typography.bodySmall
-            )
-        }
+  if (!isNetworkAvailable) {
+    Column(
+      modifier = Modifier
+        .fillMaxWidth()
+        .background(MaterialTheme.colorScheme.errorContainer),
+    ) {
+      Text(
+        stringResource(R.string.no_network_connection),
+        modifier = Modifier
+          .align(Alignment.CenterHorizontally)
+          .padding(8.dp),
+        style = MaterialTheme.typography.bodySmall,
+      )
     }
+  }
 }

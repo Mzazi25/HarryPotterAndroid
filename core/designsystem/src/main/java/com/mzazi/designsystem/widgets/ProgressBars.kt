@@ -32,24 +32,24 @@ import com.mzazi.designsystem.theme.Padding
 
 @Composable
 fun CircleLoadingIndicator(
-    modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.primary
+  modifier: Modifier = Modifier,
+  color: Color = MaterialTheme.colorScheme.primary,
 ) {
-    Box(
-        modifier = modifier
-            .size(40.dp)
-            .padding(Padding.Small)
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier.fillMaxSize(),
-            color = color
-        )
-    }
+  Box(
+    modifier = modifier
+      .size(40.dp)
+      .padding(Padding.Small),
+  ) {
+    CircularProgressIndicator(
+      modifier = Modifier.fillMaxSize(),
+      color = color,
+    )
+  }
 }
 
 @Composable
 fun ColumnScope.LoadingScreen() {
-    Spacer(modifier = Modifier.weight(0.5f))
-    CircleLoadingIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-    Spacer(modifier = Modifier.weight(0.5f))
+  Spacer(modifier = Modifier.weight(0.5f))
+  CircleLoadingIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+  Spacer(modifier = Modifier.weight(0.5f))
 }

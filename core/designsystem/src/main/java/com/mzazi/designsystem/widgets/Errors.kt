@@ -38,67 +38,67 @@ import com.mzazi.designsystem.theme.Padding
 
 @Composable
 fun ErrorScreen(
-    @StringRes errorMsg: Int,
-    @StringRes errorActionTitle: Int,
-    onErrorActionClicked: () -> Unit
+  @StringRes errorMsg: Int,
+  @StringRes errorActionTitle: Int,
+  onErrorActionClicked: () -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        Spacer(modifier = Modifier.weight(0.5f))
-        Text(
-            text = stringResource(id = errorMsg),
-            modifier = Modifier
-                .padding(Padding.Medium)
-                .align(Alignment.CenterHorizontally)
-        )
-        Button(
-            onClick = { onErrorActionClicked() },
-            modifier = Modifier
-                .padding(Padding.Medium)
-                .align(Alignment.CenterHorizontally)
-        ) {
-            Text(text = stringResource(id = errorActionTitle))
-        }
-        Spacer(modifier = Modifier.weight(0.5f))
+  Column(modifier = Modifier.fillMaxSize()) {
+    Spacer(modifier = Modifier.weight(0.5f))
+    Text(
+      text = stringResource(id = errorMsg),
+      modifier = Modifier
+        .padding(Padding.Medium)
+        .align(Alignment.CenterHorizontally),
+    )
+    Button(
+      onClick = { onErrorActionClicked() },
+      modifier = Modifier
+        .padding(Padding.Medium)
+        .align(Alignment.CenterHorizontally),
+    ) {
+      Text(text = stringResource(id = errorActionTitle))
     }
+    Spacer(modifier = Modifier.weight(0.5f))
+  }
 }
 
 @Composable
 fun ErrorDialog(
-    text: String,
-    dismissError: () -> Unit
+  text: String,
+  dismissError: () -> Unit,
 ) {
-    AlertDialog(
-        onDismissRequest = dismissError,
-        title = { Text(stringResource(id = R.string.error)) },
-        text = { Text(text) },
-        confirmButton = {
-            TextButton(onClick = dismissError) {
-                Text(stringResource(id = R.string.okay))
-            }
-        }
-    )
+  AlertDialog(
+    onDismissRequest = dismissError,
+    title = { Text(stringResource(id = R.string.error)) },
+    text = { Text(text) },
+    confirmButton = {
+      TextButton(onClick = dismissError) {
+        Text(stringResource(id = R.string.okay))
+      }
+    },
+  )
 }
 
 @Composable
 fun NothingHere() {
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column(modifier = Modifier.align(Alignment.Center)) {
-            Text(
-                modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.size_8))
-                    .align(Alignment.CenterHorizontally),
-                text = stringResource(R.string.nothing_illustration),
-                style = TextStyle(fontSize = dimensionResource(id = R.dimen.font_size_55).value.sp)
-            )
-            Text(
-                modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.size_8))
-                    .align(Alignment.CenterHorizontally),
-                text = stringResource(R.string.there_is_no_data_to_display_at_the_moment),
-                style = MaterialTheme.typography.headlineMedium
-            )
-        }
+  Box(
+    modifier = Modifier.fillMaxSize(),
+  ) {
+    Column(modifier = Modifier.align(Alignment.Center)) {
+      Text(
+        modifier = Modifier
+          .padding(dimensionResource(id = R.dimen.size_8))
+          .align(Alignment.CenterHorizontally),
+        text = stringResource(R.string.nothing_illustration),
+        style = TextStyle(fontSize = dimensionResource(id = R.dimen.font_size_55).value.sp),
+      )
+      Text(
+        modifier = Modifier
+          .padding(dimensionResource(id = R.dimen.size_8))
+          .align(Alignment.CenterHorizontally),
+        text = stringResource(R.string.there_is_no_data_to_display_at_the_moment),
+        style = MaterialTheme.typography.headlineMedium,
+      )
     }
+  }
 }

@@ -21,13 +21,13 @@ import timber.log.Timber
 
 @HiltAndroidApp
 class HarryPorterApp : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        initTimber()
+  override fun onCreate() {
+    super.onCreate()
+    initTimber()
+  }
+  private fun initTimber() {
+    if (BuildConfig.DEBUG) {
+      Timber.plant(Timber.DebugTree())
     }
-    private fun initTimber() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
-    }
+  }
 }

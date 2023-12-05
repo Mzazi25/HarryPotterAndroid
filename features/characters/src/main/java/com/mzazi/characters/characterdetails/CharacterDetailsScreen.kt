@@ -49,135 +49,135 @@ import com.mzazi.utils.getErrorMessage
 
 @Composable
 fun CharacterDetailsScreen(
-    characterId: String,
-    getCharacterDetails: (characterId: String) -> Unit,
-    error: Throwable?,
-    loading: Boolean,
-    details: Characters?,
-    onErrorAction: () -> Unit,
-    onNavBack: () -> Unit
+  characterId: String,
+  getCharacterDetails: (characterId: String) -> Unit,
+  error: Throwable?,
+  loading: Boolean,
+  details: Characters?,
+  onErrorAction: () -> Unit,
+  onNavBack: () -> Unit,
 ) {
-    LaunchedEffect(key1 = characterId) {
-        getCharacterDetails(characterId)
-    }
+  LaunchedEffect(key1 = characterId) {
+    getCharacterDetails(characterId)
+  }
 
-    val scrollState = rememberScrollState()
+  val scrollState = rememberScrollState()
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = onNavBack) {
-                        Icon(Icons.Rounded.ArrowBack, "close")
-                    }
-                },
-                title = {
-                    Text(text = "Character Details")
-                },
-                colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+  Scaffold(
+    topBar = {
+      TopAppBar(
+        navigationIcon = {
+          IconButton(onClick = onNavBack) {
+            Icon(Icons.Rounded.ArrowBack, "close")
+          }
+        },
+        title = {
+          Text(text = "Character Details")
+        },
+        colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
 
+      )
+    },
+  ) { padding ->
+    Box(
+      modifier = Modifier
+        .fillMaxSize()
+        .scrollable(state = scrollState, orientation = Orientation.Vertical)
+        .padding(padding),
+    ) {
+      if (loading) {
+        LoadingCharacterListShimmer(imageHeight = 200.dp)
+      } else if (error != null) {
+        ErrorDialog(
+          text = stringResource(id = error.getErrorMessage()),
+          dismissError = {
+            onErrorAction()
+            onNavBack()
+          },
+        )
+      } else {
+        Column {
+          if (details != null) {
+            CharacterDetailsImage(
+              image = details.image,
+              modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.6f),
             )
-        }
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .scrollable(state = scrollState, orientation = Orientation.Vertical)
-                .padding(padding)
-        ) {
-            if (loading) {
-                LoadingCharacterListShimmer(imageHeight = 200.dp)
-            } else if (error != null) {
-                ErrorDialog(
-                    text = stringResource(id = error.getErrorMessage()),
-                    dismissError = {
-                        onErrorAction()
-                        onNavBack()
-                    }
-                )
-            } else {
-                Column {
-                    if (details != null) {
-                        CharacterDetailsImage(
-                            image = details.image,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight(0.6f)
-                        )
-                         CharacterDetailsTitle(
-                            title = details.name,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    horizontal = Padding.Medium,
-                                    vertical = Padding.Small
-                                )
-                        )
-                       CharacterContent(
-                            title = details.actor,
-                            contentName = "Actor",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    horizontal = Padding.Medium,
-                                    vertical = Padding.Small
-                                )
-                        )
-                        CharacterContent(
-                            title = details.gender,
-                            contentName = "Gender",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    horizontal = Padding.Medium,
-                                    vertical = Padding.Small
-                                )
-                        )
-                        CharacterContent(
-                            title = details.hairColour,
-                            contentName = "Hair Color",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    horizontal = Padding.Medium,
-                                    vertical = Padding.Small
-                                )
-                        )
-                        CharacterContent(
-                            title = details.eyeColour,
-                            contentName = "Eye Color",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    horizontal = Padding.Medium,
-                                    vertical = Padding.Small
-                                )
-                        )
-                        CharacterContent(
-                            title = details.house,
-                            contentName = "House",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    horizontal = Padding.Medium,
-                                    vertical = Padding.Small
-                                )
-                        )
-                        details.dateOfBirth?.let { dateOfBirth ->
-                            CharacterContent(
-                                title = dateOfBirth,
-                                contentName = "Date of Birth",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        horizontal = Padding.Medium,
-                                        vertical = Padding.Small
-                                    )
-                            )
-                        }
-                    }
-                }
+            CharacterDetailsTitle(
+              title = details.name,
+              modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                  horizontal = Padding.Medium,
+                  vertical = Padding.Small,
+                ),
+            )
+            CharacterContent(
+              title = details.actor,
+              contentName = "Actor",
+              modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                  horizontal = Padding.Medium,
+                  vertical = Padding.Small,
+                ),
+            )
+            CharacterContent(
+              title = details.gender,
+              contentName = "Gender",
+              modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                  horizontal = Padding.Medium,
+                  vertical = Padding.Small,
+                ),
+            )
+            CharacterContent(
+              title = details.hairColour,
+              contentName = "Hair Color",
+              modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                  horizontal = Padding.Medium,
+                  vertical = Padding.Small,
+                ),
+            )
+            CharacterContent(
+              title = details.eyeColour,
+              contentName = "Eye Color",
+              modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                  horizontal = Padding.Medium,
+                  vertical = Padding.Small,
+                ),
+            )
+            CharacterContent(
+              title = details.house,
+              contentName = "House",
+              modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                  horizontal = Padding.Medium,
+                  vertical = Padding.Small,
+                ),
+            )
+            details.dateOfBirth?.let { dateOfBirth ->
+              CharacterContent(
+                title = dateOfBirth,
+                contentName = "Date of Birth",
+                modifier = Modifier
+                  .fillMaxWidth()
+                  .padding(
+                    horizontal = Padding.Medium,
+                    vertical = Padding.Small,
+                  ),
+              )
             }
+          }
         }
+      }
     }
+  }
 }

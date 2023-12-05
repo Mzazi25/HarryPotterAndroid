@@ -18,7 +18,7 @@ package com.mzazi.characters.characters
 import com.mzazi.models.Characters
 
 data class CharacterScreenState(
-    val characters: List<Characters> = emptyList(),
-    var isLoading: Boolean = false,
-    val error: Throwable? = null
+  val characters: List<Characters> = emptyList(),
+  var isLoading: Boolean = false,
+  val error: Throwable? = null,
 )
