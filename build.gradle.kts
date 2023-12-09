@@ -1,7 +1,7 @@
 buildscript {
     repositories {
-        google()
-        maven("https://plugins.gradle.org/m2/")
+      google()
+      mavenCentral()
     }
 }
 @Suppress("DSL_SCOPE_VIOLATION")

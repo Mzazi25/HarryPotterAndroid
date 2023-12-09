@@ -16,6 +16,7 @@
 package com.mzazi.harrypotterandroid
 
 import android.app.Application
+import com.mzazi.core.network.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
