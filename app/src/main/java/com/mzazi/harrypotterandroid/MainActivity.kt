@@ -23,43 +23,40 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import com.mzazi.harrypotterandroid.data.network.utils.ConnectionManager
-import com.mzazi.harrypotterandroid.features.characterdetails.CharacterDetailsViewModel
-import com.mzazi.harrypotterandroid.features.characters.CharacterScreenViewModel
+import com.mzazi.designsystem.theme.HarryPotterAndroidTheme
 import com.mzazi.harrypotterandroid.navigation.HarryPotterAppNavHost
-import com.mzazi.harrypotterandroid.ui.theme.HarryPotterAndroidTheme
+import com.mzazi.network.utils.ConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var connectivityManager: ConnectionManager
+  @Inject
+  lateinit var connectivityManager: ConnectionManager
 
-    override fun onStart() {
-        super.onStart()
-        connectivityManager.registerConnectionObserver(this)
-    }
+  override fun onStart() {
+    super.onStart()
+    connectivityManager.registerConnectionObserver(this)
+  }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        connectivityManager.unregisterConnectionObserver(this)
-    }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            val isNetworkAvailable by connectivityManager.isNetworkAvailable
-            HarryPotterAndroidTheme(isNetworkAvailable = isNetworkAvailable) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    HarryPotterAppNavHost(navController = rememberNavController())
-                }
-            }
+  override fun onDestroy() {
+    super.onDestroy()
+    connectivityManager.unregisterConnectionObserver(this)
+  }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent {
+      val isNetworkAvailable by connectivityManager.isNetworkAvailable
+      HarryPotterAndroidTheme(isNetworkAvailable = isNetworkAvailable) {
+        Surface(
+          modifier = Modifier.fillMaxSize(),
+          color = MaterialTheme.colorScheme.background,
+        ) {
+          HarryPotterAppNavHost(navController = rememberNavController())
         }
+      }
     }
+  }
 }
